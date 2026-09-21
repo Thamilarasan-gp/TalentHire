@@ -32,3 +32,6 @@ coverage/
 .vercel/
 .DS_Store
 Thumbs.db
+
+# Deprecated folder
+apps/api/
