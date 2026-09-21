@@ -287,7 +287,7 @@ export const Home: React.FC = () => {
             Ready to experience hiring without borders?
           </h2>
           <p className="text-base text-blue-100 max-w-xl mx-auto">
-            Join thousands of Indian software engineers and hundreds of global companies finding the right match with Thamilarasan Global.
+            Join thousands of Indian software engineers and hundreds of global companies finding the right match with Talent Hire.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/jobs">

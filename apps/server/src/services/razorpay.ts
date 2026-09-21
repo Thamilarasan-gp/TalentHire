@@ -19,7 +19,7 @@ export async function createInvoicePaymentOrder(
     receipt: `rcpt_${invoiceId.slice(0, 20)}`,
     notes: {
       invoiceId,
-      platform: 'THAMILARASAN GLOBAL',
+      platform: 'TALENT HIRE',
     },
   };
 

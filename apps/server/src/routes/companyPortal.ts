@@ -1635,7 +1635,7 @@ companyPortalRouter.get('/invoices/:id/pdf', authenticate, async (req: Authentic
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Invoice ${invoice.invoiceNumber || invoice.id} - THAMILARASAN GLOBAL</title>
+  <title>Invoice ${invoice.invoiceNumber || invoice.id} - TALENT HIRE</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 40px; color: #1e293b; }
     .header { display: flex; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
@@ -1655,7 +1655,7 @@ companyPortalRouter.get('/invoices/:id/pdf', authenticate, async (req: Authentic
 <body onload="window.print()">
   <div class="header">
     <div>
-      <div class="logo">THAMILARASAN GLOBAL</div>
+      <div class="logo">TALENT HIRE</div>
       <p style="font-size: 12px; color: #64748b; margin: 4px 0 0 0;">FIND. EVALUATE. HIRE. • Global Engineering Placement Services</p>
     </div>
     <div class="meta">
@@ -1705,7 +1705,7 @@ companyPortalRouter.get('/invoices/:id/pdf', authenticate, async (req: Authentic
   </div>
 
   <div class="footer">
-    <p>THAMILARASAN GLOBAL INC. • International Placement & Technical Vetting Infrastructure</p>
+    <p>TALENT HIRE INC. • International Placement & Technical Vetting Infrastructure</p>
     <p>Wire Transfer: Silicon Valley Bank, Routing #021000021, Account #8849204910 • SWIFT: SVBUS33XXX</p>
   </div>
 </body>

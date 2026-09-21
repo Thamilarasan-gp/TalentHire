@@ -120,7 +120,7 @@ const reusableEvalRahul: Evaluation = {
 
 async function runTests() {
   console.log('====================================================');
-  console.log('THAMILARASAN GLOBAL — COMPANY HIRING LOGIC TEST SUITE');
+  console.log('TALENT HIRE — COMPANY HIRING LOGIC TEST SUITE');
   console.log('====================================================\n');
 
   let passed = 0;

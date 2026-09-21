@@ -16,6 +16,10 @@ try {
  * Connect to MongoDB Atlas
  */
 export async function connectMongo(): Promise<boolean> {
+  if (mongoose.connection.readyState >= 1) {
+    return true;
+  }
+
   const uri = process.env.MONGODB_URI;
 
   if (!uri) {

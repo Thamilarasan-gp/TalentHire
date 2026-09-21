@@ -1,11 +1,11 @@
 /**
- * THAMILARASAN GLOBAL - DESIGN SYSTEM TOKENS & PLATFORM CONFIG
- * Brand: THAMILARASAN GLOBAL
+ * TALENT HIRE - DESIGN SYSTEM TOKENS & PLATFORM CONFIG
+ * Brand: TALENT HIRE
  * Positioning: Find. Evaluate. Hire.
  * Aesthetic: High-end B2B SaaS, deep navy, electric blue, controlled emerald, airy typography.
  */
 export declare const BRAND: {
-    readonly name: "THAMILARASAN GLOBAL";
+    readonly name: "TALENT HIRE";
     readonly tagline: "Find. Evaluate. Hire.";
     readonly subheadline: "One Platform. Many Possibilities. Verified Talent for a Global Tomorrow.";
     readonly motto: "Build Without Borders";

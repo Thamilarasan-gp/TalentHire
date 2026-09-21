@@ -27,11 +27,11 @@ export const PublicLayout: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm font-black text-lg">
-              TG
+              TH
             </div>
             <div>
               <span className="font-extrabold text-slate-900 tracking-tight text-base block leading-none">
-                THAMILARASAN GLOBAL
+                TALENT HIRE
               </span>
               <span className="text-[10px] uppercase font-bold tracking-wider text-blue-600 block mt-0.5">
                 Find. Evaluate. Hire.
@@ -127,9 +127,9 @@ export const PublicLayout: React.FC = () => {
             <div className="md:col-span-2 space-y-4">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">
-                  TG
+                  TH
                 </div>
-                <span className="font-bold text-white text-sm tracking-tight">THAMILARASAN GLOBAL</span>
+                <span className="font-bold text-white text-sm tracking-tight">TALENT HIRE</span>
               </div>
               <p className="text-slate-400 max-w-sm leading-relaxed text-xs">
                 The global talent hiring infrastructure connecting international companies with vetted Indian software engineers through deterministic requirement matching and independent expert evaluators.
@@ -156,8 +156,8 @@ export const PublicLayout: React.FC = () => {
               <ul className="space-y-2">
                 <li><Link to="/talent/dashboard" className="hover:text-white transition-colors">Candidate Workspace</Link></li>
                 <li><Link to="/evaluator/dashboard" className="hover:text-white transition-colors">Evaluator Workspace</Link></li>
-                <li><a href="http://localhost:3002" className="hover:text-white transition-colors">Company Portal</a></li>
-                <li><a href="http://localhost:3001" className="hover:text-white transition-colors">Admin Command</a></li>
+                <li><a href="https://talenthirec.vercel.app/company" className="hover:text-white transition-colors">Company Portal</a></li>
+                <li><a href="https://talenthire-admin.vercel.app" className="hover:text-white transition-colors">Admin Command</a></li>
               </ul>
             </div>
 
@@ -173,7 +173,7 @@ export const PublicLayout: React.FC = () => {
           </div>
 
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
-            <p>© {new Date().getFullYear()} THAMILARASAN GLOBAL. People • Skills • Opportunities • Without Borders.</p>
+            <p>© {new Date().getFullYear()} TALENT HIRE. People • Skills • Opportunities • Without Borders.</p>
             <div className="flex items-center gap-6">
               <span className="hover:text-slate-400 cursor-pointer">Confidentiality Agreement</span>
               <span className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>

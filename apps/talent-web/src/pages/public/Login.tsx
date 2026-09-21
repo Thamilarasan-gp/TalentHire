@@ -48,9 +48,9 @@ export const Login: React.FC = () => {
       <div className="max-w-md w-full space-y-8 bg-white p-8 border border-slate-200/80 rounded-2xl shadow-sm">
         <div className="text-center space-y-2">
           <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-extrabold flex items-center justify-center mx-auto text-lg shadow-sm">
-            TG
+            TH
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Sign in to Thamilarasan Global</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Sign in to Talent Hire</h2>
           <p className="text-xs text-slate-500">Access your candidate or evaluator workspace</p>
         </div>
 

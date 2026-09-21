@@ -40,11 +40,11 @@ export const TalentLayout: React.FC = () => {
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-2.5 px-2">
               <div className="w-8 h-8 rounded-lg bg-blue-600 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">
-                TG
+                TH
               </div>
               <div>
                 <span className="font-bold text-slate-900 text-xs block leading-tight">CANDIDATE PORTAL</span>
-                <span className="text-[10px] text-slate-400 font-medium">Thamilarasan Global</span>
+                <span className="text-[10px] text-slate-400 font-medium">Talent Hire</span>
               </div>
             </Link>
 

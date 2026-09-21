@@ -21,7 +21,7 @@ export const CompanyPlacements: React.FC = () => {
       <div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Active Placements & Hired Talent</h1>
         <p className="text-xs text-slate-500 mt-1">
-          Engineers placed through Thamilarasan Global with active 90-day replacement guarantees.
+          Engineers placed through Talent Hire with active 90-day replacement guarantees.
         </p>
       </div>
 

@@ -55,8 +55,41 @@ io.on('connection', (socket) => {
   });
 });
 
-app.use(cors());
+// CORS Configuration: allow configured frontends and reflect origin for all Vercel/localhost clients
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-CSRF-Token, Cache-Control');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
+app.use(cors({
+  origin: (origin, callback) => callback(null, origin || true),
+  credentials: true,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+}));
+
 app.use(express.json());
+
+// Serverless MongoDB Connection Middleware
+app.use(async (_req, _res, next) => {
+  try {
+    await connectMongo();
+  } catch (err) {
+    console.error('[MongoDB Serverless Connect Error]:', err);
+  }
+  next();
+});
 
 // Request logging middleware
 app.use((req, _res, next) => {
@@ -187,7 +220,7 @@ app.get('/api/health', async (_req, res) => {
 
     return res.json({
       status: 'HEALTHY',
-      service: 'Thamilarasan Global Central API (MongoDB Atlas Dynamic)',
+      service: 'Talent Hire Central API (MongoDB Atlas Dynamic)',
       database: 'MongoDB Atlas (anthurium cluster0)',
       uptime: process.uptime(),
       timestamp: new Date().toISOString(),
@@ -215,7 +248,7 @@ async function bootstrap() {
   // 2. Start Express & Socket.IO HTTP server
   server.listen(PORT, () => {
     console.log(`====================================================`);
-    console.log(` THAMILARASAN GLOBAL - CENTRAL API`);
+    console.log(` TALENT HIRE - CENTRAL API`);
     console.log(` Database: 100% Dynamic MongoDB Atlas`);
     console.log(` Core positioning: Find. Evaluate. Hire.`);
     console.log(` Listening on: http://localhost:${PORT}`);
@@ -223,8 +256,16 @@ async function bootstrap() {
   });
 }
 
-bootstrap().catch((err) => {
-  console.error('Fatal bootstrap failure:', err);
-});
+// In local or non-serverless mode, start HTTP listener; on Vercel, connect Mongo eagerly
+if (!process.env.VERCEL) {
+  bootstrap().catch((err) => {
+    console.error('Fatal bootstrap failure:', err);
+  });
+} else {
+  connectMongo().catch((err) => {
+    console.error('Vercel cold-start Mongo connection failure:', err);
+  });
+}
 
 export { app, server, io };
+export default app;

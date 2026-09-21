@@ -515,7 +515,7 @@ export const CompanyWelcome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── COMPARISON (TRADITIONAL VS THAMILARASAN GLOBAL) ───────────────── */}
+      {/* ── COMPARISON (TRADITIONAL VS TALENT HIRE) ───────────────── */}
       <section id="comparison" className="py-24 px-6 bg-[#FAFBFD] border-t border-slate-100">
         <div className="max-w-5xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -808,7 +808,7 @@ export const CompanyWelcome: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto mt-14 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-xs">
-          <span>© {new Date().getFullYear()} THAMILARASAN GLOBAL. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} TALENT HIRE. All rights reserved.</span>
           <span className="text-slate-600">Enterprise Technical Recruitment System</span>
         </div>
       </footer>
