@@ -5,11 +5,13 @@ import { seedAtlasIfNeeded } from './seedAtlas';
 
 dotenv.config();
 
-// Fix Windows Node.js querySrv ECONNREFUSED issue by using public reliable DNS resolvers for SRV lookups
-try {
-  dns.setServers(['8.8.8.8', '1.1.1.1', '8.8.4.4']);
-} catch (e) {
-  // Ignore if custom DNS cannot be set
+// Fix Windows Node.js querySrv ECONNREFUSED issue by using public reliable DNS resolvers for SRV lookups only locally
+if (process.platform === 'win32' && !process.env.VERCEL) {
+  try {
+    dns.setServers(['8.8.8.8', '1.1.1.1', '8.8.4.4']);
+  } catch (e) {
+    // Ignore if custom DNS cannot be set
+  }
 }
 
 /**
@@ -20,7 +22,7 @@ export async function connectMongo(): Promise<boolean> {
     return true;
   }
 
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env.MONGODB_URI || 'mongodb+srv://thamilprakasam2005:appichithamil@cluster0.qqwny.mongodb.net/TAglobal?appName=Cluster0';
 
   if (!uri) {
     console.warn('[MongoDB Atlas] No MONGODB_URI provided in environment variables.');

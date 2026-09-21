@@ -34,26 +34,29 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-// Real-time Socket.IO Server
-const io = new SocketIOServer(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  },
-});
-
-io.on('connection', (socket) => {
-  console.log(`[Socket.IO] Client connected: ${socket.id}`);
-
-  socket.on('join_room', (room: string) => {
-    socket.join(room);
-    console.log(`[Socket.IO] Socket ${socket.id} joined room ${room}`);
+// Real-time Socket.IO Server (only in dedicated server / local dev)
+let io: any = null;
+if (!process.env.VERCEL) {
+  io = new SocketIOServer(server, {
+    cors: {
+      origin: '*',
+      methods: ['GET', 'POST'],
+    },
   });
 
-  socket.on('disconnect', () => {
-    console.log(`[Socket.IO] Client disconnected: ${socket.id}`);
+  io.on('connection', (socket: any) => {
+    console.log(`[Socket.IO] Client connected: ${socket.id}`);
+
+    socket.on('join_room', (room: string) => {
+      socket.join(room);
+      console.log(`[Socket.IO] Socket ${socket.id} joined room ${room}`);
+    });
+
+    socket.on('disconnect', () => {
+      console.log(`[Socket.IO] Client disconnected: ${socket.id}`);
+    });
   });
-});
+}
 
 // CORS Configuration: allow configured frontends and reflect origin for all Vercel/localhost clients
 app.use((req, res, next) => {
@@ -73,6 +76,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.options('*', (_req, res) => {
+  return res.status(200).end();
+});
+
 app.use(cors({
   origin: (origin, callback) => callback(null, origin || true),
   credentials: true,
@@ -81,8 +88,11 @@ app.use(cors({
 
 app.use(express.json());
 
-// Serverless MongoDB Connection Middleware
-app.use(async (_req, _res, next) => {
+// Serverless MongoDB Connection Middleware (skip for preflights and static pings)
+app.use(async (req, _res, next) => {
+  if (req.method === 'OPTIONS' || req.path === '/' || req.path === '/api') {
+    return next();
+  }
   try {
     await connectMongo();
   } catch (err) {
@@ -256,15 +266,19 @@ async function bootstrap() {
   });
 }
 
-// In local or non-serverless mode, start HTTP listener; on Vercel, connect Mongo eagerly
 if (!process.env.VERCEL) {
   bootstrap().catch((err) => {
     console.error('Fatal bootstrap failure:', err);
   });
-} else {
-  connectMongo().catch((err) => {
-    console.error('Vercel cold-start Mongo connection failure:', err);
-  });
+}
+
+// CommonJS and ESM dual-export compatibility for @vercel/node serverless functions
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = app;
+  (module.exports as any).default = app;
+  (module.exports as any).app = app;
+  (module.exports as any).server = server;
+  (module.exports as any).io = io;
 }
 
 export { app, server, io };
