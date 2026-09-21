@@ -26,15 +26,41 @@ export interface ApiResponse<T> {
   limit?: number;
 }
 
+const getDefaultBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    try {
+      const viteApi = (import.meta as any)?.env?.VITE_API_URL;
+      if (viteApi) return viteApi;
+    } catch {
+      // ignore
+    }
+
+    // When deployed on Vercel or any non-localhost domain, automatically point to deployed backend
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      return 'https://talenthireserver.vercel.app/api';
+    }
+  }
+
+  return (typeof process !== 'undefined' && process.env?.VITE_API_URL) || 'http://localhost:5000/api';
+};
+
 export class ApiClient {
   private baseUrl: string;
   private token: string | null = null;
 
-  constructor(baseUrl: string = 'http://localhost:5000/api') {
-    this.baseUrl = baseUrl;
+  constructor(baseUrl?: string) {
+    this.baseUrl = baseUrl || getDefaultBaseUrl();
     if (typeof window !== 'undefined') {
       this.token = localStorage.getItem('tg_token');
     }
+  }
+
+  setBaseUrl(url: string) {
+    this.baseUrl = url;
+  }
+
+  getBaseUrl(): string {
+    return this.baseUrl;
   }
 
   setToken(token: string | null) {

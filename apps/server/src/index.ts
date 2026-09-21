@@ -64,6 +64,41 @@ app.use((req, _res, next) => {
   next();
 });
 
+// Root & Ping Routes (for Vercel deployment verification)
+app.get('/', (_req, res) => {
+  return res.json({
+    status: 'ONLINE',
+    service: 'TalentHire Central Server API',
+    version: '1.0.0',
+    documentation: 'https://github.com/Thamilarasan-gp/TalentHire',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.get('/api', (_req, res) => {
+  return res.json({
+    status: 'ONLINE',
+    service: 'TalentHire API Gateway',
+    version: '1.0.0',
+    endpoints: [
+      '/api/health',
+      '/api/auth',
+      '/api/company',
+      '/api/companies',
+      '/api/candidates',
+      '/api/evaluators',
+      '/api/requirements',
+      '/api/evaluations',
+      '/api/shortlists',
+      '/api/interviews',
+      '/api/offers',
+      '/api/placements',
+      '/api/finance',
+      '/api/admin',
+    ],
+  });
+});
+
 // API Routes
 app.use('/api/auth', authRouter);
 app.use('/api/companies', companiesRouter);
