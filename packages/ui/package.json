@@ -1,0 +1,25 @@
+{
+  "name": "@thamilarasan/ui",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@thamilarasan/types": "*",
+    "@thamilarasan/config": "*",
+    "@thamilarasan/utils": "*",
+    "lucide-react": "^0.395.0",
+    "framer-motion": "^11.2.10",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.3.0"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.4.5"
+  }
+}
