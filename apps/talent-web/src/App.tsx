@@ -28,6 +28,7 @@ import { TalentInterviews } from './pages/talent/TalentInterviews';
 import { TalentOffers } from './pages/talent/TalentOffers';
 import { TalentFeedback } from './pages/talent/TalentFeedback';
 import { TalentSettings } from './pages/talent/TalentSettings';
+import { StackPassHub } from './pages/talent/StackPassHub';
 
 // Evaluator Pages
 import { EvaluatorDashboard } from './pages/evaluator/EvaluatorDashboard';
@@ -73,6 +74,7 @@ export const App: React.FC = () => {
           <Route path="jobs/:id" element={<JobDetails />} />
           <Route path="applications" element={<Applications />} />
           <Route path="evaluations" element={<TalentEvaluations />} />
+          <Route path="stack-passes" element={<StackPassHub />} />
           <Route path="interviews" element={<TalentInterviews />} />
           <Route path="offers" element={<TalentOffers />} />
           <Route path="feedback" element={<TalentFeedback />} />

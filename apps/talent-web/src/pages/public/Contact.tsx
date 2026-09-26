@@ -10,7 +10,7 @@ export const Contact: React.FC = () => {
       <div className="text-center space-y-3">
         <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Get in Touch</span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Connect with Talent Hire
+          Connect with Inayon
         </h1>
         <p className="text-sm text-slate-600">
           Whether you are an international engineering team or an evaluator candidate, we are here to assist.

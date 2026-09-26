@@ -73,9 +73,13 @@ const CandidateSchema = new Schema<any>(
     verifiedClaims: { type: Schema.Types.Mixed, default: [] },
     pastCompanies: { type: [String], default: [] },
     education: { type: Schema.Types.Mixed, default: [] },
-    resumeUrl: { type: String },
     fraudStatus: { type: String, default: 'CLEAR' },
     primaryRole: { type: String, default: 'Software Engineer' },
+    freeEvaluationsTotal: { type: Number, default: 10 },
+    freeEvaluationsUsed: { type: Number, default: 0 },
+    freeEvaluationsRemaining: { type: Number, default: 10 },
+    evaluatorApplicationStatus: { type: String, default: 'NONE', index: true },
+    evaluatorProfileId: { type: String },
   },
   { strict: false, timestamps: true }
 );
@@ -429,6 +433,93 @@ const GoogleIntegrationSchema = new Schema<any>(
   { strict: false, timestamps: true }
 );
 
+// ==========================================
+// 20. STACK PASS SCHEMA (5-DAY VALIDITY)
+// ==========================================
+const StackPassSchema = new Schema<any>(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    candidateId: { type: String, required: true, index: true },
+    candidateName: { type: String, default: 'Anonymous Candidate' },
+    domain: { type: String, required: true, index: true }, // SDE | AI_ML | DATA_ENGINEERING
+    stackKey: { type: String, required: true, index: true }, // MERN_STACK, PYTHON_FASTAPI, etc.
+    stackTitle: { type: String, required: true },
+    score: { type: Number, required: true, index: true },
+    status: { type: String, default: 'ACTIVE', index: true }, // ACTIVE | EXPIRED | REVOKED
+    issuedAt: { type: String, required: true },
+    expiresAt: { type: String, required: true, index: true }, // Exactly 5 days from issuedAt
+    applicationsCount: { type: Number, default: 0 },
+    coveredSkills: { type: [String], default: [] },
+    evaluationId: { type: String, index: true },
+    evaluatorId: { type: String },
+  },
+  { strict: false, timestamps: true }
+);
+
+// ==========================================
+// 21. EVALUATOR APPLICATION SCHEMA (DUAL-ROLE ONBOARDING)
+// ==========================================
+const EvaluatorApplicationSchema = new Schema<any>(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    candidateId: { type: String, required: true, index: true },
+    fullName: { type: String, required: true },
+    email: { type: String, required: true },
+    currentCompany: { type: String, required: true },
+    currentRole: { type: String, required: true },
+    totalExperienceYears: { type: Number, required: true },
+    linkedinUrl: { type: String, required: true },
+    githubUrl: { type: String },
+    primaryDomain: { type: String, required: true }, // SDE | AI_ML | DATA_ENGINEERING
+    expertStacks: { type: [String], default: [] },
+    professionalSummary: { type: String, required: true },
+    status: { type: String, default: 'PENDING_ADMIN_VERIFICATION', index: true }, // PENDING_ADMIN_VERIFICATION | APPROVED | REJECTED
+    appliedAt: { type: String, default: () => new Date().toISOString() },
+    reviewedAt: { type: String },
+    reviewedBy: { type: String },
+    rejectionReason: { type: String },
+  },
+  { strict: false, timestamps: true }
+);
+
+// ==========================================
+// 22. SCRATCH CARD REWARD SCHEMA (REJECTION REWARD ₹1-₹20)
+// ==========================================
+const ScratchCardSchema = new Schema<any>(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    evaluatorId: { type: String, required: true, index: true },
+    evaluationId: { type: String, required: true },
+    candidateId: { type: String, required: true },
+    candidateName: { type: String, default: 'Candidate' },
+    rewardAmountInr: { type: Number, required: true }, // ₹1 to ₹20
+    isScratched: { type: Boolean, default: false, index: true },
+    scratchedAt: { type: String },
+    triggerReason: { type: String, default: 'CANDIDATE_NOT_PASSED_HONORARIUM' },
+  },
+  { strict: false, timestamps: true }
+);
+
+// ==========================================
+// 23. COMPANY PRICING PACKAGE SCHEMA (PER-OPENING VS SUBSCRIPTION)
+// ==========================================
+const CompanyPricingSchema = new Schema<any>(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    companyId: { type: String, required: true, index: true },
+    type: { type: String, required: true }, // PAY_PER_OPENING | UNLIMITED_SUBSCRIPTION
+    title: { type: String, required: true },
+    priceInr: { type: Number, required: true },
+    priceUsd: { type: Number, required: true },
+    openingsLimit: { type: Number, default: 1 },
+    openingsUsed: { type: Number, default: 0 },
+    features: { type: [String], default: [] },
+    status: { type: String, default: 'ACTIVE' },
+    validUntil: { type: String },
+  },
+  { strict: false, timestamps: true }
+);
+
 // Mongoose Models Export
 export const UserModel: mongoose.Model<any> = mongoose.models.User || mongoose.model('User', UserSchema);
 export const CompanyModel: mongoose.Model<any> = mongoose.models.Company || mongoose.model('Company', CompanySchema);
@@ -449,6 +540,10 @@ export const SupportTicketModel: mongoose.Model<any> = mongoose.models.SupportTi
 export const CandidateApplicationModel: mongoose.Model<any> = mongoose.models.CandidateApplication || mongoose.model('CandidateApplication', CandidateApplicationSchema);
 export const EvaluationConflictModel: mongoose.Model<any> = mongoose.models.EvaluationConflict || mongoose.model('EvaluationConflict', EvaluationConflictSchema);
 export const GoogleIntegrationModel: mongoose.Model<any> = mongoose.models.GoogleIntegration || mongoose.model('GoogleIntegration', GoogleIntegrationSchema);
+export const StackPassModel: mongoose.Model<any> = mongoose.models.StackPass || mongoose.model('StackPass', StackPassSchema);
+export const EvaluatorApplicationModel: mongoose.Model<any> = mongoose.models.EvaluatorApplication || mongoose.model('EvaluatorApplication', EvaluatorApplicationSchema);
+export const ScratchCardModel: mongoose.Model<any> = mongoose.models.ScratchCard || mongoose.model('ScratchCard', ScratchCardSchema);
+export const CompanyPricingModel: mongoose.Model<any> = mongoose.models.CompanyPricing || mongoose.model('CompanyPricing', CompanyPricingSchema);
 
 /**
  * Builds safe ID query supporting both custom business IDs (e.g. 'eval-1', 'evaluator-1') and MongoDB ObjectIds without throwing CastError

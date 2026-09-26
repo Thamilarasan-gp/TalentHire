@@ -27,7 +27,7 @@ export const MyAssignments: React.FC = () => {
       .then((res) => {
         if (res.success && Array.isArray(res.data)) setEvaluations(res.data);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 

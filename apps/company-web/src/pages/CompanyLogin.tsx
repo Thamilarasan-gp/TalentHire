@@ -46,10 +46,7 @@ export const CompanyLogin: React.FC = () => {
         </Link>
 
         <Link to="/company" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-black text-white font-black text-xs flex items-center justify-center">
-            TH
-          </div>
-          <span className="font-extrabold text-sm tracking-tight text-slate-900">Talent Hire</span>
+          <img src="/inayon-dark.png" alt="Inayon" className="h-8 sm:h-9 w-auto object-contain" />
         </Link>
       </div>
 
@@ -145,7 +142,7 @@ export const CompanyLogin: React.FC = () => {
         </form>
 
         <div className="text-center pt-3 border-t border-slate-100 text-xs text-slate-500">
-          New to Talent Hire?{' '}
+          New to Inayon?{' '}
           <Link to="/company/register" className="text-slate-900 font-semibold hover:underline">
             Register Your Company
           </Link>
@@ -154,7 +151,7 @@ export const CompanyLogin: React.FC = () => {
 
       {/* Footer copyright */}
       <div className="text-center py-2 text-[11px] text-slate-400">
-        © {new Date().getFullYear()} Talent Hire. Enterprise Technical Recruitment System.
+        © {new Date().getFullYear()} Inayon. Enterprise Technical Recruitment System.
       </div>
     </div>
   );

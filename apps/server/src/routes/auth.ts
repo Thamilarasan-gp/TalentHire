@@ -1,11 +1,66 @@
 import { Router } from 'express';
-import { UserModel, AuditLogModel, buildIdQuery } from '../db/models';
+import {
+  UserModel,
+  CandidateModel,
+  EvaluatorModel,
+  EvaluatorApplicationModel,
+  AuditLogModel,
+  buildIdQuery
+} from '../db/models';
 import { signAccessToken } from '@thamilarasan/auth';
 import { AuthenticatedRequest, authenticate } from '../middleware/auth';
 
 export const authRouter = Router();
 
-// Login (Supports direct email login or 1-click role switcher)
+// Helper to resolve dual-role capabilities (Job Seeker + Evaluator on same email)
+async function enrichUserWithDualRole(user: any) {
+  try {
+    const candidate: any = await CandidateModel.findOne({
+      $or: [
+        { userId: user.id },
+        { id: user.candidateId },
+        { email: user.email?.toLowerCase() },
+      ],
+    }).lean();
+
+    const candidateId = candidate?.id || user.candidateId || 'cand-1';
+
+    const evaluatorApp: any = await EvaluatorApplicationModel.findOne({
+      $or: [
+        { candidateId },
+        { email: user.email?.toLowerCase() },
+      ],
+    }).lean();
+
+    const evaluator: any = await EvaluatorModel.findOne({
+      $or: [
+        { userId: user.id },
+        { id: user.evaluatorId },
+        { userId: candidateId },
+      ],
+    }).lean();
+
+    const evaluatorStatus =
+      evaluator?.status === 'ACTIVE'
+        ? 'APPROVED'
+        : (evaluatorApp?.status || candidate?.evaluatorApplicationStatus || (user.role === 'EVALUATOR' ? 'APPROVED' : 'NONE'));
+
+    const isEvaluator = evaluatorStatus === 'APPROVED' || user.role === 'EVALUATOR' || !!evaluator || !!user.evaluatorId;
+
+    return {
+      ...user,
+      candidateId,
+      evaluatorId: evaluator?.id || user.evaluatorId || (isEvaluator ? 'eval-1' : null),
+      evaluatorStatus,
+      isEvaluator,
+      isDualRole: true,
+    };
+  } catch {
+    return user;
+  }
+}
+
+// Login (Supports single email login for unified Job Seeker + Evaluator)
 authRouter.post('/login', async (req, res) => {
   try {
     const { email, role } = req.body;
@@ -28,23 +83,25 @@ authRouter.post('/login', async (req, res) => {
       return res.status(404).json({ success: false, error: 'User not found in MongoDB Atlas' });
     }
 
+    const enrichedUser = await enrichUserWithDualRole(user);
+
     const token = signAccessToken({
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-      companyId: user.companyId,
-      candidateId: user.candidateId,
-      evaluatorId: user.evaluatorId,
+      userId: enrichedUser.id,
+      email: enrichedUser.email,
+      role: enrichedUser.isEvaluator ? 'EVALUATOR' : enrichedUser.role,
+      companyId: enrichedUser.companyId,
+      candidateId: enrichedUser.candidateId,
+      evaluatorId: enrichedUser.evaluatorId,
     });
 
     await AuditLogModel.create({
       id: `audit-${Date.now()}`,
       action: 'USER_LOGIN',
-      actorId: user.id,
-      actorEmail: user.email,
-      actorRole: user.role,
+      actorId: enrichedUser.id,
+      actorEmail: enrichedUser.email,
+      actorRole: enrichedUser.role,
       entity: 'User',
-      entityId: user.id,
+      entityId: enrichedUser.id,
       timestamp: new Date().toISOString(),
       ipAddress: req.ip || '127.0.0.1',
     });
@@ -53,7 +110,7 @@ authRouter.post('/login', async (req, res) => {
       success: true,
       data: {
         token,
-        user,
+        user: enrichedUser,
       },
     });
   } catch (error: any) {
@@ -74,9 +131,11 @@ authRouter.get('/me', authenticate, async (req: AuthenticatedRequest, res) => {
       return res.status(404).json({ success: false, error: 'User not found in MongoDB Atlas' });
     }
 
+    const enrichedUser = await enrichUserWithDualRole(user);
+
     return res.json({
       success: true,
-      data: user,
+      data: enrichedUser,
     });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error.message });

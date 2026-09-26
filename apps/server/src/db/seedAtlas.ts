@@ -15,6 +15,8 @@ import {
   PayoutModel,
   AuditLogModel,
   CandidateApplicationModel,
+  StackPassModel,
+  CompanyPricingModel,
 } from './models';
 
 /**
@@ -250,6 +252,30 @@ export async function seedAtlasIfNeeded(): Promise<void> {
     }
     if (invoiceCount === 0 && seed.invoices?.length) {
       await InvoiceModel.insertMany(seed.invoices, { ordered: false }).catch(err => console.warn('Invoices insert:', err.message));
+    }
+
+    const passCount = await StackPassModel.countDocuments();
+    if (passCount === 0) {
+      const now = new Date();
+      const expires = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days
+      await StackPassModel.create([
+        {
+          id: 'pass-mern-demo-1',
+          candidateId: 'cand-1',
+          candidateName: 'Karthik Iyer',
+          domain: 'SDE',
+          stackKey: 'MERN_STACK',
+          stackTitle: 'MERN Stack Engineering',
+          score: 88,
+          status: 'ACTIVE',
+          issuedAt: now.toISOString(),
+          expiresAt: expires.toISOString(),
+          applicationsCount: 2,
+          coveredSkills: ['MongoDB', 'Express.js', 'React', 'Node.js', 'TypeScript', 'REST APIs'],
+          evaluatorId: 'eval-1',
+        },
+      ]);
+      console.log('[MongoDB Atlas] Seeded initial 5-Day MERN Stack Pass for cand-1.');
     }
 
     console.log('[MongoDB Atlas] ✅ Database status verified & populated across all collections.');

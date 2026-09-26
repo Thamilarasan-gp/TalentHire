@@ -200,9 +200,14 @@ export interface Candidate {
   noticePeriodDays: number;
   availabilityDate: string;
   engagementType: 'FULL_TIME' | 'CONTRACT' | 'FLEXIBLE';
-  summary: string;
+  summary?: string;
   verifiedBadge: boolean;
   matchCount?: number;
+  freeEvaluationsTotal?: number;
+  freeEvaluationsUsed?: number;
+  freeEvaluationsRemaining?: number;
+  evaluatorApplicationStatus?: 'NONE' | 'PENDING_ADMIN_VERIFICATION' | 'APPROVED' | 'REJECTED';
+  evaluatorProfileId?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -579,4 +584,99 @@ export interface SupportTicket {
   status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
   messages: { senderId: string; text: string; timestamp: string }[];
   createdAt: string;
+}
+
+// ==========================================
+// STACK PASS DOMAIN SYSTEM (5-DAY VALIDITY)
+// ==========================================
+export type TechDomain = 'SDE' | 'AI_ML' | 'DATA_ENGINEERING';
+
+export interface StackCardDefinition {
+  stackKey: string;
+  title: string;
+  domain: TechDomain;
+  description: string;
+  coveredSkills: string[];
+  evaluationDurationMinutes: number;
+  passThresholdScore: number;
+  iconName: string;
+  popularRoles: string[];
+  benchmarks: string[];
+}
+
+export interface StackPass {
+  id: string;
+  candidateId: string;
+  candidateName: string;
+  domain: TechDomain;
+  stackKey: string;
+  stackTitle: string;
+  score: number;
+  status: 'ACTIVE' | 'EXPIRED' | 'REVOKED';
+  issuedAt: string;
+  expiresAt: string; // 5 days from issuedAt
+  remainingHours?: number;
+  applicationsCount: number;
+  coveredSkills: string[];
+  evaluationId?: string;
+  evaluatorId?: string;
+  createdAt: string;
+}
+
+// ==========================================
+// EVALUATOR DUAL-ROLE ONBOARDING & VERIFICATION
+// ==========================================
+export interface EvaluatorApplication {
+  id: string;
+  candidateId: string;
+  fullName: string;
+  email: string;
+  currentCompany: string;
+  currentRole: string;
+  totalExperienceYears: number;
+  linkedinUrl: string;
+  githubUrl?: string;
+  primaryDomain: TechDomain;
+  expertStacks: string[];
+  professionalSummary: string;
+  status: 'PENDING_ADMIN_VERIFICATION' | 'APPROVED' | 'REJECTED';
+  appliedAt: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
+  rejectionReason?: string;
+}
+
+// ==========================================
+// EVALUATOR GAMIFIED REWARDS & PLACEMENT BOUNTY
+// ==========================================
+export interface ScratchCardReward {
+  id: string;
+  evaluatorId: string;
+  evaluationId: string;
+  candidateId: string;
+  candidateName: string;
+  rewardAmountInr: number; // ₹1 to ₹20
+  isScratched: boolean;
+  scratchedAt?: string;
+  triggerReason: 'CANDIDATE_NOT_PASSED_HONORARIUM' | 'EVALUATION_STREAK_BONUS';
+  createdAt: string;
+}
+
+// ==========================================
+// COMPANY PRICING PACKAGES
+// ==========================================
+export type CompanyPricingType = 'PAY_PER_OPENING' | 'UNLIMITED_SUBSCRIPTION';
+
+export interface CompanyPricingPlan {
+  id: string;
+  companyId: string;
+  type: CompanyPricingType;
+  title: string;
+  priceInr: number;
+  priceUsd: number;
+  openingsLimit: number; // 1 for pay-per-opening, 9999 for unlimited
+  openingsUsed: number;
+  features: string[];
+  status: 'ACTIVE' | 'EXPIRED';
+  validUntil: string;
 }

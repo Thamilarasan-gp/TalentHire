@@ -209,12 +209,7 @@ export const CompanyWelcome: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-[72px] flex items-center justify-between gap-6">
           {/* Brand Mark */}
           <Link to="/company" className="flex items-center gap-3 shrink-0 group">
-            <div className="w-8 h-8 rounded-lg bg-black flex items-center justify-center font-black text-sm text-white tracking-tighter shadow-sm group-hover:scale-105 transition-transform">
-              TH
-            </div>
-            <span className="font-extrabold text-[#0F172A] text-[15.5px] tracking-wider uppercase">
-              Talent Hire
-            </span>
+            <img src="/inayon-dark.png" alt="Inayon" className="h-8 sm:h-9 w-auto object-contain" />
           </Link>
 
           {/* Centered Navigation Links */}
@@ -521,7 +516,7 @@ export const CompanyWelcome: React.FC = () => {
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[11px] font-bold uppercase tracking-widest text-blue-600">The Hiring Transformation</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2 tracking-tight">
-              Traditional Recruitment vs. Talent Hire
+              Traditional Recruitment vs. Inayon
             </h2>
           </div>
 
@@ -556,7 +551,7 @@ export const CompanyWelcome: React.FC = () => {
               </div>
               <div className="flex items-center gap-2.5 text-slate-950 font-bold text-base">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                <span>Talent Hire Engine</span>
+                <span>Inayon Engine</span>
               </div>
               <ul className="space-y-4 text-[13.5px] text-slate-700">
                 {[
@@ -744,12 +739,7 @@ export const CompanyWelcome: React.FC = () => {
         <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-5 gap-10">
           <div className="col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-white text-black flex items-center justify-center font-black text-xs">
-                TH
-              </div>
-              <span className="font-extrabold text-white text-[15px] tracking-wider">
-                Talent Hire
-              </span>
+              <img src="/inayon-white.png" alt="Inayon" className="h-8 sm:h-9 w-auto object-contain" />
             </div>
 
             <p className="text-slate-400 leading-relaxed max-w-sm text-[13px]">
@@ -808,7 +798,7 @@ export const CompanyWelcome: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto mt-14 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-xs">
-          <span>© {new Date().getFullYear()} TALENT HIRE. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} INAYON. All rights reserved.</span>
           <span className="text-slate-600">Enterprise Technical Recruitment System</span>
         </div>
       </footer>

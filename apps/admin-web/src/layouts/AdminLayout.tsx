@@ -89,12 +89,10 @@ export const AdminLayout: React.FC = () => {
           {/* Scrollable Nav List inside Sidebar */}
           <div className="space-y-5 overflow-y-auto flex-1 pr-1 dark-scrollbar min-h-0">
             <Link to="/admin/dashboard" className="flex items-center gap-2.5 px-2 py-1">
-              <div className="w-8 h-8 rounded-lg bg-blue-600 text-white font-black flex items-center justify-center text-sm shadow-sm tracking-tight shrink-0">
-                TH
-              </div>
-              <div className="overflow-hidden">
+              <img src="/inayon-white.png" alt="Inayon" className="h-8 w-auto object-contain" />
+              <div className="overflow-hidden border-l border-slate-700 pl-2">
                 <span className="font-bold text-white text-xs block leading-tight tracking-wide">
-                  TALENTHIRE
+                  INAYON
                 </span>
                 <span className="text-[10px] text-blue-400 font-semibold tracking-wider block">
                   COMMAND CENTER

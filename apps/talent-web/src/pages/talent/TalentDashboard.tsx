@@ -206,12 +206,15 @@ export const TalentDashboard: React.FC = () => {
                     <p className="text-[11px] text-slate-500 font-medium">
                       Budget: {formatUSD(job.budgetMinUsd)} – {formatUSD(job.budgetMaxUsd)} • {job.minExperienceYears}+ yrs
                     </p>
-                    <div className="flex gap-1.5 pt-1">
-                      {job.requiredSkills.map((sk) => (
-                        <span key={sk} className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded">
-                          {sk}
-                        </span>
-                      ))}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {(job.requiredSkills || []).map((sk: any, idx: number) => {
+                        const skillLabel = typeof sk === 'string' ? sk : sk?.name || JSON.stringify(sk);
+                        return (
+                          <span key={idx} className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded">
+                            {skillLabel}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                   <Link to={`/jobs/${job.id}`}>

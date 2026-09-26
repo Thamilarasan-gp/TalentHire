@@ -10,7 +10,7 @@ export const About: React.FC = () => {
           People • Skills • Opportunities • Without Borders
         </h1>
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-          TALENT HIRE was founded on a simple thesis: Engineering excellence is distributed globally, but traditional hiring pipelines remain broken by resume buzzwords, recruiter friction, and uncalibrated interviews.
+          Inayon was founded on a simple thesis: Engineering excellence is distributed globally, but traditional hiring pipelines remain broken by resume buzzwords, recruiter friction, and uncalibrated interviews.
         </p>
       </div>
 

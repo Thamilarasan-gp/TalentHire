@@ -920,7 +920,7 @@ companyPortalRouter.get('/integrations/google/callback', async (req, res) => {
     if (state) {
       try {
         companyId = JSON.parse(decodeURIComponent(String(state))).companyId;
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // Persist verified integration

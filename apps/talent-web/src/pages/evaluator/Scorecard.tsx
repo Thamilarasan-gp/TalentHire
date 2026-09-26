@@ -268,9 +268,8 @@ export const Scorecard: React.FC = () => {
               <label
                 key={v.id}
                 onClick={() => setVerdict(v.id as any)}
-                className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                  verdict === v.id ? v.color : 'border-slate-200 bg-white hover:border-slate-300'
-                }`}
+                className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${verdict === v.id ? v.color : 'border-slate-200 bg-white hover:border-slate-300'
+                  }`}
               >
                 <div className="flex items-center gap-2 mb-1">
                   <input

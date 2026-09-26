@@ -28,7 +28,7 @@ export const SuccessStories: React.FC = () => {
             </div>
           </div>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic border-l-2 border-blue-600 pl-4">
-            "Before Talent Hire, our internal recruiters interviewed 60 candidates to find 2 qualified engineers. With Talent Hire, every candidate on our Top-10 shortlist had already demonstrated verified production competence. We hired all 10 in under 3 weeks."
+            "Before Inayon, our internal recruiters interviewed 60 candidates to find 2 qualified engineers. With Inayon, every candidate on our Top-10 shortlist had already demonstrated verified production competence. We hired all 10 in under 3 weeks."
           </p>
           <div className="pt-2 text-xs font-semibold text-slate-700">
             David Miller — VP of Engineering, Vanguard FinTech

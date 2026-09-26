@@ -12,7 +12,7 @@ export const PortalSwitcher: React.FC = () => {
     <div className="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 border-b border-slate-800 flex items-center justify-between">
       <div className="flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-        <span className="font-semibold text-white tracking-tight">TALENT HIRE</span>
+        <span className="font-semibold text-white tracking-tight">INAYON</span>
         <span className="text-slate-500 hidden sm:inline">|</span>
         <span className="text-slate-400 hidden sm:inline text-[11px]">Find. Evaluate. Hire.</span>
       </div>

@@ -61,20 +61,27 @@ export const TalentProfile: React.FC = () => {
           </span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {candidate.skills.map((skill) => (
-            <div
-              key={skill.name}
-              className="p-3 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between"
-            >
-              <div>
-                <span className="text-xs font-bold text-slate-900 block">{skill.name}</span>
-                <span className="text-[10px] text-slate-500">{skill.yearsOfExperience} yrs • {skill.level}</span>
+          {(candidate.skills || []).map((skill: any, idx: number) => {
+            const skillName = typeof skill === 'string' ? skill : skill?.name || 'Skill';
+            const expYears = typeof skill === 'object' ? (skill.yearsOfExperience || skill.minYears || 3) : 3;
+            const level = typeof skill === 'object' && skill.level ? skill.level : 'PROFICIENT';
+            const isVerified = typeof skill === 'object' ? Boolean(skill.isVerified) : true;
+
+            return (
+              <div
+                key={idx}
+                className="p-3 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between"
+              >
+                <div>
+                  <span className="text-xs font-bold text-slate-900 block">{skillName}</span>
+                  <span className="text-[10px] text-slate-500">{expYears} yrs • {level}</span>
+                </div>
+                {isVerified && (
+                  <ShieldCheck className="w-4 h-4 text-blue-600" />
+                )}
               </div>
-              {skill.isVerified && (
-                <ShieldCheck className="w-4 h-4 text-blue-600" />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

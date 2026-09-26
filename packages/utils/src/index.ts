@@ -417,12 +417,12 @@ export interface QuickMatchResult {
   isTopUpRequired: boolean;
   uncoveredSkills: string[];
   eligibilityStatus:
-    | 'ELIGIBLE'
-    | 'EXPIRED_EVALUATION'
-    | 'CONSENT_WITHDRAWN'
-    | 'HARD_FILTERS_FAILED'
-    | 'TOP_UP_REQUIRED'
-    | 'NO_REUSABLE_EVALUATION';
+  | 'ELIGIBLE'
+  | 'EXPIRED_EVALUATION'
+  | 'CONSENT_WITHDRAWN'
+  | 'HARD_FILTERS_FAILED'
+  | 'TOP_UP_REQUIRED'
+  | 'NO_REUSABLE_EVALUATION';
   overallScore: number;
   reasons: MatchReason[];
   evaluationSummary?: {
@@ -444,7 +444,7 @@ export function checkSkillCoverage(
 ): { fullyCovered: boolean; uncoveredSkills: string[] } {
   const normalizedCovered = coveredSkills.map((s) => s.toLowerCase());
   const reqSkillNames = (requiredSkills || []).map((s) => (typeof s === 'string' ? s : s.name));
-  
+
   const uncoveredSkills = reqSkillNames.filter(
     (s) => !normalizedCovered.includes(s.toLowerCase())
   );

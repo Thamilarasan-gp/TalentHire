@@ -136,10 +136,7 @@ export const CompanyOnboarding: React.FC = () => {
           </Link>
 
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-black text-white font-black text-xs flex items-center justify-center">
-              TH
-            </div>
-            <span className="font-extrabold text-sm tracking-tight text-slate-900">Talent Hire</span>
+            <img src="/inayon-dark.png" alt="Inayon" className="h-8 w-auto object-contain" />
           </div>
         </div>
 

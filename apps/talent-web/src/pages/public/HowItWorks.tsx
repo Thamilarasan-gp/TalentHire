@@ -9,7 +9,7 @@ export const HowItWorks: React.FC = () => {
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <span className="text-xs font-bold uppercase tracking-widest text-blue-600">The 7-Stage Process</span>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          How Talent Hire Works
+          How Inayon Works
         </h1>
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
           A predictable, calibrated talent infrastructure replacing informal interviews and noisy recruiter spam with deterministic matching and peer-reviewed technical evaluation.

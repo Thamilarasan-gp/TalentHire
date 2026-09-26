@@ -53,12 +53,15 @@ export const RecommendedJobs: React.FC = () => {
                 <span>•</span>
                 <span>{job.timezoneRequirement}</span>
               </div>
-              <div className="flex gap-1.5 pt-1">
-                {job.requiredSkills.map((sk) => (
-                  <span key={sk} className="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-medium">
-                    {sk}
-                  </span>
-                ))}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {(job.requiredSkills || []).map((sk: any, idx: number) => {
+                  const skillLabel = typeof sk === 'string' ? sk : sk?.name || JSON.stringify(sk);
+                  return (
+                    <span key={idx} className="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-medium">
+                      {skillLabel}
+                    </span>
+                  );
+                })}
               </div>
             </div>
 

@@ -74,11 +74,14 @@ export const AvailableAssignments: React.FC = () => {
             </div>
 
             <div className="flex flex-wrap gap-1.5">
-              {as.requiredSkills.map((sk) => (
-                <span key={sk} className="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md">
-                  {sk}
-                </span>
-              ))}
+              {(as.requiredSkills || []).map((sk: any, idx: number) => {
+                const skillLabel = typeof sk === 'string' ? sk : sk?.name || JSON.stringify(sk);
+                return (
+                  <span key={idx} className="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md">
+                    {skillLabel}
+                  </span>
+                );
+              })}
             </div>
 
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">

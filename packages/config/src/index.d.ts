@@ -1,11 +1,11 @@
 /**
- * TALENT HIRE - DESIGN SYSTEM TOKENS & PLATFORM CONFIG
- * Brand: TALENT HIRE
+ * INAYON - DESIGN SYSTEM TOKENS & PLATFORM CONFIG
+ * Brand: Inayon
  * Positioning: Find. Evaluate. Hire.
  * Aesthetic: High-end B2B SaaS, deep navy, electric blue, controlled emerald, airy typography.
  */
 export declare const BRAND: {
-    readonly name: "TALENT HIRE";
+    readonly name: "Inayon";
     readonly tagline: "Find. Evaluate. Hire.";
     readonly subheadline: "One Platform. Many Possibilities. Verified Talent for a Global Tomorrow.";
     readonly motto: "Build Without Borders";

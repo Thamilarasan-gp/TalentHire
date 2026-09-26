@@ -100,9 +100,14 @@ export interface Candidate {
     noticePeriodDays: number;
     availabilityDate: string;
     engagementType: 'FULL_TIME' | 'CONTRACT' | 'FLEXIBLE';
-    summary: string;
+    summary?: string;
     verifiedBadge: boolean;
     matchCount?: number;
+    freeEvaluationsTotal?: number;
+    freeEvaluationsUsed?: number;
+    freeEvaluationsRemaining?: number;
+    evaluatorApplicationStatus?: 'NONE' | 'PENDING_ADMIN_VERIFICATION' | 'APPROVED' | 'REJECTED';
+    evaluatorProfileId?: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -437,4 +442,80 @@ export interface SupportTicket {
         timestamp: string;
     }[];
     createdAt: string;
+}
+export type TechDomain = 'SDE' | 'AI_ML' | 'DATA_ENGINEERING';
+export interface StackCardDefinition {
+    stackKey: string;
+    title: string;
+    domain: TechDomain;
+    description: string;
+    coveredSkills: string[];
+    evaluationDurationMinutes: number;
+    passThresholdScore: number;
+    iconName: string;
+    popularRoles: string[];
+    benchmarks: string[];
+}
+export interface StackPass {
+    id: string;
+    candidateId: string;
+    candidateName: string;
+    domain: TechDomain;
+    stackKey: string;
+    stackTitle: string;
+    score: number;
+    status: 'ACTIVE' | 'EXPIRED' | 'REVOKED';
+    issuedAt: string;
+    expiresAt: string;
+    remainingHours?: number;
+    applicationsCount: number;
+    coveredSkills: string[];
+    evaluationId?: string;
+    evaluatorId?: string;
+    createdAt: string;
+}
+export interface EvaluatorApplication {
+    id: string;
+    candidateId: string;
+    fullName: string;
+    email: string;
+    currentCompany: string;
+    currentRole: string;
+    totalExperienceYears: number;
+    linkedinUrl: string;
+    githubUrl?: string;
+    primaryDomain: TechDomain;
+    expertStacks: string[];
+    professionalSummary: string;
+    status: 'PENDING_ADMIN_VERIFICATION' | 'APPROVED' | 'REJECTED';
+    appliedAt: string;
+    reviewedAt?: string;
+    reviewedBy?: string;
+    rejectionReason?: string;
+}
+export interface ScratchCardReward {
+    id: string;
+    evaluatorId: string;
+    evaluationId: string;
+    candidateId: string;
+    candidateName: string;
+    rewardAmountInr: number;
+    isScratched: boolean;
+    scratchedAt?: string;
+    triggerReason: 'CANDIDATE_NOT_PASSED_HONORARIUM' | 'EVALUATION_STREAK_BONUS';
+    createdAt: string;
+}
+export type CompanyPricingType = 'PAY_PER_OPENING' | 'UNLIMITED_SUBSCRIPTION';
+export interface CompanyPricingPlan {
+    id: string;
+    companyId: string;
+    type: CompanyPricingType;
+    title: string;
+    priceInr: number;
+    priceUsd: number;
+    openingsLimit: number;
+    openingsUsed: number;
+    features: string[];
+    status: 'ACTIVE' | 'EXPIRED';
+    validUntil: string;
 }

@@ -28,6 +28,9 @@ import { placementsRouter } from './routes/placements';
 import { financeRouter } from './routes/finance';
 import { adminRouter } from './routes/admin';
 import { companyPortalRouter } from './routes/companyPortal';
+import { stackPassesRouter } from './routes/stackPasses';
+import { evaluatorOnboardingRouter } from './routes/evaluatorOnboarding';
+import { scratchCardsRouter } from './routes/scratchCards';
 
 dotenv.config();
 
@@ -156,6 +159,9 @@ app.use('/api/placements', placementsRouter);
 app.use('/api/finance', financeRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/company', companyPortalRouter);
+app.use('/api/stack-passes', stackPassesRouter);
+app.use('/api/evaluator-onboarding', evaluatorOnboardingRouter);
+app.use('/api/scratch-cards', scratchCardsRouter);
 
 // Audit logs
 app.get('/api/audit', async (req, res) => {

@@ -12,7 +12,12 @@ import {
   Invoice,
   EvaluatorPayout,
   AuditLog,
-  Notification
+  Notification,
+  StackPass,
+  StackCardDefinition,
+  EvaluatorApplication,
+  ScratchCardReward,
+  CompanyPricingPlan,
 } from '@thamilarasan/types';
 
 export interface ApiResponse<T> {
@@ -475,6 +480,135 @@ export class ApiClient {
     return this.request<any>('/company/support', {
       method: 'POST',
       body: JSON.stringify(data),
+    });
+  }
+
+  // ==========================================
+  // STACK PASS DOMAIN SYSTEM (5-DAY VALIDITY)
+  // ==========================================
+  async getStackPassCatalog(): Promise<ApiResponse<{
+    catalog: StackCardDefinition[];
+    domains: any;
+    passValidityDays: number;
+    passValidityHours: number;
+    freeEvaluationsDefault: number;
+  }>> {
+    return this.request('/stack-passes/catalog');
+  }
+
+  async getMyStackPasses(candidateId = 'cand-1'): Promise<ApiResponse<{
+    passes: StackPass[];
+    activePasses: StackPass[];
+    quota: {
+      freeEvaluationsTotal: number;
+      freeEvaluationsUsed: number;
+      freeEvaluationsRemaining: number;
+    };
+  }>> {
+    return this.request(`/stack-passes/my-passes?candidateId=${candidateId}`);
+  }
+
+  async bookStackPass(stackKey: string, candidateId = 'cand-1'): Promise<ApiResponse<any>> {
+    return this.request('/stack-passes/book', {
+      method: 'POST',
+      body: JSON.stringify({ stackKey, candidateId }),
+    });
+  }
+
+  async mintStackPass(data: {
+    stackKey: string;
+    candidateId?: string;
+    candidateName?: string;
+    score?: number;
+    evaluatorId?: string;
+  }): Promise<ApiResponse<StackPass>> {
+    return this.request('/stack-passes/mint-pass', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async checkJobStackPass(jobId: string, candidateId = 'cand-1'): Promise<ApiResponse<{
+    hasValidPass: boolean;
+    matchingPass: any;
+    recommendedStack: StackCardDefinition;
+  }>> {
+    return this.request(`/stack-passes/check-job/${jobId}?candidateId=${candidateId}`);
+  }
+
+  async applyJobWithStackPass(jobId: string, candidateId = 'cand-1'): Promise<ApiResponse<any>> {
+    return this.request('/stack-passes/apply-job', {
+      method: 'POST',
+      body: JSON.stringify({ jobId, candidateId }),
+    });
+  }
+
+  // ==========================================
+  // EVALUATOR ONBOARDING & DUAL-ROLE
+  // ==========================================
+  async applyBecomeEvaluator(data: {
+    candidateId?: string;
+    fullName: string;
+    email: string;
+    currentCompany: string;
+    currentRole: string;
+    totalExperienceYears: number;
+    linkedinUrl: string;
+    githubUrl?: string;
+    primaryDomain: string;
+    expertStacks: string[];
+    professionalSummary: string;
+  }): Promise<ApiResponse<any>> {
+    return this.request('/evaluator-onboarding/apply', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getEvaluatorAppStatus(candidateId = 'cand-1'): Promise<ApiResponse<{
+    status: string;
+    isApproved: boolean;
+    isPending: boolean;
+    application: EvaluatorApplication | null;
+    evaluatorProfileId: string | null;
+  }>> {
+    return this.request(`/evaluator-onboarding/my-status?candidateId=${candidateId}`);
+  }
+
+  async getAdminPendingEvaluators(): Promise<ApiResponse<EvaluatorApplication[]>> {
+    return this.request('/evaluator-onboarding/admin/pending');
+  }
+
+  async adminApproveEvaluator(appId: string): Promise<ApiResponse<any>> {
+    return this.request(`/evaluator-onboarding/admin/${appId}/approve`, {
+      method: 'POST',
+    });
+  }
+
+  async adminRejectEvaluator(appId: string, reason?: string): Promise<ApiResponse<any>> {
+    return this.request(`/evaluator-onboarding/admin/${appId}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    });
+  }
+
+  // ==========================================
+  // SCRATCH CARDS (MICRO-REWARDS)
+  // ==========================================
+  async getMyScratchCards(evaluatorId = 'eval-1'): Promise<ApiResponse<{
+    cards: ScratchCardReward[];
+    unscratchedCount: number;
+    totalScratchedEarnings: number;
+  }>> {
+    return this.request(`/scratch-cards/my-cards?evaluatorId=${evaluatorId}`);
+  }
+
+  async scratchCard(id: string): Promise<ApiResponse<{
+    rewardAmountInr: number;
+    message: string;
+  }>> {
+    return this.request(`/scratch-cards/${id}/scratch`, {
+      method: 'POST',
     });
   }
 }

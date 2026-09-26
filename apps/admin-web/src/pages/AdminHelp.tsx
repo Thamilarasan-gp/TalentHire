@@ -49,7 +49,7 @@ export const AdminHelp: React.FC = () => {
             <h3 className="font-bold text-sm text-slate-900">90-Day Placement Warranty SLA</h3>
           </div>
           <p className="text-xs text-slate-600 leading-relaxed">
-            If a placed engineer departs or fails performance reviews within 90 days of employment start date, Talent Hire provides a 100% free expedited replacement within 14 calendar days.
+            If a placed engineer departs or fails performance reviews within 90 days of employment start date, Inayon provides a 100% free expedited replacement within 14 calendar days.
           </p>
           <span className="text-[11px] font-bold text-emerald-600 block">SOP-038 • Client Warranty SLA</span>
         </div>
