@@ -106,6 +106,18 @@ function mapRequirementToJob(req: HiringRequirement, companiesMap: Record<string
   else if (cLower.includes('google')) logoType = 'google';
   else if (cLower.includes('amazon')) logoType = 'amazon';
 
+  // Normalize skills so each item is guaranteed to be a string
+  const rawSkills = Array.isArray(req.requiredSkills) ? req.requiredSkills : [];
+  const normalizedSkills: string[] = rawSkills
+    .map((sk: any) => {
+      if (typeof sk === 'string') return sk;
+      if (sk && typeof sk === 'object') return sk.name || sk.label || sk.skill || '';
+      return String(sk || '');
+    })
+    .filter((s): s is string => Boolean(s && s.trim().length > 0));
+
+  const finalSkills = normalizedSkills.length > 0 ? normalizedSkills : ['Software Engineering', 'System Design'];
+
   return {
     id: req.id,
     title: req.title,
@@ -120,7 +132,7 @@ function mapRequirementToJob(req: HiringRequirement, companiesMap: Record<string
     salaryMax: maxSal,
     currency: '€',
     salaryDisplay: `€${minSal.toLocaleString()} – €${maxSal.toLocaleString()}`,
-    requiredSkills: req.requiredSkills || ['Software Engineering', 'System Design'],
+    requiredSkills: finalSkills,
     jobType,
     workMode: isRemote ? 'Remote' : 'Hybrid',
     experienceYears: expYears,
@@ -435,11 +447,17 @@ export const Jobs: React.FC = () => {
   // Check if candidate holds valid pass for a specific job
   const getJobPassStatus = (job: JobItem) => {
     if (!activePasses || activePasses.length === 0) return { hasPass: false };
-    const jobSkills = job.requiredSkills.map((s) => s.toLowerCase());
+    const jobSkills = job.requiredSkills.map((s: any) => {
+      const str = typeof s === 'string' ? s : s?.name || '';
+      return str.toLowerCase();
+    });
 
     for (const pass of activePasses) {
       if (pass.status !== 'ACTIVE') continue;
-      const passSkills = (pass.coveredSkills || []).map((s) => s.toLowerCase());
+      const passSkills = (pass.coveredSkills || []).map((s: any) => {
+        const str = typeof s === 'string' ? s : s?.name || '';
+        return str.toLowerCase();
+      });
       const hasMatch = jobSkills.some((js) =>
         passSkills.some((ps) => ps.includes(js) || js.includes(ps))
       );
@@ -460,7 +478,10 @@ export const Jobs: React.FC = () => {
           const matchTitle = job.title.toLowerCase().includes(q);
           const matchCompany = job.companyName.toLowerCase().includes(q);
           const matchDesc = job.description.toLowerCase().includes(q);
-          const matchSkills = job.requiredSkills.some((sk) => sk.toLowerCase().includes(q));
+          const matchSkills = job.requiredSkills.some((sk: any) => {
+            const str = typeof sk === 'string' ? sk : sk?.name || '';
+            return str.toLowerCase().includes(q);
+          });
           const matchLoc = job.location.toLowerCase().includes(q);
           if (!matchTitle && !matchCompany && !matchDesc && !matchSkills && !matchLoc) {
             return false;
@@ -1186,16 +1207,19 @@ export const Jobs: React.FC = () => {
 
                     {/* Skill Tags: Light Blue Pills */}
                     <div className="flex flex-wrap items-center gap-1.5">
-                      {job.requiredSkills.map((skill, sIdx) => (
-                        <button
-                          key={sIdx}
-                          type="button"
-                          onClick={() => setSearchTerm(skill)}
-                          className="px-2.5 py-1 rounded-lg bg-blue-50/80 hover:bg-blue-100 text-blue-700 border border-blue-100 text-xs font-semibold transition-colors cursor-pointer"
-                        >
-                          {skill}
-                        </button>
-                      ))}
+                      {job.requiredSkills.map((skill: any, sIdx: number) => {
+                        const skillLabel = typeof skill === 'string' ? skill : (skill?.name || skill?.label || String(skill || ''));
+                        return (
+                          <button
+                            key={sIdx}
+                            type="button"
+                            onClick={() => setSearchTerm(skillLabel)}
+                            className="px-2.5 py-1 rounded-lg bg-blue-50/80 hover:bg-blue-100 text-blue-700 border border-blue-100 text-xs font-semibold transition-colors cursor-pointer"
+                          >
+                            {skillLabel}
+                          </button>
+                        );
+                      })}
                     </div>
 
                     {/* Bottom Row: Metadata & View Job CTA */}
