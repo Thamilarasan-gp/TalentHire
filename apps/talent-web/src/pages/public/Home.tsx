@@ -195,7 +195,46 @@ export const Home: React.FC = () => {
   const [searchLocation, setSearchLocation] = useState('Anywhere');
   const [searchCategory, setSearchCategory] = useState('All Roles');
   const [storyModalOpen, setStoryModalOpen] = useState(false);
+  const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
+  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const locationDropdownRef = useRef<HTMLDivElement>(null);
+  const roleDropdownRef = useRef<HTMLDivElement>(null);
+
+  const locationOptions = [
+    { value: 'Anywhere', label: 'Anywhere', desc: 'Global Remote & Onsite', icon: '🌍' },
+    { value: 'Berlin, Germany', label: 'Berlin, Germany', desc: 'EU Tech Hub • High Visa Sponsor', icon: '🇩🇪' },
+    { value: 'London, UK', label: 'London, UK', desc: 'Fintech & AI Capital', icon: '🇬🇧' },
+    { value: 'Amsterdam, Netherlands', label: 'Amsterdam', desc: 'High-growth Hub • 30% Ruling', icon: '🇳🇱' },
+    { value: 'Stockholm, Sweden', label: 'Stockholm', desc: 'Unicorn Capital • Klarna & Spotify', icon: '🇸🇪' },
+    { value: 'Paris, France', label: 'Paris', desc: 'AI & SaaS Ecosystem', icon: '🇫🇷' },
+    { value: 'Remote', label: '100% Remote', desc: 'Work from Anywhere in India/Global', icon: '⚡' },
+  ];
+
+  const roleOptions = [
+    { value: 'All Roles', label: 'All Roles', desc: 'All Engineering & Tech Domains', icon: <Sparkles className="w-3.5 h-3.5 text-amber-500" /> },
+    { value: 'Frontend', label: 'Frontend', desc: 'React, Vue, Next.js, TypeScript', icon: <Code2 className="w-3.5 h-3.5 text-blue-500" /> },
+    { value: 'Backend', label: 'Backend', desc: 'Node.js, Go, Python, Distributed Systems', icon: <Server className="w-3.5 h-3.5 text-emerald-500" /> },
+    { value: 'Full Stack', label: 'Full Stack', desc: 'End-to-end Product Engineering', icon: <Layers className="w-3.5 h-3.5 text-indigo-500" /> },
+    { value: 'AI/ML', label: 'AI / ML', desc: 'LLMs, PyTorch, MLOps, Data Science', icon: <Cpu className="w-3.5 h-3.5 text-purple-500" /> },
+    { value: 'DevOps', label: 'DevOps', desc: 'Kubernetes, AWS, CI/CD, Terraform', icon: <Database className="w-3.5 h-3.5 text-rose-500" /> },
+    { value: 'Mobile', label: 'Mobile', desc: 'iOS Swift, React Native, Android', icon: <Smartphone className="w-3.5 h-3.5 text-teal-500" /> },
+    { value: 'Design', label: 'Design', desc: 'UI/UX, Design Systems, Figma', icon: <Palette className="w-3.5 h-3.5 text-pink-500" /> },
+  ];
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (locationDropdownRef.current && !locationDropdownRef.current.contains(e.target as Node)) {
+        setLocationDropdownOpen(false);
+      }
+      if (roleDropdownRef.current && !roleDropdownRef.current.contains(e.target as Node)) {
+        setRoleDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -593,78 +632,164 @@ export const Home: React.FC = () => {
               Inayon connects exceptional Indian talent with global companies, building careers, innovation and a borderless tomorrow.
             </p>
 
-            {/* Elevated, Taller & Bigger Search Card */}
+            {/* Elevated, Sleek & Compact Search Card (Reduced Width per user request) */}
             <form
               onSubmit={handleSearchSubmit}
-              className="mt-6 sm:mt-8 md:mt-10 p-5 sm:p-6 md:p-2.5 lg:p-3 rounded-[2rem] md:rounded-full bg-white shadow-2xl border-2 border-white/90 flex flex-col md:flex-row items-stretch md:items-center gap-4 sm:gap-4.5 md:gap-2 max-w-4xl xl:max-w-5xl text-slate-900 ring-4 ring-black/10 transition-all"
+              className="mt-6 sm:mt-8 md:mt-10 p-4 sm:p-5 md:p-2 rounded-[2rem] md:rounded-full bg-white shadow-2xl border-2 border-white/90 flex flex-col md:flex-row items-stretch md:items-center gap-3 sm:gap-3.5 md:gap-1.5 max-w-3xl text-slate-900 ring-4 ring-black/10 transition-all relative z-30"
             >
-              {/* Search text input area: guaranteed spacious min-width on desktop & click-anywhere to focus */}
+              {/* Search text input area: spacious & click-anywhere to focus */}
               <div
                 onClick={() => searchInputRef.current?.focus()}
-                className="flex items-center gap-3 px-4 sm:px-6 md:px-4 py-4 sm:py-4.5 md:py-2 flex-1 min-w-0 md:min-w-[220px] lg:min-w-[280px] min-h-[70px] sm:min-h-[74px] md:min-h-[50px] cursor-text"
+                className="flex items-center gap-3 px-4 sm:px-5 md:px-3.5 py-3 sm:py-3.5 md:py-1.5 flex-1 min-w-0 md:min-w-[180px] min-h-[58px] sm:min-h-[64px] md:min-h-[46px] cursor-text"
               >
-                <Search className="w-6 h-6 sm:w-6.5 sm:h-6.5 md:w-5 md:h-5 text-slate-400 shrink-0" />
+                <Search className="w-5 h-5 text-slate-400 shrink-0" />
                 <input
                   ref={searchInputRef}
                   type="text"
                   placeholder="Search jobs, skills, companies..."
                   value={searchRole}
                   onChange={(e) => setSearchRole(e.target.value)}
-                  className="w-full text-base sm:text-lg md:text-sm lg:text-base bg-transparent border-none focus:outline-none text-slate-900 placeholder:text-slate-400 py-2 md:py-1 font-medium"
+                  className="w-full text-sm sm:text-base md:text-xs lg:text-sm bg-transparent border-none focus:outline-none text-slate-900 placeholder:text-slate-400 py-1 font-medium"
                 />
               </div>
 
               {/* Mobile 2-column controls / Desktop inline selectors */}
-              <div className="grid grid-cols-2 md:flex md:items-center gap-3 sm:gap-3.5 md:gap-1.5 border-t md:border-t-0 border-slate-100 pt-3.5 sm:pt-4 md:pt-0 shrink-0">
-                {/* Location dropdown */}
-                <div className="flex items-center gap-2 px-4 md:px-2.5 py-3.5 sm:py-4 md:py-1.5 rounded-2xl md:rounded-none bg-slate-50 md:bg-transparent text-sm sm:text-base md:text-xs lg:text-sm text-slate-700 shrink-0 relative min-h-[60px] sm:min-h-[64px] md:min-h-[46px]">
-                  <MapPin className="w-5 h-5 md:w-4 md:h-4 text-slate-500 shrink-0" />
-                  <select
-                    value={searchLocation}
-                    onChange={(e) => setSearchLocation(e.target.value)}
-                    className="w-full md:w-auto bg-transparent text-sm sm:text-base md:text-xs lg:text-sm font-semibold text-slate-800 focus:outline-none cursor-pointer pr-6 appearance-none truncate max-w-[130px] lg:max-w-[155px]"
+              <div className="grid grid-cols-2 md:flex md:items-center gap-2.5 sm:gap-3 md:gap-1 border-t md:border-t-0 border-slate-100 pt-3 md:pt-0 shrink-0">
+                {/* Premium Location Dropdown Trigger & Floating Menu */}
+                <div className="relative" ref={locationDropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLocationDropdownOpen(!locationDropdownOpen);
+                      setRoleDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between gap-1.5 px-3 py-2.5 md:py-1.5 rounded-xl md:rounded-full text-xs font-semibold transition-all cursor-pointer select-none ${
+                      locationDropdownOpen
+                        ? 'bg-slate-100 text-slate-950 ring-1 ring-slate-300'
+                        : 'bg-slate-50 md:bg-transparent hover:bg-slate-100/70 text-slate-700'
+                    }`}
                   >
-                    <option value="Anywhere">Anywhere</option>
-                    <option value="Berlin, Germany">Berlin, Germany</option>
-                    <option value="London, UK">London, UK</option>
-                    <option value="Amsterdam, Netherlands">Amsterdam</option>
-                    <option value="Stockholm, Sweden">Stockholm</option>
-                    <option value="Paris, France">Paris</option>
-                    <option value="Remote">100% Remote</option>
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none absolute right-1.5 md:right-1" />
+                    <div className="flex items-center gap-1.5 truncate">
+                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                      <span className="truncate max-w-[105px] lg:max-w-[125px]">
+                        {searchLocation}
+                      </span>
+                    </div>
+                    <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 shrink-0 ${locationDropdownOpen ? 'rotate-180 text-blue-600' : ''}`} />
+                  </button>
+
+                  {/* Floating Premium Menu */}
+                  {locationDropdownOpen && (
+                    <div className="absolute top-full left-0 md:left-auto md:right-0 mt-2.5 w-72 sm:w-80 bg-white/98 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200/90 p-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 ring-1 ring-black/5">
+                      <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Select Location</span>
+                        <span className="text-[10px] text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-full">Global Hubs</span>
+                      </div>
+                      <div className="max-h-64 overflow-y-auto py-1 space-y-0.5">
+                        {locationOptions.map((opt) => {
+                          const isSelected = searchLocation === opt.value;
+                          return (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => {
+                                setSearchLocation(opt.value);
+                                setLocationDropdownOpen(false);
+                              }}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-colors cursor-pointer ${
+                                isSelected ? 'bg-blue-50/80 text-blue-900 font-semibold' : 'hover:bg-slate-50 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5 truncate">
+                                <span className="text-base leading-none">{opt.icon}</span>
+                                <div className="truncate">
+                                  <p className="text-xs font-semibold text-slate-900 leading-tight">{opt.label}</p>
+                                  <p className="text-[10px] text-slate-400 leading-tight truncate mt-0.5">{opt.desc}</p>
+                                </div>
+                              </div>
+                              {isSelected && <Check className="w-3.5 h-3.5 text-blue-600 shrink-0" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="hidden md:block h-7 w-px bg-slate-200 shrink-0 mx-0.5" />
+                <div className="hidden md:block h-6 w-px bg-slate-200 shrink-0 mx-0.5" />
 
-                {/* Role dropdown */}
-                <div className="flex items-center gap-2 px-4 md:px-2.5 py-3.5 sm:py-4 md:py-1.5 rounded-2xl md:rounded-none bg-slate-50 md:bg-transparent text-sm sm:text-base md:text-xs lg:text-sm text-slate-700 shrink-0 relative min-h-[60px] sm:min-h-[64px] md:min-h-[46px]">
-                  <Briefcase className="w-5 h-5 md:w-4 md:h-4 text-slate-500 shrink-0" />
-                  <select
-                    value={searchCategory}
-                    onChange={(e) => setSearchCategory(e.target.value)}
-                    className="w-full md:w-auto bg-transparent text-sm sm:text-base md:text-xs lg:text-sm font-semibold text-slate-800 focus:outline-none cursor-pointer pr-6 appearance-none truncate max-w-[110px] lg:max-w-[135px]"
+                {/* Premium Role Dropdown Trigger & Floating Menu */}
+                <div className="relative" ref={roleDropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRoleDropdownOpen(!roleDropdownOpen);
+                      setLocationDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between gap-1.5 px-3 py-2.5 md:py-1.5 rounded-xl md:rounded-full text-xs font-semibold transition-all cursor-pointer select-none ${
+                      roleDropdownOpen
+                        ? 'bg-slate-100 text-slate-950 ring-1 ring-slate-300'
+                        : 'bg-slate-50 md:bg-transparent hover:bg-slate-100/70 text-slate-700'
+                    }`}
                   >
-                    <option value="All Roles">All Roles</option>
-                    <option value="Frontend">Frontend</option>
-                    <option value="Backend">Backend</option>
-                    <option value="Full Stack">Full Stack</option>
-                    <option value="AI/ML">AI / ML</option>
-                    <option value="DevOps">DevOps</option>
-                    <option value="Mobile">Mobile</option>
-                    <option value="Design">Design</option>
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none absolute right-1.5 md:right-1" />
+                    <div className="flex items-center gap-1.5 truncate">
+                      <Briefcase className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                      <span className="truncate max-w-[95px] lg:max-w-[115px]">
+                        {searchCategory}
+                      </span>
+                    </div>
+                    <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 shrink-0 ${roleDropdownOpen ? 'rotate-180 text-blue-600' : ''}`} />
+                  </button>
+
+                  {/* Floating Premium Menu */}
+                  {roleDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-2.5 w-72 sm:w-80 bg-white/98 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200/90 p-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 ring-1 ring-black/5">
+                      <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Select Domain</span>
+                        <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full">Top Verified</span>
+                      </div>
+                      <div className="max-h-64 overflow-y-auto py-1 space-y-0.5">
+                        {roleOptions.map((opt) => {
+                          const isSelected = searchCategory === opt.value;
+                          return (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => {
+                                setSearchCategory(opt.value);
+                                setRoleDropdownOpen(false);
+                              }}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-colors cursor-pointer ${
+                                isSelected ? 'bg-blue-50/80 text-blue-900 font-semibold' : 'hover:bg-slate-50 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5 truncate">
+                                <div className="w-6 h-6 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+                                  {opt.icon}
+                                </div>
+                                <div className="truncate">
+                                  <p className="text-xs font-semibold text-slate-900 leading-tight">{opt.label}</p>
+                                  <p className="text-[10px] text-slate-400 leading-tight truncate mt-0.5">{opt.desc}</p>
+                                </div>
+                              </div>
+                              {isSelected && <Check className="w-3.5 h-3.5 text-blue-600 shrink-0" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
+
               </div>
 
               {/* Search Button with Shimmer Sweep Hover */}
               <button
                 type="submit"
-                className="w-full md:w-auto px-8 sm:px-10 md:px-6 lg:px-8 py-4.5 sm:py-5 md:py-3 min-h-[64px] sm:min-h-[66px] md:min-h-[48px] rounded-2xl md:rounded-full bg-slate-950 hover:bg-slate-800 active:bg-slate-900 text-white text-base sm:text-lg md:text-xs lg:text-sm font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-black/25 hover:shadow-2xl transition-all active:scale-[0.98] cursor-pointer shrink-0 shimmer-button"
+                className="w-full md:w-auto px-6 lg:px-7 py-3.5 md:py-2.5 min-h-[50px] md:min-h-[42px] rounded-xl md:rounded-full bg-slate-950 hover:bg-slate-800 active:bg-slate-900 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer shrink-0 shimmer-button"
               >
                 <span>Search Jobs</span>
-                <ArrowRight className="w-4 h-4 md:w-3.5 md:h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </form>
 
