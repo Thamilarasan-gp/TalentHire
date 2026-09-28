@@ -46,17 +46,19 @@ export const PublicLayout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrolledPastTop, setScrolledPastTop] = useState(false);
+  // Outside of the home screen, navbar is always in the white theme
+  const isScrolled = location.pathname !== '/' || scrolledPastTop;
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('EN');
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navContainerRef = useRef<HTMLDivElement>(null);
 
-  // Track scroll position for transparent vs white navbar background
+  // Track scroll position for transparent vs white navbar background on home
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setScrolledPastTop(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
