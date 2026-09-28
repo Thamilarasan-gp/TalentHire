@@ -52,293 +52,6 @@ export interface JobItem {
   rawRequirement?: HiringRequirement;
 }
 
-// ==========================================
-// CURATED BASE SEED FOR INSTANT SPEED & OFFLINE SAFETY
-// ==========================================
-const BASE_JOBS: JobItem[] = [
-  {
-    id: 'req-spotify-1',
-    title: 'Senior Distributed Systems Engineer',
-    companyName: 'Spotify',
-    logoType: 'spotify',
-    location: 'Stockholm, Sweden',
-    region: 'Europe',
-    salaryMin: 95000,
-    salaryMax: 130000,
-    currency: '€',
-    salaryDisplay: '€95,000 – €130,000',
-    requiredSkills: ['Java', 'AWS', 'Kafka', 'System Design'],
-    jobType: 'Full-time',
-    workMode: 'Remote',
-    experienceYears: 5,
-    experienceLabel: '5+ years',
-    postedAt: new Date(Date.now() - 3 * 86400000).toISOString(),
-    postedRelative: '3 days ago',
-    description: 'Scaling event streaming platforms handling billions of music playback telemetry events daily.',
-    roleCategory: 'Backend Engineering',
-  },
-  {
-    id: 'req-airbnb-1',
-    title: 'Staff Frontend Engineer',
-    companyName: 'Airbnb',
-    logoType: 'airbnb',
-    location: 'Amsterdam, Netherlands',
-    region: 'Europe',
-    salaryMin: 80000,
-    salaryMax: 170000,
-    currency: '€',
-    salaryDisplay: '€80,000 – €170,000',
-    requiredSkills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
-    jobType: 'Full-time',
-    workMode: 'Hybrid',
-    experienceYears: 5,
-    experienceLabel: '5+ years',
-    postedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
-    postedRelative: '2 days ago',
-    description: 'Leading design systems and microfrontends for millions of global hosts and travelers.',
-    roleCategory: 'Frontend Engineering',
-  },
-  {
-    id: 'req-msft-1',
-    title: 'Cloud Security Engineer',
-    companyName: 'Microsoft',
-    logoType: 'microsoft',
-    location: 'London, UK',
-    region: 'UK',
-    salaryMin: 100000,
-    salaryMax: 140000,
-    currency: '€',
-    salaryDisplay: '€100,000 – €140,000',
-    requiredSkills: ['AWS', 'Security', 'DevOps', 'Terraform'],
-    jobType: 'Full-time',
-    workMode: 'Remote',
-    experienceYears: 5,
-    experienceLabel: '5+ years',
-    postedAt: new Date(Date.now() - 1 * 86400000).toISOString(),
-    postedRelative: '1 day ago',
-    description: 'Protecting enterprise hyperscale cloud workloads with zero-trust architectures.',
-    roleCategory: 'DevOps & SRE',
-  },
-  {
-    id: 'req-stripe-1',
-    title: 'Staff Infrastructure Architect',
-    companyName: 'Stripe',
-    logoType: 'stripe',
-    location: 'Dublin, Ireland',
-    region: 'Europe',
-    salaryMin: 110000,
-    salaryMax: 160000,
-    currency: '€',
-    salaryDisplay: '€110,000 – €160,000',
-    requiredSkills: ['Go', 'Kubernetes', 'gRPC', 'Distributed Systems'],
-    jobType: 'Full-time',
-    workMode: 'Remote',
-    experienceYears: 6,
-    experienceLabel: '5+ years',
-    postedAt: new Date(Date.now() - 4 * 86400000).toISOString(),
-    postedRelative: '4 days ago',
-    description: 'Building ultra-resilient payment processing infrastructure handling hundreds of billions yearly.',
-    roleCategory: 'Backend Engineering',
-  },
-  {
-    id: 'req-revolut-1',
-    title: 'Lead Core Banking Backend Engineer',
-    companyName: 'Revolut',
-    logoType: 'revolut',
-    location: 'London, UK',
-    region: 'UK',
-    salaryMin: 90000,
-    salaryMax: 135000,
-    currency: '€',
-    salaryDisplay: '€90,000 – €135,000',
-    requiredSkills: ['Java', 'Spring Boot', 'Kafka', 'PostgreSQL'],
-    jobType: 'Full-time',
-    workMode: 'Remote',
-    experienceYears: 5,
-    experienceLabel: '5+ years',
-    postedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
-    postedRelative: '2 days ago',
-    description: 'Designing real-time transactional ledgers with zero downtime and instant settlement.',
-    roleCategory: 'Backend Engineering',
-  },
-  {
-    id: 'req-klarna-1',
-    title: 'Senior Full Stack TypeScript Engineer',
-    companyName: 'Klarna',
-    logoType: 'klarna',
-    location: 'Berlin, Germany',
-    region: 'Germany',
-    salaryMin: 75000,
-    salaryMax: 110000,
-    currency: '€',
-    salaryDisplay: '€75,000 – €110,000',
-    requiredSkills: ['Node.js', 'React', 'TypeScript', 'PostgreSQL'],
-    jobType: 'Full-time',
-    workMode: 'Hybrid',
-    experienceYears: 4,
-    experienceLabel: '2-5 years',
-    postedAt: new Date(Date.now() - 5 * 86400000).toISOString(),
-    postedRelative: '5 days ago',
-    description: 'Creating frictionless shopping and checkout experiences across global retail ecosystems.',
-    roleCategory: 'Full Stack',
-  },
-  {
-    id: 'req-n26-1',
-    title: 'Senior Mobile & iOS Engineer',
-    companyName: 'N26',
-    logoType: 'n26',
-    location: 'Berlin, Germany',
-    region: 'Germany',
-    salaryMin: 80000,
-    salaryMax: 115000,
-    currency: '€',
-    salaryDisplay: '€80,000 – €115,000',
-    requiredSkills: ['Swift', 'iOS', 'CI/CD', 'REST'],
-    jobType: 'Full-time',
-    workMode: 'Hybrid',
-    experienceYears: 4,
-    experienceLabel: '2-5 years',
-    postedAt: new Date(Date.now() - 6 * 86400000).toISOString(),
-    postedRelative: '6 days ago',
-    description: 'Engineering the next generation mobile banking client for over 8 million European customers.',
-    roleCategory: 'Mobile Engineering',
-  },
-  {
-    id: 'req-1',
-    title: 'Senior Node.js & Distributed Systems Engineer',
-    companyName: 'Vanguard FinTech',
-    logoType: 'custom',
-    logoBg: 'bg-emerald-600',
-    logoText: 'VF',
-    location: 'New York, USA',
-    region: 'USA',
-    salaryMin: 85000,
-    salaryMax: 125000,
-    currency: '€',
-    salaryDisplay: '€85,000 – €125,000',
-    requiredSkills: ['Node.js', 'TypeScript', 'AWS', 'System Design'],
-    jobType: 'Full-time',
-    workMode: 'Remote',
-    experienceYears: 5,
-    experienceLabel: '5+ years',
-    postedAt: new Date(Date.now() - 7 * 86400000).toISOString(),
-    postedRelative: '1 week ago',
-    description: 'Expanding core financial transactional services with asynchronous event loops and microservices.',
-    roleCategory: 'Backend Engineering',
-  },
-  {
-    id: 'req-google-1',
-    title: 'Staff Python / AI Platform Engineer',
-    companyName: 'Google Cloud Partner',
-    logoType: 'google',
-    location: 'Bengaluru, India',
-    region: 'India',
-    salaryMin: 70000,
-    salaryMax: 110000,
-    currency: '€',
-    salaryDisplay: '€70,000 – €110,000',
-    requiredSkills: ['Python', 'FastAPI', 'PyTorch', 'Docker'],
-    jobType: 'Full-time',
-    workMode: 'Remote',
-    experienceYears: 4,
-    experienceLabel: '2-5 years',
-    postedAt: new Date(Date.now() - 3 * 86400000).toISOString(),
-    postedRelative: '3 days ago',
-    description: 'Deploying high-throughput inference models and GenAI microservices for enterprise analytics.',
-    roleCategory: 'Data & AI',
-  },
-  {
-    id: 'req-amazon-1',
-    title: 'Cloud Infrastructure & Kubernetes Specialist',
-    companyName: 'Amazon Web Services Ecosystem',
-    logoType: 'amazon',
-    location: 'Hyderabad, India',
-    region: 'India',
-    salaryMin: 65000,
-    salaryMax: 95000,
-    currency: '€',
-    salaryDisplay: '€65,000 – €95,000',
-    requiredSkills: ['AWS', 'Kubernetes', 'Terraform', 'CI/CD'],
-    jobType: 'Full-time',
-    workMode: 'Remote',
-    experienceYears: 3,
-    experienceLabel: '2-5 years',
-    postedAt: new Date(Date.now() - 4 * 86400000).toISOString(),
-    postedRelative: '4 days ago',
-    description: 'Multi-region Kubernetes cluster orchestration, automated GitOps pipelines, and cost optimization.',
-    roleCategory: 'DevOps & SRE',
-  },
-  {
-    id: 'req-parttime-1',
-    title: 'Part-Time Next.js Technical Consultant',
-    companyName: 'CloudScale Systems',
-    logoType: 'custom',
-    logoBg: 'bg-indigo-600',
-    logoText: 'CS',
-    location: 'Zurich, Switzerland',
-    region: 'Europe',
-    salaryMin: 45000,
-    salaryMax: 65000,
-    currency: '€',
-    salaryDisplay: '€45,000 – €65,000',
-    requiredSkills: ['Next.js', 'React', 'GraphQL', 'Tailwind CSS'],
-    jobType: 'Part-time',
-    workMode: 'Remote',
-    experienceYears: 4,
-    experienceLabel: '2-5 years',
-    postedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
-    postedRelative: '2 days ago',
-    description: 'Advising internal product teams on Next.js App Router performance and static generation.',
-    roleCategory: 'Frontend Engineering',
-  },
-  {
-    id: 'req-contract-1',
-    title: 'Contract Rust Systems Engineer (6 Months)',
-    companyName: 'Zeta Protocol',
-    logoType: 'custom',
-    logoBg: 'bg-orange-600',
-    logoText: 'ZP',
-    location: 'Zug, Switzerland',
-    region: 'Europe',
-    salaryMin: 110000,
-    salaryMax: 150000,
-    currency: '€',
-    salaryDisplay: '€110,000 – €150,000',
-    requiredSkills: ['Rust', 'Distributed Systems', 'Linux', 'gRPC'],
-    jobType: 'Contract',
-    workMode: 'Remote',
-    experienceYears: 5,
-    experienceLabel: '5+ years',
-    postedAt: new Date(Date.now() - 5 * 86400000).toISOString(),
-    postedRelative: '5 days ago',
-    description: 'Auditing and optimizing low-latency consensus protocols and state machine synchronization.',
-    roleCategory: 'Backend Engineering',
-  },
-  {
-    id: 'req-intern-1',
-    title: 'Junior Full Stack Engineer (0-2 Yrs)',
-    companyName: 'Helix BioHealth',
-    logoType: 'custom',
-    logoBg: 'bg-teal-600',
-    logoText: 'HB',
-    location: 'San Francisco, USA',
-    region: 'USA',
-    salaryMin: 50000,
-    salaryMax: 70000,
-    currency: '€',
-    salaryDisplay: '€50,000 – €70,000',
-    requiredSkills: ['TypeScript', 'React', 'Node.js', 'PostgreSQL'],
-    jobType: 'Internship',
-    workMode: 'Remote',
-    experienceYears: 1,
-    experienceLabel: '0-2 years',
-    postedAt: new Date(Date.now() - 1 * 86400000).toISOString(),
-    postedRelative: '1 day ago',
-    description: 'Exciting fast-track role for high-potential early career developers building health diagnostics.',
-    roleCategory: 'Full Stack',
-  }
-];
-
 // Format relative date helper
 function getRelativeTime(isoString: string): string {
   try {
@@ -523,8 +236,8 @@ const BrandLogo: React.FC<{ job: JobItem }> = ({ job }) => {
 export const Jobs: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Dynamic Data States
-  const [jobsList, setJobsList] = useState<JobItem[]>(BASE_JOBS);
+  // Dynamic Data States (100% API & Database Driven)
+  const [jobsList, setJobsList] = useState<JobItem[]>([]);
   const [activePasses, setActivePasses] = useState<StackPass[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -638,25 +351,18 @@ export const Jobs: React.FC = () => {
             setActivePasses(passesRes.data.activePasses);
           }
 
-          if (reqsRes.success && Array.isArray(reqsRes.data) && reqsRes.data.length > 0) {
+          if (reqsRes.success && Array.isArray(reqsRes.data)) {
             const mappedDynamicJobs = reqsRes.data.map((req: HiringRequirement) =>
               mapRequirementToJob(req, companiesMap)
             );
-            // Combine with curated base jobs (deduplicating by id)
-            const combined = [...mappedDynamicJobs];
-            BASE_JOBS.forEach((bj) => {
-              if (!combined.some((item) => item.id === bj.id)) {
-                combined.push(bj);
-              }
-            });
-            setJobsList(combined);
+            setJobsList(mappedDynamicJobs);
           } else {
-            setJobsList(BASE_JOBS);
+            setJobsList([]);
           }
         }
       } catch (err) {
         console.error('Failed to load live jobs:', err);
-        if (isMounted) setJobsList(BASE_JOBS);
+        if (isMounted) setJobsList([]);
       } finally {
         if (isMounted) setLoading(false);
       }

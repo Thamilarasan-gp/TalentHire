@@ -49,6 +49,14 @@ export async function seedAtlasIfNeeded(): Promise<void> {
     if (reqCount === 0) {
       console.log(`[MongoDB Atlas] Seeding ${seed.requirements.length} requirements...`);
       await RequirementModel.insertMany(seed.requirements, { ordered: false }).catch(err => console.warn('Requirements insert:', err.message));
+    } else {
+      // Ensure top global verified companies and requirements are synchronized in Atlas
+      for (const c of seed.companies.slice(0, 10)) {
+        await CompanyModel.updateOne({ id: c.id }, { $set: c }, { upsert: true }).catch(() => {});
+      }
+      for (const r of seed.requirements.slice(0, 15)) {
+        await RequirementModel.updateOne({ id: r.id }, { $set: r }, { upsert: true }).catch(() => {});
+      }
     }
 
     if (candCount === 0) {
