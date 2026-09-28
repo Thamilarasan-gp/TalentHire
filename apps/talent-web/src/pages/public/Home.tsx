@@ -195,6 +195,7 @@ export const Home: React.FC = () => {
   const [searchLocation, setSearchLocation] = useState('Anywhere');
   const [searchCategory, setSearchCategory] = useState('All Roles');
   const [storyModalOpen, setStoryModalOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -245,8 +246,8 @@ export const Home: React.FC = () => {
         'Build your verified developer profile in minutes. Connect your GitHub, showcase past engineering work, set your tech stack, and define your international salary expectations.',
       badgeText: 'Step 01 • Create Profile',
       image: '/how-step1-profile.jpg',
-   
-   
+
+
     },
     {
       title: 'Get Evaluated',
@@ -255,7 +256,7 @@ export const Home: React.FC = () => {
         'Undergo a focused 45-minute live technical evaluation conducted by verified Staff and Principal Engineers from leading European tech companies.',
       badgeText: 'Step 02 • Get Evaluated',
       image: '/how-step2-eval.jpg',
-   
+
     },
     {
       title: 'Get Matched',
@@ -264,7 +265,7 @@ export const Home: React.FC = () => {
         'Skip the resume black hole. Your verified score gets you fast-tracked directly to engineering hiring managers at Spotify, Revolut, Klarna, and 500+ top companies.',
       badgeText: 'Step 03 • Get Matched',
       image: '/how-step3-match.jpg',
-    
+
     },
     {
       title: 'Hire / Get Hired',
@@ -273,7 +274,7 @@ export const Home: React.FC = () => {
         'Receive competitive international offers with transparent pay in EUR/USD, seamless compliance, and dedicated cross-border contract and payroll support.',
       badgeText: 'Step 04 • Get Hired',
       image: '/how-step4-hired.jpg',
-    
+
     },
   ];
 
@@ -574,7 +575,7 @@ export const Home: React.FC = () => {
 
         {/* Top Hero Content - Starts from top with spacious vertical rhythm */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 pt-2 sm:pt-4 md:pt-6">
-          <div className="max-w-3xl space-y-4 sm:space-y-6">
+          <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl space-y-4 sm:space-y-6">
 
             {/* Eyebrow Tag matching Image 2 */}
             <p className="text-[11px] sm:text-sm font-semibold tracking-[0.2em] sm:tracking-[0.28em] text-white/90 uppercase select-none">
@@ -595,28 +596,33 @@ export const Home: React.FC = () => {
             {/* Elevated, Taller & Bigger Search Card */}
             <form
               onSubmit={handleSearchSubmit}
-              className="mt-6 sm:mt-8 md:mt-10 p-5 sm:p-6 md:p-4 rounded-[2rem] md:rounded-full bg-white shadow-2xl border-2 border-white/90 flex flex-col md:flex-row items-stretch md:items-center gap-4 sm:gap-4.5 md:gap-3 max-w-4xl text-slate-900 ring-4 ring-black/10 transition-all"
+              className="mt-6 sm:mt-8 md:mt-10 p-5 sm:p-6 md:p-2.5 lg:p-3 rounded-[2rem] md:rounded-full bg-white shadow-2xl border-2 border-white/90 flex flex-col md:flex-row items-stretch md:items-center gap-4 sm:gap-4.5 md:gap-2 max-w-4xl xl:max-w-5xl text-slate-900 ring-4 ring-black/10 transition-all"
             >
-              <div className="flex items-center gap-3.5 px-4 sm:px-6 py-4 sm:py-4.5 md:py-2.5 flex-1 w-full min-h-[70px] sm:min-h-[74px] md:min-h-[58px]">
-                <Search className="w-6 h-6 sm:w-6.5 sm:h-6.5 md:w-6 md:h-6 text-slate-400 shrink-0" />
+              {/* Search text input area: guaranteed spacious min-width on desktop & click-anywhere to focus */}
+              <div
+                onClick={() => searchInputRef.current?.focus()}
+                className="flex items-center gap-3 px-4 sm:px-6 md:px-4 py-4 sm:py-4.5 md:py-2 flex-1 min-w-0 md:min-w-[220px] lg:min-w-[280px] min-h-[70px] sm:min-h-[74px] md:min-h-[50px] cursor-text"
+              >
+                <Search className="w-6 h-6 sm:w-6.5 sm:h-6.5 md:w-5 md:h-5 text-slate-400 shrink-0" />
                 <input
+                  ref={searchInputRef}
                   type="text"
                   placeholder="Search jobs, skills, companies..."
                   value={searchRole}
                   onChange={(e) => setSearchRole(e.target.value)}
-                  className="w-full text-base sm:text-lg md:text-base lg:text-lg bg-transparent border-none focus:outline-none text-slate-900 placeholder:text-slate-400 py-2 md:py-1.5 font-medium"
+                  className="w-full text-base sm:text-lg md:text-sm lg:text-base bg-transparent border-none focus:outline-none text-slate-900 placeholder:text-slate-400 py-2 md:py-1 font-medium"
                 />
               </div>
 
               {/* Mobile 2-column controls / Desktop inline selectors */}
-              <div className="grid grid-cols-2 md:flex md:items-center gap-3 sm:gap-3.5 md:gap-2.5 border-t md:border-t-0 border-slate-100 pt-3.5 sm:pt-4 md:pt-0">
+              <div className="grid grid-cols-2 md:flex md:items-center gap-3 sm:gap-3.5 md:gap-1.5 border-t md:border-t-0 border-slate-100 pt-3.5 sm:pt-4 md:pt-0 shrink-0">
                 {/* Location dropdown */}
-                <div className="flex items-center gap-2.5 px-4 py-3.5 sm:py-4 md:py-2 rounded-2xl md:rounded-none bg-slate-50 md:bg-transparent text-sm sm:text-base text-slate-700 shrink-0 relative min-h-[60px] sm:min-h-[64px] md:min-h-[52px]">
-                  <MapPin className="w-5 h-5 text-slate-500 shrink-0" />
+                <div className="flex items-center gap-2 px-4 md:px-2.5 py-3.5 sm:py-4 md:py-1.5 rounded-2xl md:rounded-none bg-slate-50 md:bg-transparent text-sm sm:text-base md:text-xs lg:text-sm text-slate-700 shrink-0 relative min-h-[60px] sm:min-h-[64px] md:min-h-[46px]">
+                  <MapPin className="w-5 h-5 md:w-4 md:h-4 text-slate-500 shrink-0" />
                   <select
                     value={searchLocation}
                     onChange={(e) => setSearchLocation(e.target.value)}
-                    className="w-full bg-transparent text-sm sm:text-base font-semibold text-slate-800 focus:outline-none cursor-pointer pr-6 appearance-none truncate"
+                    className="w-full md:w-auto bg-transparent text-sm sm:text-base md:text-xs lg:text-sm font-semibold text-slate-800 focus:outline-none cursor-pointer pr-6 appearance-none truncate max-w-[130px] lg:max-w-[155px]"
                   >
                     <option value="Anywhere">Anywhere</option>
                     <option value="Berlin, Germany">Berlin, Germany</option>
@@ -626,18 +632,18 @@ export const Home: React.FC = () => {
                     <option value="Paris, France">Paris</option>
                     <option value="Remote">100% Remote</option>
                   </select>
-                  <ChevronDown className="w-4 h-4 text-slate-400 pointer-events-none absolute right-3" />
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none absolute right-1.5 md:right-1" />
                 </div>
 
-                <div className="hidden md:block h-9 w-px bg-slate-200 shrink-0 mx-1" />
+                <div className="hidden md:block h-7 w-px bg-slate-200 shrink-0 mx-0.5" />
 
                 {/* Role dropdown */}
-                <div className="flex items-center gap-2.5 px-4 py-3.5 sm:py-4 md:py-2 rounded-2xl md:rounded-none bg-slate-50 md:bg-transparent text-sm sm:text-base text-slate-700 shrink-0 relative min-h-[60px] sm:min-h-[64px] md:min-h-[52px]">
-                  <Briefcase className="w-5 h-5 text-slate-500 shrink-0" />
+                <div className="flex items-center gap-2 px-4 md:px-2.5 py-3.5 sm:py-4 md:py-1.5 rounded-2xl md:rounded-none bg-slate-50 md:bg-transparent text-sm sm:text-base md:text-xs lg:text-sm text-slate-700 shrink-0 relative min-h-[60px] sm:min-h-[64px] md:min-h-[46px]">
+                  <Briefcase className="w-5 h-5 md:w-4 md:h-4 text-slate-500 shrink-0" />
                   <select
                     value={searchCategory}
                     onChange={(e) => setSearchCategory(e.target.value)}
-                    className="w-full bg-transparent text-sm sm:text-base font-semibold text-slate-800 focus:outline-none cursor-pointer pr-6 appearance-none truncate"
+                    className="w-full md:w-auto bg-transparent text-sm sm:text-base md:text-xs lg:text-sm font-semibold text-slate-800 focus:outline-none cursor-pointer pr-6 appearance-none truncate max-w-[110px] lg:max-w-[135px]"
                   >
                     <option value="All Roles">All Roles</option>
                     <option value="Frontend">Frontend</option>
@@ -648,17 +654,17 @@ export const Home: React.FC = () => {
                     <option value="Mobile">Mobile</option>
                     <option value="Design">Design</option>
                   </select>
-                  <ChevronDown className="w-4 h-4 text-slate-400 pointer-events-none absolute right-3" />
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none absolute right-1.5 md:right-1" />
                 </div>
               </div>
 
               {/* Search Button with Shimmer Sweep Hover */}
               <button
                 type="submit"
-                className="w-full md:w-auto px-8 sm:px-10 py-4.5 sm:py-5 md:py-4 min-h-[64px] sm:min-h-[66px] md:min-h-[56px] rounded-2xl md:rounded-full bg-slate-950 hover:bg-slate-800 active:bg-slate-900 text-white text-base sm:text-lg md:text-base lg:text-lg font-extrabold flex items-center justify-center gap-2.5 shadow-xl shadow-black/25 hover:shadow-2xl transition-all active:scale-[0.98] cursor-pointer shrink-0 shimmer-button"
+                className="w-full md:w-auto px-8 sm:px-10 md:px-6 lg:px-8 py-4.5 sm:py-5 md:py-3 min-h-[64px] sm:min-h-[66px] md:min-h-[48px] rounded-2xl md:rounded-full bg-slate-950 hover:bg-slate-800 active:bg-slate-900 text-white text-base sm:text-lg md:text-xs lg:text-sm font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-black/25 hover:shadow-2xl transition-all active:scale-[0.98] cursor-pointer shrink-0 shimmer-button"
               >
                 <span>Search Jobs</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4 md:w-3.5 md:h-3.5" />
               </button>
             </form>
 
@@ -667,7 +673,7 @@ export const Home: React.FC = () => {
               <div className="flex items-center justify-between mb-3 px-0.5">
                 <h3 className="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-1.5">
                   <span>Why Inayon?</span>
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                
                 </h3>
                 <span className="text-[10px] sm:text-xs text-white/60 font-medium">Swipe to explore →</span>
               </div>
@@ -961,7 +967,7 @@ export const Home: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 reveal-on-scroll">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+             
                 <span>FEATURED OPPORTUNITIES</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -1099,7 +1105,7 @@ export const Home: React.FC = () => {
             {/* Left Column: Heading, intro, badge */}
             <div className="lg:col-span-6 xl:col-span-7 space-y-5 sm:space-y-6 reveal-on-scroll">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F3E8FF] border border-purple-200/60 text-[#7C3AED] text-xs font-bold tracking-wide">
-                <Sparkles className="w-3.5 h-3.5 text-[#7C3AED]" />
+               
                 <span>WHY CHOOSE US</span>
               </div>
 
@@ -1203,7 +1209,7 @@ export const Home: React.FC = () => {
             <div className="relative rounded-3xl bg-gradient-to-br from-indigo-50/70 via-white to-purple-50/50 p-8 sm:p-10 border border-indigo-100/80 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden reveal-on-scroll">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100/70 text-indigo-700 text-xs font-semibold">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+               
                   <span>FOR DEVELOPERS</span>
                 </div>
 
@@ -1282,7 +1288,7 @@ export const Home: React.FC = () => {
             <div className="relative rounded-3xl bg-gradient-to-br from-emerald-50/70 via-white to-teal-50/50 p-8 sm:p-10 border border-emerald-100/80 shadow-xs flex flex-col justify-between overflow-hidden">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 text-xs font-semibold">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+               
                   <span>FOR COMPANIES</span>
                 </div>
 
@@ -1367,7 +1373,7 @@ export const Home: React.FC = () => {
           {/* Section Header */}
           <div className="mb-8 sm:mb-12 lg:mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100/80 text-blue-700 text-xs font-bold tracking-wide mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+           
               <span>HOW IT WORKS</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
@@ -1393,8 +1399,8 @@ export const Home: React.FC = () => {
                     <div
                       key={idx}
                       className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isVisible
-                          ? 'opacity-100 scale-100 pointer-events-auto'
-                          : 'opacity-0 scale-95 pointer-events-none'
+                        ? 'opacity-100 scale-100 pointer-events-auto'
+                        : 'opacity-0 scale-95 pointer-events-none'
                         }`}
                     >
                       {/* Photo Asset */}
@@ -1437,11 +1443,10 @@ export const Home: React.FC = () => {
                     {/* Big Step Title */}
                     <div className="flex items-center gap-3">
                       <span
-                        className={`text-xs font-mono font-bold tracking-widest uppercase transition-all px-2.5 py-1 rounded-full ${
-                          isActive
+                        className={`text-xs font-mono font-bold tracking-widest uppercase transition-all px-2.5 py-1 rounded-full ${isActive
                             ? 'text-blue-700 bg-blue-50 border border-blue-200/80 shadow-xs'
                             : 'text-slate-400 bg-slate-100 group-hover:text-slate-600'
-                        }`}
+                          }`}
                       >
                         0{idx + 1}
                       </span>
@@ -1453,22 +1458,20 @@ export const Home: React.FC = () => {
                     </div>
 
                     <h3
-                      className={`text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] sm:leading-[1.1] mt-2.5 sm:mt-3 transition-all duration-300 ${
-                        isActive
+                      className={`text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] sm:leading-[1.1] mt-2.5 sm:mt-3 transition-all duration-300 ${isActive
                           ? 'text-slate-950 scale-100'
                           : 'text-slate-300 hover:text-slate-400 scale-[0.98] origin-left'
-                      }`}
+                        }`}
                     >
                       {step.title}
                     </h3>
 
                     {/* Expandable / Opacity-tuned Description */}
                     <div
-                      className={`overflow-hidden transition-all duration-500 ease-out ${
-                        isActive
+                      className={`overflow-hidden transition-all duration-500 ease-out ${isActive
                           ? 'max-h-64 opacity-100 mt-4 sm:mt-5'
                           : 'max-h-24 opacity-35 mt-3 group-hover:opacity-70'
-                      }`}
+                        }`}
                     >
                       <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-lg">
                         {step.description}
@@ -1560,11 +1563,10 @@ export const Home: React.FC = () => {
               {testimonials.map((item, idx) => (
                 <div
                   key={item.id}
-                  className={`w-[84vw] max-w-[325px] shrink-0 snap-center p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/80 flex flex-col justify-between transition-all duration-300 ${
-                    activeTestimonial === idx
+                  className={`w-[84vw] max-w-[325px] shrink-0 snap-center p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/80 flex flex-col justify-between transition-all duration-300 ${activeTestimonial === idx
                       ? 'shadow-md border-blue-200 ring-2 ring-blue-500/15'
                       : 'shadow-xs opacity-90'
-                  }`}
+                    }`}
                 >
                   <div className="space-y-3.5">
                     <div className="flex items-center justify-between">
@@ -1625,11 +1627,10 @@ export const Home: React.FC = () => {
                       setTimeout(() => setIsTestimonialAutoPaused(false), 5000);
                     }}
                     aria-label={`Go to testimonial ${i + 1}`}
-                    className={`transition-all duration-300 rounded-full cursor-pointer ${
-                      activeTestimonial === i
+                    className={`transition-all duration-300 rounded-full cursor-pointer ${activeTestimonial === i
                         ? 'w-5 h-1.5 bg-slate-900'
                         : 'w-1.5 h-1.5 bg-slate-300 hover:bg-slate-400'
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -1660,7 +1661,7 @@ export const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          
             <span>TRANSPARENT PRICING</span>
           </div>
 
@@ -1840,7 +1841,7 @@ export const Home: React.FC = () => {
 
             <div className="relative z-10 max-w-2xl mx-auto space-y-3.5">
 
-             
+
 
               {/* Main Headline */}
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug">
