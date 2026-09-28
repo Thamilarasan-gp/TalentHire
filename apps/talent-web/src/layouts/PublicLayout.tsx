@@ -34,7 +34,7 @@ export const PublicLayout: React.FC = () => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
   const profileDropdownRef = useRef<HTMLDivElement>(null);
-  
+
   const [currentUser, setCurrentUser] = useState<any>(() => {
     try {
       const stored = localStorage.getItem('tg_user');
@@ -257,16 +257,15 @@ export const PublicLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
       {/* Floating Header: Fixed top container, takes 0px in flow so hero covers 100% from top */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-transparent py-3 sm:py-4 pointer-events-none transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-auto" ref={navContainerRef}>
           <div
-            className={`transition-all duration-300 rounded-full flex items-center justify-between gap-4 px-4 sm:px-6 lg:px-7 py-2 sm:py-2.5 ${
-              isScrolled
+            className={`transition-all duration-300 rounded-full flex items-center justify-between gap-4 px-4 sm:px-6 lg:px-7 py-2 sm:py-2.5 ${isScrolled
                 ? 'bg-white/95 border border-slate-200/90 backdrop-blur-xl shadow-xl shadow-slate-900/10 text-slate-800'
                 : 'bg-slate-950/60 border border-white/20 backdrop-blur-xl shadow-2xl shadow-black/25 text-white'
-            }`}
+              }`}
           >
             {/* 1. Brand Logo: Smooth cross-fade between Image 1 (White) and Image 2 (Dark) */}
             <Link
@@ -286,17 +285,15 @@ export const PublicLayout: React.FC = () => {
                 <img
                   src="/inayon-white.png"
                   alt="Inayon"
-                  className={`absolute inset-0 h-full w-auto object-contain transition-opacity duration-300 ${
-                    isScrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                  }`}
+                  className={`absolute inset-0 h-full w-auto object-contain transition-opacity duration-300 ${isScrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                    }`}
                 />
                 {/* 2nd Image Logo: Pure Dark for white backdrop */}
                 <img
                   src="/inayon-dark.png"
                   alt="Inayon"
-                  className={`absolute inset-0 h-full w-auto object-contain transition-opacity duration-300 ${
-                    isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                  }`}
+                  className={`absolute inset-0 h-full w-auto object-contain transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
                 />
               </div>
             </Link>
@@ -306,11 +303,10 @@ export const PublicLayout: React.FC = () => {
               {/* Jobs */}
               <Link
                 to="/jobs"
-                className={`text-xs xl:text-sm font-medium transition-colors ${
-                  isScrolled
+                className={`text-xs xl:text-sm font-medium transition-colors ${isScrolled
                     ? 'text-slate-700 hover:text-slate-950'
                     : 'text-white/90 hover:text-white'
-                }`}
+                  }`}
               >
                 Jobs
               </Link>
@@ -324,35 +320,31 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('for-talent')}
-                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${
-                    isScrolled
+                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${isScrolled
                       ? 'text-slate-700 hover:text-slate-950'
                       : 'text-white/90 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <span>Talent</span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                      activeDropdown === 'talent' ? 'rotate-180' : ''
-                    } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === 'talent' ? 'rotate-180' : ''
+                      } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
                   />
                 </button>
 
                 {activeDropdown === 'talent' && (
                   <div className="absolute left-0 top-full pt-3 w-72 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div
-                      className={`rounded-2xl p-2.5 shadow-2xl border ${
-                        isScrolled
+                      className={`rounded-2xl p-2.5 shadow-2xl border ${isScrolled
                           ? 'bg-white/98 backdrop-blur-xl border-slate-200/90 text-slate-800 ring-1 ring-black/5'
                           : 'bg-slate-950/95 backdrop-blur-2xl border-white/20 text-white ring-1 ring-white/10'
-                      }`}
+                        }`}
                     >
                       <Link
                         to="/jobs"
                         onClick={() => setActiveDropdown(null)}
-                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Browse Remote Jobs</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -363,9 +355,8 @@ export const PublicLayout: React.FC = () => {
                       <Link
                         to="/talent/stack-passes"
                         onClick={() => setActiveDropdown(null)}
-                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Domain Stack Passes</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -376,9 +367,8 @@ export const PublicLayout: React.FC = () => {
                       <Link
                         to="/talent/evaluations"
                         onClick={() => setActiveDropdown(null)}
-                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Evaluations Dossier</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -392,9 +382,8 @@ export const PublicLayout: React.FC = () => {
                           setActiveDropdown(null);
                           setEvalModalOpen(true);
                         }}
-                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold text-indigo-400">Become an Evaluator</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -415,28 +404,25 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('for-companies')}
-                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${
-                    isScrolled
+                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${isScrolled
                       ? 'text-slate-700 hover:text-slate-950'
                       : 'text-white/90 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <span>Companies</span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                      activeDropdown === 'companies' ? 'rotate-180' : ''
-                    } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === 'companies' ? 'rotate-180' : ''
+                      } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
                   />
                 </button>
 
                 {activeDropdown === 'companies' && (
                   <div className="absolute left-0 top-full pt-3 w-72 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div
-                      className={`rounded-2xl p-2.5 shadow-2xl border ${
-                        isScrolled
+                      className={`rounded-2xl p-2.5 shadow-2xl border ${isScrolled
                           ? 'bg-white/98 backdrop-blur-xl border-slate-200/90 text-slate-800 ring-1 ring-black/5'
                           : 'bg-slate-950/95 backdrop-blur-2xl border-white/20 text-white ring-1 ring-white/10'
-                      }`}
+                        }`}
                     >
                       <button
                         type="button"
@@ -444,9 +430,8 @@ export const PublicLayout: React.FC = () => {
                           setActiveDropdown(null);
                           scrollToSection('for-companies');
                         }}
-                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Hire Vetted Talent</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -456,9 +441,8 @@ export const PublicLayout: React.FC = () => {
 
                       <a
                         href="http://localhost:3002"
-                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Company Portal</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -472,9 +456,8 @@ export const PublicLayout: React.FC = () => {
                           setActiveDropdown(null);
                           scrollToSection('how-it-works');
                         }}
-                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Evaluation Standards</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -495,28 +478,25 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('how-it-works')}
-                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${
-                    isScrolled
+                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${isScrolled
                       ? 'text-slate-700 hover:text-slate-950'
                       : 'text-white/90 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <span>About</span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                      activeDropdown === 'about' ? 'rotate-180' : ''
-                    } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === 'about' ? 'rotate-180' : ''
+                      } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
                   />
                 </button>
 
                 {activeDropdown === 'about' && (
                   <div className="absolute left-0 top-full pt-3 w-72 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div
-                      className={`rounded-2xl p-2.5 shadow-2xl border ${
-                        isScrolled
+                      className={`rounded-2xl p-2.5 shadow-2xl border ${isScrolled
                           ? 'bg-white/98 backdrop-blur-xl border-slate-200/90 text-slate-800 ring-1 ring-black/5'
                           : 'bg-slate-950/95 backdrop-blur-2xl border-white/20 text-white ring-1 ring-white/10'
-                      }`}
+                        }`}
                     >
                       <button
                         type="button"
@@ -524,9 +504,8 @@ export const PublicLayout: React.FC = () => {
                           setActiveDropdown(null);
                           scrollToSection('how-it-works');
                         }}
-                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">How It Works</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -540,9 +519,8 @@ export const PublicLayout: React.FC = () => {
                           setActiveDropdown(null);
                           scrollToSection('for-evaluators');
                         }}
-                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Peer Evaluator Network</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -556,9 +534,8 @@ export const PublicLayout: React.FC = () => {
                           setActiveDropdown(null);
                           scrollToSection('pricing');
                         }}
-                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Pricing & Packages</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -579,35 +556,31 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('how-it-works')}
-                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${
-                    isScrolled
+                  className={`flex items-center gap-1 text-xs xl:text-sm font-medium transition-colors cursor-pointer ${isScrolled
                       ? 'text-slate-700 hover:text-slate-950'
                       : 'text-white/90 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <span>Resources</span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                      activeDropdown === 'resources' ? 'rotate-180' : ''
-                    } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === 'resources' ? 'rotate-180' : ''
+                      } ${isScrolled ? 'text-slate-400' : 'text-white/60'}`}
                   />
                 </button>
 
                 {activeDropdown === 'resources' && (
                   <div className="absolute left-0 top-full pt-3 w-72 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div
-                      className={`rounded-2xl p-2.5 shadow-2xl border ${
-                        isScrolled
+                      className={`rounded-2xl p-2.5 shadow-2xl border ${isScrolled
                           ? 'bg-white/98 backdrop-blur-xl border-slate-200/90 text-slate-800 ring-1 ring-black/5'
                           : 'bg-slate-950/95 backdrop-blur-2xl border-white/20 text-white ring-1 ring-white/10'
-                      }`}
+                        }`}
                     >
                       <Link
                         to="/talent/stack-passes"
                         onClick={() => setActiveDropdown(null)}
-                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Tech Stack Standards</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -621,9 +594,8 @@ export const PublicLayout: React.FC = () => {
                           setActiveDropdown(null);
                           scrollToSection('for-evaluators');
                         }}
-                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`w-full flex flex-col p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Evaluator Rubrics</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -634,9 +606,8 @@ export const PublicLayout: React.FC = () => {
                       <Link
                         to="/jobs"
                         onClick={() => setActiveDropdown(null)}
-                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${
-                          isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
-                        }`}
+                        className={`flex flex-col p-2.5 rounded-xl text-left transition-colors ${isScrolled ? 'hover:bg-slate-50' : 'hover:bg-white/10'
+                          }`}
                       >
                         <span className="text-xs font-bold">Salary Index</span>
                         <span className={`text-[11px] leading-snug mt-0.5 ${isScrolled ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -656,11 +627,10 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setLanguageDropdownOpen((prev) => !prev)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer ${
-                    isScrolled
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer ${isScrolled
                       ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
                       : 'text-white/90 hover:text-white hover:bg-white/10'
-                  }`}
+                    }`}
                   title="Select Language"
                 >
                   <Globe className="w-4 h-4" />
@@ -670,11 +640,10 @@ export const PublicLayout: React.FC = () => {
 
                 {languageDropdownOpen && (
                   <div
-                    className={`absolute right-0 top-full mt-2 w-36 rounded-xl p-1.5 shadow-xl border z-50 animate-in fade-in slide-in-from-top-1 ${
-                      isScrolled
+                    className={`absolute right-0 top-full mt-2 w-36 rounded-xl p-1.5 shadow-xl border z-50 animate-in fade-in slide-in-from-top-1 ${isScrolled
                         ? 'bg-white border-slate-200 text-slate-800'
                         : 'bg-slate-950/95 border-white/20 text-white backdrop-blur-xl'
-                    }`}
+                      }`}
                   >
                     {[
                       { code: 'EN', label: 'English' },
@@ -689,15 +658,14 @@ export const PublicLayout: React.FC = () => {
                           setSelectedLanguage(lang.code);
                           setLanguageDropdownOpen(false);
                         }}
-                        className={`w-full flex items-center justify-between px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors cursor-pointer ${
-                          selectedLanguage === lang.code
+                        className={`w-full flex items-center justify-between px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors cursor-pointer ${selectedLanguage === lang.code
                             ? isScrolled
                               ? 'bg-slate-100 text-slate-900 font-bold'
                               : 'bg-white/20 text-white font-bold'
                             : isScrolled
-                            ? 'hover:bg-slate-50 text-slate-700'
-                            : 'hover:bg-white/10 text-white/80'
-                        }`}
+                              ? 'hover:bg-slate-50 text-slate-700'
+                              : 'hover:bg-white/10 text-white/80'
+                          }`}
                       >
                         <span>{lang.label}</span>
                         <span className="text-[10px] opacity-60 font-mono">{lang.code}</span>
@@ -712,15 +680,14 @@ export const PublicLayout: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setProfileDropdownOpen((prev) => !prev)}
-                    className={`flex items-center gap-2.5 px-3 py-1.5 rounded-full border transition-all cursor-pointer select-none ${
-                      isScrolled
+                    className={`flex items-center gap-2.5 px-3 py-1.5 rounded-full border transition-all cursor-pointer select-none ${isScrolled
                         ? profileDropdownOpen
                           ? 'bg-slate-100 border-slate-300 shadow-sm ring-2 ring-blue-500/10'
                           : 'bg-white hover:bg-slate-50 border-slate-200/90 hover:border-slate-300 shadow-xs'
                         : profileDropdownOpen
-                        ? 'bg-white/20 border-white/40 shadow-sm ring-2 ring-white/20'
-                        : 'bg-white/10 hover:bg-white/15 border-white/20 text-white shadow-xs'
-                    }`}
+                          ? 'bg-white/20 border-white/40 shadow-sm ring-2 ring-white/20'
+                          : 'bg-white/10 hover:bg-white/15 border-white/20 text-white shadow-xs'
+                      }`}
                     aria-expanded={profileDropdownOpen}
                     aria-label="User profile menu"
                   >
@@ -736,9 +703,8 @@ export const PublicLayout: React.FC = () => {
                       </span>
                     </div>
                     <ChevronDown
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                        profileDropdownOpen ? 'rotate-180 text-blue-500' : isScrolled ? 'text-slate-400' : 'text-white/60'
-                      }`}
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${profileDropdownOpen ? 'rotate-180 text-blue-500' : isScrolled ? 'text-slate-400' : 'text-white/60'
+                        }`}
                     />
                   </button>
 
@@ -938,22 +904,20 @@ export const PublicLayout: React.FC = () => {
                 <>
                   <Link
                     to="/login"
-                    className={`text-xs xl:text-sm font-semibold px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border transition-all ${
-                      isScrolled
+                    className={`text-xs xl:text-sm font-semibold px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border transition-all ${isScrolled
                         ? 'border-slate-300 hover:border-slate-400 text-slate-800 hover:bg-slate-100'
                         : 'border-white/35 hover:border-white/60 text-white hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     Login
                   </Link>
 
                   <Link
                     to="/register"
-                    className={`text-xs xl:text-sm font-semibold px-4 sm:px-5 py-1.5 sm:py-2 rounded-full flex items-center gap-1.5 transition-all shadow-sm group ${
-                      isScrolled
+                    className={`text-xs xl:text-sm font-semibold px-4 sm:px-5 py-1.5 sm:py-2 rounded-full flex items-center gap-1.5 transition-all shadow-sm group ${isScrolled
                         ? 'bg-slate-950 hover:bg-slate-800 text-white'
                         : 'bg-white hover:bg-slate-100 text-slate-950'
-                    }`}
+                      }`}
                   >
                     <span>Get Started</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -965,11 +929,10 @@ export const PublicLayout: React.FC = () => {
             {/* Mobile menu trigger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`lg:hidden p-2 rounded-full transition-colors cursor-pointer ${
-                isScrolled
+              className={`lg:hidden p-2 rounded-full transition-colors cursor-pointer ${isScrolled
                   ? 'text-slate-700 hover:text-slate-950 hover:bg-slate-100'
                   : 'text-white hover:bg-white/10'
-              }`}
+                }`}
               aria-label="Toggle Menu"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -981,11 +944,10 @@ export const PublicLayout: React.FC = () => {
         {mobileOpen && (
           <div className="lg:hidden max-w-7xl mx-auto px-4 mt-2">
             <div
-              className={`rounded-2xl p-4 space-y-4 shadow-2xl border ${
-                isScrolled
+              className={`rounded-2xl p-4 space-y-4 shadow-2xl border ${isScrolled
                   ? 'bg-white border-slate-200 text-slate-900'
                   : 'bg-slate-950/95 border-white/20 text-white backdrop-blur-2xl'
-              }`}
+                }`}
             >
               {currentUser && (
                 <div className={`p-3 rounded-xl border space-y-2.5 ${isScrolled ? 'bg-slate-50 border-slate-200' : 'bg-white/10 border-white/10'}`}>
@@ -1050,9 +1012,8 @@ export const PublicLayout: React.FC = () => {
                 <Link
                   to="/jobs"
                   onClick={() => setMobileOpen(false)}
-                  className={`w-full px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between ${
-                    isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
-                  }`}
+                  className={`w-full px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between ${isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
+                    }`}
                 >
                   <span>Jobs</span>
                   <ArrowRight className="w-3.5 h-3.5 opacity-40" />
@@ -1061,9 +1022,8 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('for-talent')}
-                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${
-                    isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
-                  }`}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
+                    }`}
                 >
                   <span>For Talent</span>
                   <ArrowRight className="w-3.5 h-3.5 opacity-40" />
@@ -1072,9 +1032,8 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('for-companies')}
-                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${
-                    isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
-                  }`}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
+                    }`}
                 >
                   <span>For Companies</span>
                   <ArrowRight className="w-3.5 h-3.5 opacity-40" />
@@ -1083,9 +1042,8 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('how-it-works')}
-                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${
-                    isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
-                  }`}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
+                    }`}
                 >
                   <span>About & How It Works</span>
                   <ArrowRight className="w-3.5 h-3.5 opacity-40" />
@@ -1094,9 +1052,8 @@ export const PublicLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('pricing')}
-                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${
-                    isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
-                  }`}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between cursor-pointer ${isScrolled ? 'hover:bg-slate-100 text-slate-800' : 'hover:bg-white/10 text-white'
+                    }`}
                 >
                   <span>Pricing</span>
                   <ArrowRight className="w-3.5 h-3.5 opacity-40" />
@@ -1115,15 +1072,14 @@ export const PublicLayout: React.FC = () => {
                       key={lang}
                       type="button"
                       onClick={() => setSelectedLanguage(lang)}
-                      className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold cursor-pointer ${
-                        selectedLanguage === lang
+                      className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold cursor-pointer ${selectedLanguage === lang
                           ? isScrolled
                             ? 'bg-slate-900 text-white'
                             : 'bg-white text-slate-950'
                           : isScrolled
-                          ? 'text-slate-500 hover:text-slate-900'
-                          : 'text-white/60 hover:text-white'
-                      }`}
+                            ? 'text-slate-500 hover:text-slate-900'
+                            : 'text-white/60 hover:text-white'
+                        }`}
                     >
                       {lang}
                     </button>
@@ -1136,22 +1092,20 @@ export const PublicLayout: React.FC = () => {
                   <Link
                     to="/login"
                     onClick={() => setMobileOpen(false)}
-                    className={`w-full text-center py-2 text-xs font-semibold rounded-full border ${
-                      isScrolled
+                    className={`w-full text-center py-2 text-xs font-semibold rounded-full border ${isScrolled
                         ? 'border-slate-300 text-slate-800'
                         : 'border-white/30 text-white'
-                    }`}
+                      }`}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setMobileOpen(false)}
-                    className={`w-full text-center py-2 text-xs font-semibold rounded-full flex items-center justify-center gap-1.5 shadow-sm ${
-                      isScrolled
+                    className={`w-full text-center py-2 text-xs font-semibold rounded-full flex items-center justify-center gap-1.5 shadow-sm ${isScrolled
                         ? 'bg-slate-950 text-white'
                         : 'bg-white text-slate-950'
-                    }`}
+                      }`}
                   >
                     <span>Get Started</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -1168,11 +1122,11 @@ export const PublicLayout: React.FC = () => {
         <Outlet />
       </main>
 
-      {/* Global Footer matching reference screenshot */}
-      <footer className="bg-white border-t border-slate-100 pt-16 pb-12 text-slate-600">
+      {/* Global Footer */}
+      <footer className="bg-white border-t border-slate-100 pt-12 sm:pt-16 pb-12 text-slate-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-100">
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 pb-10 border-b border-slate-100">
+
             {/* Brand column */}
             <div className="lg:col-span-2 space-y-4">
               <div className="flex items-center gap-2.5">
@@ -1182,76 +1136,104 @@ export const PublicLayout: React.FC = () => {
                   className="h-9 sm:h-10 w-auto object-contain"
                 />
               </div>
-              <p className="text-slate-500 text-xs max-w-sm leading-relaxed">
-                Connecting global companies with India's top tech talent.
+              <p className="text-slate-500 text-xs sm:text-sm max-w-sm leading-relaxed">
+                Connecting global companies with India's top tech talent through vetted evaluations.
               </p>
-              
+
               {/* Social icons */}
-              <div className="flex items-center gap-4 text-slate-400 pt-1">
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-blue-600 transition-colors" aria-label="LinkedIn">
-                  <Linkedin className="w-4 h-4" />
+              <div className="flex items-center gap-2.5 text-slate-500 pt-1">
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-8 h-8 rounded-full bg-slate-50 hover:bg-blue-50 border border-slate-200/80 hover:border-blue-200 hover:text-blue-600 transition-all flex items-center justify-center"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-3.5 h-3.5" />
                 </a>
-                <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-slate-900 transition-colors" aria-label="Twitter">
-                  <Twitter className="w-4 h-4" />
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-8 h-8 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-slate-300 hover:text-slate-900 transition-all flex items-center justify-center"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="w-3.5 h-3.5" />
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-pink-600 transition-colors" aria-label="Instagram">
-                  <Instagram className="w-4 h-4" />
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-8 h-8 rounded-full bg-slate-50 hover:bg-pink-50 border border-slate-200/80 hover:border-pink-200 hover:text-pink-600 transition-all flex items-center justify-center"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
                 </a>
-                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-red-600 transition-colors" aria-label="YouTube">
-                  <Youtube className="w-4 h-4" />
+                <a
+                  href="https://youtube.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-8 h-8 rounded-full bg-slate-50 hover:bg-red-50 border border-slate-200/80 hover:border-red-200 hover:text-red-600 transition-all flex items-center justify-center"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
 
-            {/* Product */}
-            <div>
-              <h4 className="text-slate-900 font-bold text-xs uppercase tracking-wider mb-4">Product</h4>
-              <ul className="space-y-2.5 text-xs">
-                <li><button onClick={() => scrollToSection('for-talent')} className="hover:text-blue-600 transition-colors cursor-pointer text-left">For Talent</button></li>
-                <li><button onClick={() => scrollToSection('for-companies')} className="hover:text-blue-600 transition-colors cursor-pointer text-left">For Companies</button></li>
-                <li><button onClick={() => scrollToSection('for-evaluators')} className="hover:text-blue-600 transition-colors cursor-pointer text-left">For Evaluators</button></li>
-                <li><button onClick={() => scrollToSection('pricing')} className="hover:text-blue-600 transition-colors cursor-pointer text-left">Pricing</button></li>
-              </ul>
-            </div>
+            {/* Links Section: On mobile 2-col grid for clean compact scan */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:contents gap-6 sm:gap-8">
+              {/* Product */}
+              <div>
+                <h4 className="text-slate-900 font-bold text-xs uppercase tracking-wider mb-3 sm:mb-4">Product</h4>
+                <ul className="space-y-2 sm:space-y-2.5 text-xs">
+                  <li><button onClick={() => scrollToSection('for-talent')} className="hover:text-blue-600 transition-colors cursor-pointer text-left py-0.5">For Talent</button></li>
+                  <li><button onClick={() => scrollToSection('for-companies')} className="hover:text-blue-600 transition-colors cursor-pointer text-left py-0.5">For Companies</button></li>
+                  <li><button onClick={() => scrollToSection('for-evaluators')} className="hover:text-blue-600 transition-colors cursor-pointer text-left py-0.5">For Evaluators</button></li>
+                  <li><button onClick={() => scrollToSection('pricing')} className="hover:text-blue-600 transition-colors cursor-pointer text-left py-0.5">Pricing</button></li>
+                </ul>
+              </div>
 
-            {/* Resources */}
-            <div>
-              <h4 className="text-slate-900 font-bold text-xs uppercase tracking-wider mb-4">Resources</h4>
-              <ul className="space-y-2.5 text-xs">
-                <li><a href="#how-it-works" onClick={(e) => { e.preventDefault(); scrollToSection('how-it-works'); }} className="hover:text-blue-600 transition-colors cursor-pointer">Blog</a></li>
-                <li><a href="#testimonials" onClick={(e) => { e.preventDefault(); scrollToSection('testimonials'); }} className="hover:text-blue-600 transition-colors cursor-pointer">Success Stories</a></li>
-                <li><a href="#faq" onClick={(e) => { e.preventDefault(); scrollToSection('faq'); }} className="hover:text-blue-600 transition-colors cursor-pointer">Help Center</a></li>
-                <li><Link to="/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
-                <li><Link to="/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
-              </ul>
-            </div>
+              {/* Company */}
+              <div>
+                <h4 className="text-slate-900 font-bold text-xs uppercase tracking-wider mb-3 sm:mb-4">Company</h4>
+                <ul className="space-y-2 sm:space-y-2.5 text-xs">
+                  <li><Link to="/about" className="hover:text-blue-600 transition-colors block py-0.5">About Us</Link></li>
+                  <li><Link to="/contact" className="hover:text-blue-600 transition-colors block py-0.5">Contact</Link></li>
+                  <li><Link to="/careers" className="hover:text-blue-600 transition-colors block py-0.5">Careers</Link></li>
+                  <li><Link to="/press" className="hover:text-blue-600 transition-colors block py-0.5">Press</Link></li>
+                </ul>
+              </div>
 
-            {/* Company & Newsletter */}
-            <div>
-              <h4 className="text-slate-900 font-bold text-xs uppercase tracking-wider mb-4">Company</h4>
-              <ul className="space-y-2.5 text-xs">
-                <li><Link to="/about" className="hover:text-blue-600 transition-colors">About Us</Link></li>
-                <li><Link to="/contact" className="hover:text-blue-600 transition-colors">Contact</Link></li>
-                <li><Link to="/careers" className="hover:text-blue-600 transition-colors">Careers</Link></li>
-                <li><Link to="/press" className="hover:text-blue-600 transition-colors">Press</Link></li>
-              </ul>
+              {/* Resources */}
+              <div className="col-span-2 sm:col-span-1 md:col-auto">
+                <h4 className="text-slate-900 font-bold text-xs uppercase tracking-wider mb-3 sm:mb-4">Resources</h4>
+                <ul className="space-y-2 sm:space-y-2.5 text-xs">
+                  <li><a href="#how-it-works" onClick={(e) => { e.preventDefault(); scrollToSection('how-it-works'); }} className="hover:text-blue-600 transition-colors cursor-pointer block py-0.5">How It Works</a></li>
+                  <li><a href="#testimonials" onClick={(e) => { e.preventDefault(); scrollToSection('testimonials'); }} className="hover:text-blue-600 transition-colors cursor-pointer block py-0.5">Success Stories</a></li>
+                  <li><a href="#faq" onClick={(e) => { e.preventDefault(); scrollToSection('faq'); }} className="hover:text-blue-600 transition-colors cursor-pointer block py-0.5">Help Center</a></li>
+                  <li><Link to="/terms" className="hover:text-blue-600 transition-colors block py-0.5">Terms of Service</Link></li>
+                  <li><Link to="/privacy" className="hover:text-blue-600 transition-colors block py-0.5">Privacy Policy</Link></li>
+                </ul>
+              </div>
             </div>
 
             {/* Subscribe to newsletter */}
-            <div className="lg:col-span-1 space-y-3">
+            <div className="lg:col-span-1 space-y-3 pt-4 sm:pt-0 border-t sm:border-t-0 border-slate-100">
               <h4 className="text-slate-900 font-bold text-xs uppercase tracking-wider">Subscribe to our newsletter</h4>
+              <p className="text-slate-500 text-xs hidden sm:block">Get the latest opportunities and updates.</p>
               <form onSubmit={handleSubscribeNewsletter} className="relative flex items-center">
                 <input
                   type="email"
-                  placeholder="Get the latest opportunities and updates"
+                  placeholder="Enter your email"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   required
-                  className="w-full text-xs pl-3 pr-9 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder:text-slate-400"
+                  className="w-full text-xs pl-3.5 pr-10 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 placeholder:text-slate-400 bg-slate-50/50"
                 />
                 <button
                   type="submit"
-                  className="absolute right-1 w-7 h-7 bg-slate-900 hover:bg-slate-800 text-white rounded-md flex items-center justify-center transition-colors cursor-pointer"
+                  className="absolute right-1.5 w-7 h-7 bg-slate-900 hover:bg-slate-800 active:scale-95 text-white rounded-lg flex items-center justify-center transition-all cursor-pointer"
                   title="Subscribe"
                 >
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -1264,10 +1246,14 @@ export const PublicLayout: React.FC = () => {
 
           </div>
 
-          {/* Bottom sub-footer */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-4">
-            <p>© 2026 THAMILARASAN GLOBAL. All rights reserved.</p>
-            <p className="text-slate-400">First Evaluator: Win</p>
+          {/* Bottom sub-footer: Fully visible and styled for mobile + desktop */}
+          <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4 text-center sm:text-left">
+            <p className="text-[11px] sm:text-xs text-slate-500">
+              © 2026 INAYON. All rights reserved.
+            </p>
+            <p className="text-[11px] sm:text-xs font-bold tracking-[0.2em] sm:tracking-[0.28em] text-slate-800 uppercase select-none">
+              CONNECT <span className="text-blue-600 mx-1">•</span> EVALUATE <span className="text-blue-600 mx-1">•</span> GROW
+            </p>
           </div>
         </div>
       </footer>
