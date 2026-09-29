@@ -16,7 +16,8 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "seed": "npm run seed --workspace=@thamilarasan/server",
-    "lint": "npm run lint --workspaces --if-present"
+    "lint": "npm run lint --workspaces --if-present",
+    "bundle:serverless": "npx esbuild apps/server/src/index.ts --bundle --platform=node --target=node18 --format=cjs --external:express --external:mongoose --external:cors --external:dotenv --external:socket.io --external:razorpay --external:cloudinary --external:bcryptjs --external:jsonwebtoken --external:uuid --external:zod --outfile=api/index.js && npx esbuild apps/server/src/index.ts --bundle --platform=node --target=node18 --format=cjs --external:express --external:mongoose --external:cors --external:dotenv --external:socket.io --external:razorpay --external:cloudinary --external:bcryptjs --external:jsonwebtoken --external:uuid --external:zod --outfile=apps/server/api/index.js"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

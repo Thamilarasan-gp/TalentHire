@@ -35,7 +35,7 @@ __export(src_exports, {
   server: () => server
 });
 module.exports = __toCommonJS(src_exports);
-var import_express14 = __toESM(require("express"));
+var import_express17 = __toESM(require("express"));
 var import_http = __toESM(require("http"));
 var import_cors = __toESM(require("cors"));
 var import_dotenv2 = __toESM(require("dotenv"));
@@ -391,6 +391,13 @@ var EVALUATION_FEE_INR = {
 
 // apps/server/src/seed/data.ts
 var COMPANY_NAMES = [
+  { name: "Spotify", hq: "Stockholm, Sweden", industry: "Audio & Streaming Media", size: "500+" },
+  { name: "Airbnb", hq: "Amsterdam, Netherlands", industry: "Travel & Accommodation Tech", size: "500+" },
+  { name: "Microsoft", hq: "London, UK", industry: "Cloud & Enterprise Computing", size: "500+" },
+  { name: "Stripe", hq: "Dublin, Ireland", industry: "Payments Infrastructure", size: "500+" },
+  { name: "Revolut", hq: "London, UK", industry: "Digital Financial Services", size: "500+" },
+  { name: "Klarna", hq: "Berlin, Germany", industry: "FinTech & Payments", size: "500+" },
+  { name: "N26", hq: "Berlin, Germany", industry: "Mobile Banking & FinTech", size: "201-500" },
   { name: "Vanguard FinTech", hq: "New York, USA", industry: "Financial Services", size: "201-500" },
   { name: "CloudScale Systems", hq: "Zurich, Switzerland", industry: "Cloud Infrastructure", size: "51-200" },
   { name: "Helix BioHealth", hq: "San Francisco, USA", industry: "HealthTech & AI", size: "51-200" },
@@ -647,65 +654,65 @@ function generateSeedData() {
   requirements.push({
     id: "req-1",
     companyId: "comp-1",
-    // Vanguard FinTech
-    title: "10 Senior Node.js Engineers",
+    // Spotify
+    title: "Senior Distributed Systems Engineer",
     roleCategory: "Backend Engineering",
     state: "SHORTLISTED",
-    openingsCount: 10,
-    filledCount: 2,
-    requiredSkills: ["Node.js", "TypeScript", "AWS", "System Design"],
-    niceToHaveSkills: ["PostgreSQL", "Docker", "Kubernetes"],
+    openingsCount: 5,
+    filledCount: 1,
+    requiredSkills: ["Java", "AWS", "Kafka", "System Design"],
+    niceToHaveSkills: ["Distributed Systems", "Docker", "Kubernetes"],
     minExperienceYears: 5,
     maxExperienceYears: 12,
-    budgetMinUsd: 65e3,
-    budgetMaxUsd: 95e3,
+    budgetMinUsd: 95e3,
+    budgetMaxUsd: 13e4,
     engagementType: "FULL_TIME",
-    timezoneRequirement: "Min 4 hours overlap with US EST",
-    maxNoticePeriodDays: 45,
-    jobDescription: "We are expanding our core transactional ledger team at Vanguard FinTech. Looking for 10 exceptional Senior Node.js Engineers with deep mastery of asynchronous event loops, distributed locking, AWS serverless and microservices architectures.",
-    matchedCount: 84,
-    evaluatingCount: 23,
-    shortlistCount: 16,
-    createdAt: new Date(Date.now() - 14 * 864e5).toISOString(),
+    timezoneRequirement: "Stockholm, Sweden (Remote)",
+    maxNoticePeriodDays: 30,
+    jobDescription: "Scaling event streaming platforms handling billions of music playback telemetry events daily at Spotify with low latency and high availability.",
+    matchedCount: 92,
+    evaluatingCount: 28,
+    shortlistCount: 18,
+    createdAt: new Date(Date.now() - 3 * 864e5).toISOString(),
     updatedAt: (/* @__PURE__ */ new Date()).toISOString()
   });
   const REQ_PRESETS = [
-    { title: "5 Lead React & Next.js Architects", companyId: "comp-2", skills: ["React", "Next.js", "TypeScript"], count: 5, budget: 85e3 },
-    { title: "4 Cloud Infrastructure & Kubernetes Specialists", companyId: "comp-3", skills: ["AWS", "Kubernetes", "Terraform"], count: 4, budget: 9e4 },
-    { title: "6 Staff Python ML Platform Engineers", companyId: "comp-4", skills: ["Python", "FastAPI", "PyTorch"], count: 6, budget: 1e5 },
-    { title: "8 High-Frequency Go Systems Engineers", companyId: "comp-5", skills: ["Go", "Kubernetes", "gRPC"], count: 8, budget: 95e3 },
-    { title: "3 Principal Cyber Security Engineers", companyId: "comp-6", skills: ["Security", "Cloud Security", "Kubernetes"], count: 3, budget: 11e4 },
-    { title: "5 Distributed Database Engineers", companyId: "comp-7", skills: ["PostgreSQL", "Distributed Systems", "System Design"], count: 5, budget: 9e4 },
-    { title: "4 Full Stack TypeScript Engineers", companyId: "comp-8", skills: ["React", "Node.js", "TypeScript"], count: 4, budget: 75e3 },
-    { title: "6 Backend Java / Spring Boot Engineers", companyId: "comp-9", skills: ["Java", "Spring Boot", "Kafka"], count: 6, budget: 8e4 },
-    { title: "3 Autonomous Robotics Software Leads", companyId: "comp-10", skills: ["Python", "Docker", "System Design"], count: 3, budget: 105e3 },
-    { title: "5 Senior Next.js / UI Engineers", companyId: "comp-11", skills: ["React", "Next.js", "Tailwind CSS"], count: 5, budget: 7e4 },
-    { title: "4 Reliability Engineers (SRE)", companyId: "comp-12", skills: ["AWS", "Kubernetes", "CI/CD"], count: 4, budget: 85e3 },
-    { title: "7 Senior Node.js Microservices Devs", companyId: "comp-13", skills: ["Node.js", "AWS", "TypeScript"], count: 7, budget: 8e4 },
-    { title: "3 Data Platform Architects", companyId: "comp-14", skills: ["Python", "Kafka", "PostgreSQL"], count: 3, budget: 95e3 },
-    { title: "5 Mobile React Native Engineers", companyId: "comp-15", skills: ["React", "TypeScript", "Mobile"], count: 5, budget: 75e3 },
-    { title: "4 Rust Systems Engineers", companyId: "comp-16", skills: ["Rust", "Distributed Systems", "Linux"], count: 4, budget: 115e3 },
-    { title: "6 Senior Frontend Engineers", companyId: "comp-17", skills: ["React", "TypeScript", "GraphQL"], count: 6, budget: 75e3 },
-    { title: "4 Cloud Security DevSecOps", companyId: "comp-18", skills: ["AWS", "Terraform", "Security"], count: 4, budget: 95e3 },
-    { title: "8 Full Stack Node + React Engineers", companyId: "comp-19", skills: ["Node.js", "React", "TypeScript"], count: 8, budget: 82e3 },
-    { title: "5 Core Banking Backend Engineers", companyId: "comp-20", skills: ["Java", "Spring Boot", "PostgreSQL"], count: 5, budget: 88e3 }
+    { title: "Staff Frontend Engineer", companyId: "comp-2", skills: ["React", "TypeScript", "Next.js", "Tailwind CSS"], count: 3, budget: 125e3, min: 8e4, max: 17e4, category: "Frontend Engineering", tz: "Amsterdam, Netherlands (Hybrid)" },
+    { title: "Cloud Security Engineer", companyId: "comp-3", skills: ["AWS", "Security", "DevOps", "Terraform"], count: 4, budget: 12e4, min: 1e5, max: 14e4, category: "DevOps & SRE", tz: "London, UK (Remote)" },
+    { title: "Staff Infrastructure Architect", companyId: "comp-4", skills: ["Go", "Kubernetes", "gRPC", "Distributed Systems"], count: 4, budget: 135e3, min: 11e4, max: 16e4, category: "Backend Engineering", tz: "Dublin, Ireland (Remote)" },
+    { title: "Lead Core Banking Backend Engineer", companyId: "comp-5", skills: ["Java", "Spring Boot", "Kafka", "PostgreSQL"], count: 5, budget: 115e3, min: 9e4, max: 135e3, category: "Backend Engineering", tz: "London, UK (Remote)" },
+    { title: "Senior Full Stack TypeScript Engineer", companyId: "comp-6", skills: ["Node.js", "React", "TypeScript", "PostgreSQL"], count: 6, budget: 95e3, min: 75e3, max: 11e4, category: "Full Stack", tz: "Berlin, Germany (Hybrid)" },
+    { title: "Senior Mobile & iOS Engineer", companyId: "comp-7", skills: ["Swift", "iOS", "CI/CD", "REST"], count: 4, budget: 1e5, min: 8e4, max: 115e3, category: "Mobile Engineering", tz: "Berlin, Germany (Hybrid)" },
+    { title: "10 Senior Node.js Engineers", companyId: "comp-8", skills: ["Node.js", "TypeScript", "AWS", "System Design"], count: 10, budget: 95e3, min: 7e4, max: 115e3, category: "Backend Engineering", tz: "New York, USA (Remote)" },
+    { title: "Lead React & Next.js Architect", companyId: "comp-9", skills: ["React", "Next.js", "TypeScript"], count: 5, budget: 85e3, min: 7e4, max: 1e5, category: "Frontend Engineering", tz: "Zurich, Switzerland (Remote)" },
+    { title: "Staff Python ML Platform Engineer", companyId: "comp-10", skills: ["Python", "FastAPI", "PyTorch", "Docker"], count: 6, budget: 105e3, min: 9e4, max: 13e4, category: "Data & AI", tz: "Austin, USA (Remote)" },
+    { title: "High-Frequency Go Systems Engineer", companyId: "comp-11", skills: ["Go", "Kubernetes", "gRPC", "PostgreSQL"], count: 8, budget: 95e3, min: 8e4, max: 12e4, category: "Backend Engineering", tz: "London, UK (Hybrid)" },
+    { title: "Principal Cyber Security Engineer", companyId: "comp-12", skills: ["Security", "Cloud Security", "Kubernetes"], count: 3, budget: 11e4, min: 95e3, max: 135e3, category: "DevOps & SRE", tz: "Chicago, USA (Remote)" },
+    { title: "Distributed Database Engineer", companyId: "comp-13", skills: ["PostgreSQL", "Distributed Systems", "System Design"], count: 5, budget: 9e4, min: 75e3, max: 11e4, category: "Backend Engineering", tz: "Singapore (Remote)" },
+    { title: "Part-Time Next.js Technical Consultant", companyId: "comp-14", skills: ["React", "Next.js", "GraphQL"], count: 2, budget: 55e3, min: 45e3, max: 65e3, category: "Frontend Engineering", tz: "Amsterdam, Netherlands (Remote)" },
+    { title: "Backend Java / Spring Boot Engineer", companyId: "comp-15", skills: ["Java", "Spring Boot", "Kafka"], count: 6, budget: 8e4, min: 65e3, max: 95e3, category: "Backend Engineering", tz: "Boston, USA (Hybrid)" },
+    { title: "Contract Rust Systems Engineer (6 Months)", companyId: "comp-16", skills: ["Rust", "Distributed Systems", "Linux"], count: 3, budget: 12e4, min: 1e5, max: 145e3, category: "Backend Engineering", tz: "Zug, Switzerland (Remote)" },
+    { title: "Reliability Engineer (SRE)", companyId: "comp-17", skills: ["AWS", "Kubernetes", "CI/CD"], count: 4, budget: 85e3, min: 7e4, max: 1e5, category: "DevOps & SRE", tz: "Oslo, Norway (Remote)" },
+    { title: "Junior Full Stack Engineer (0-2 Yrs)", companyId: "comp-18", skills: ["TypeScript", "React", "Node.js"], count: 4, budget: 6e4, min: 5e4, max: 7e4, category: "Full Stack", tz: "San Francisco, USA (Remote)" },
+    { title: "Data Platform Architect", companyId: "comp-19", skills: ["Python", "Kafka", "PostgreSQL"], count: 3, budget: 95e3, min: 8e4, max: 12e4, category: "Data & AI", tz: "Seattle, USA (Remote)" },
+    { title: "Mobile React Native Engineer", companyId: "comp-20", skills: ["React", "TypeScript", "Mobile"], count: 5, budget: 75e3, min: 65e3, max: 9e4, category: "Mobile Engineering", tz: "Frankfurt, Germany (Hybrid)" }
   ];
   REQ_PRESETS.forEach((rp, idx) => {
     requirements.push({
       id: `req-${idx + 2}`,
       companyId: rp.companyId,
       title: rp.title,
-      roleCategory: "Engineering",
+      roleCategory: rp.category || "Engineering",
       state: idx < 5 ? "SHORTLISTED" : idx < 12 ? "EVALUATING" : "SOURCING",
       openingsCount: rp.count,
       filledCount: Math.min(rp.count, idx % 3),
       requiredSkills: rp.skills,
       niceToHaveSkills: ["Docker", "CI/CD", "System Design"],
-      minExperienceYears: 5,
-      budgetMinUsd: rp.budget - 15e3,
-      budgetMaxUsd: rp.budget + 15e3,
-      engagementType: "FULL_TIME",
-      timezoneRequirement: "4 hours overlap with EST/GMT",
+      minExperienceYears: rp.min && rp.min < 7e4 ? rp.min < 6e4 ? 1 : 3 : 5,
+      budgetMinUsd: rp.min || rp.budget - 15e3,
+      budgetMaxUsd: rp.max || rp.budget + 15e3,
+      engagementType: rp.title.toLowerCase().includes("contract") ? "CONTRACT" : "FULL_TIME",
+      timezoneRequirement: rp.tz || "Remote (Global)",
       maxNoticePeriodDays: 45,
       jobDescription: `Key opportunity for ${rp.title} to deliver mission-critical software capabilities with modern tech stacks and global product autonomy.`,
       matchedCount: 30 + idx * 3,
@@ -1054,9 +1061,13 @@ var CandidateSchema = new import_mongoose.Schema(
     verifiedClaims: { type: import_mongoose.Schema.Types.Mixed, default: [] },
     pastCompanies: { type: [String], default: [] },
     education: { type: import_mongoose.Schema.Types.Mixed, default: [] },
-    resumeUrl: { type: String },
     fraudStatus: { type: String, default: "CLEAR" },
-    primaryRole: { type: String, default: "Software Engineer" }
+    primaryRole: { type: String, default: "Software Engineer" },
+    freeEvaluationsTotal: { type: Number, default: 10 },
+    freeEvaluationsUsed: { type: Number, default: 0 },
+    freeEvaluationsRemaining: { type: Number, default: 10 },
+    evaluatorApplicationStatus: { type: String, default: "NONE", index: true },
+    evaluatorProfileId: { type: String }
   },
   { strict: false, timestamps: true }
 );
@@ -1153,15 +1164,22 @@ var EvaluationSchema = new import_mongoose.Schema(
     lastReusedAt: { type: String },
     companiesUsingEvaluation: { type: [String], default: [] },
     isTopUpRequired: { type: Boolean, default: false },
-    uncoveredSkills: { type: [String], default: [] },
     rubricScores: { type: import_mongoose.Schema.Types.Mixed, default: [] },
+    scores: { type: import_mongoose.Schema.Types.Mixed, default: [] },
+    verdict: { type: String },
     overallScore: { type: Number, index: true },
     recommendation: { type: String },
     evidenceNotes: { type: String },
     strengths: { type: [String], default: [] },
     concerns: { type: [String], default: [] },
     qaCalibrated: { type: Boolean, default: false },
-    payoutReleased: { type: Boolean, default: false }
+    payoutReleased: { type: Boolean, default: false },
+    passId: { type: String, index: true },
+    candidateName: { type: String },
+    evaluatorName: { type: String },
+    meetingLink: { type: String },
+    title: { type: String },
+    payoutAmountInr: { type: Number }
   },
   { strict: false, timestamps: true }
 );
@@ -1349,6 +1367,92 @@ var GoogleIntegrationSchema = new import_mongoose.Schema(
   },
   { strict: false, timestamps: true }
 );
+var StackPassSchema = new import_mongoose.Schema(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    candidateId: { type: String, required: true, index: true },
+    candidateName: { type: String, default: "Anonymous Candidate" },
+    domain: { type: String, required: true, index: true },
+    // SDE | AI_ML | DATA_ENGINEERING
+    stackKey: { type: String, required: true, index: true },
+    // MERN_STACK, PYTHON_FASTAPI, etc.
+    stackTitle: { type: String, required: true },
+    score: { type: Number, required: true, index: true },
+    status: { type: String, default: "ACTIVE", index: true },
+    // ACTIVE | EXPIRED | REVOKED
+    issuedAt: { type: String, required: true },
+    expiresAt: { type: String, required: true, index: true },
+    // Exactly 5 days from issuedAt
+    applicationsCount: { type: Number, default: 0 },
+    coveredSkills: { type: [String], default: [] },
+    evaluationId: { type: String, index: true },
+    evaluatorId: { type: String },
+    evaluatorName: { type: String },
+    meetingLink: { type: String },
+    scheduledAt: { type: String },
+    evaluatorNotes: { type: String },
+    appliedAt: { type: String },
+    candidateHeadline: { type: String },
+    candidateExperienceYears: { type: Number }
+  },
+  { strict: false, timestamps: true }
+);
+var EvaluatorApplicationSchema = new import_mongoose.Schema(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    candidateId: { type: String, required: true, index: true },
+    fullName: { type: String, required: true },
+    email: { type: String, required: true },
+    currentCompany: { type: String, required: true },
+    currentRole: { type: String, required: true },
+    totalExperienceYears: { type: Number, required: true },
+    linkedinUrl: { type: String, required: true },
+    githubUrl: { type: String },
+    primaryDomain: { type: String, required: true },
+    // SDE | AI_ML | DATA_ENGINEERING
+    expertStacks: { type: [String], default: [] },
+    professionalSummary: { type: String, required: true },
+    status: { type: String, default: "PENDING_ADMIN_VERIFICATION", index: true },
+    // PENDING_ADMIN_VERIFICATION | APPROVED | REJECTED
+    appliedAt: { type: String, default: () => (/* @__PURE__ */ new Date()).toISOString() },
+    reviewedAt: { type: String },
+    reviewedBy: { type: String },
+    rejectionReason: { type: String }
+  },
+  { strict: false, timestamps: true }
+);
+var ScratchCardSchema = new import_mongoose.Schema(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    evaluatorId: { type: String, required: true, index: true },
+    evaluationId: { type: String, required: true },
+    candidateId: { type: String, required: true },
+    candidateName: { type: String, default: "Candidate" },
+    rewardAmountInr: { type: Number, required: true },
+    // ₹1 to ₹20
+    isScratched: { type: Boolean, default: false, index: true },
+    scratchedAt: { type: String },
+    triggerReason: { type: String, default: "CANDIDATE_NOT_PASSED_HONORARIUM" }
+  },
+  { strict: false, timestamps: true }
+);
+var CompanyPricingSchema = new import_mongoose.Schema(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    companyId: { type: String, required: true, index: true },
+    type: { type: String, required: true },
+    // PAY_PER_OPENING | UNLIMITED_SUBSCRIPTION
+    title: { type: String, required: true },
+    priceInr: { type: Number, required: true },
+    priceUsd: { type: Number, required: true },
+    openingsLimit: { type: Number, default: 1 },
+    openingsUsed: { type: Number, default: 0 },
+    features: { type: [String], default: [] },
+    status: { type: String, default: "ACTIVE" },
+    validUntil: { type: String }
+  },
+  { strict: false, timestamps: true }
+);
 var UserModel = import_mongoose.default.models.User || import_mongoose.default.model("User", UserSchema);
 var CompanyModel = import_mongoose.default.models.Company || import_mongoose.default.model("Company", CompanySchema);
 var CandidateModel = import_mongoose.default.models.Candidate || import_mongoose.default.model("Candidate", CandidateSchema);
@@ -1368,6 +1472,10 @@ var SupportTicketModel = import_mongoose.default.models.SupportTicket || import_
 var CandidateApplicationModel = import_mongoose.default.models.CandidateApplication || import_mongoose.default.model("CandidateApplication", CandidateApplicationSchema);
 var EvaluationConflictModel = import_mongoose.default.models.EvaluationConflict || import_mongoose.default.model("EvaluationConflict", EvaluationConflictSchema);
 var GoogleIntegrationModel = import_mongoose.default.models.GoogleIntegration || import_mongoose.default.model("GoogleIntegration", GoogleIntegrationSchema);
+var StackPassModel = import_mongoose.default.models.StackPass || import_mongoose.default.model("StackPass", StackPassSchema);
+var EvaluatorApplicationModel = import_mongoose.default.models.EvaluatorApplication || import_mongoose.default.model("EvaluatorApplication", EvaluatorApplicationSchema);
+var ScratchCardModel = import_mongoose.default.models.ScratchCard || import_mongoose.default.model("ScratchCard", ScratchCardSchema);
+var CompanyPricingModel = import_mongoose.default.models.CompanyPricing || import_mongoose.default.model("CompanyPricing", CompanyPricingSchema);
 function buildIdQuery(id) {
   const ids = [id];
   if (id.startsWith("eval-")) ids.push(id.replace("eval-", "evaluator-"));
@@ -1406,6 +1514,15 @@ async function seedAtlasIfNeeded() {
     if (reqCount === 0) {
       console.log(`[MongoDB Atlas] Seeding ${seed.requirements.length} requirements...`);
       await RequirementModel.insertMany(seed.requirements, { ordered: false }).catch((err) => console.warn("Requirements insert:", err.message));
+    } else {
+      for (const c of seed.companies.slice(0, 10)) {
+        await CompanyModel.updateOne({ id: c.id }, { $set: c }, { upsert: true }).catch(() => {
+        });
+      }
+      for (const r of seed.requirements.slice(0, 15)) {
+        await RequirementModel.updateOne({ id: r.id }, { $set: r }, { upsert: true }).catch(() => {
+        });
+      }
     }
     if (candCount === 0) {
       console.log(`[MongoDB Atlas] Seeding ${seed.candidates.length} candidates...`);
@@ -1577,6 +1694,29 @@ async function seedAtlasIfNeeded() {
     if (invoiceCount === 0 && seed.invoices?.length) {
       await InvoiceModel.insertMany(seed.invoices, { ordered: false }).catch((err) => console.warn("Invoices insert:", err.message));
     }
+    const passCount = await StackPassModel.countDocuments();
+    if (passCount === 0) {
+      const now = /* @__PURE__ */ new Date();
+      const expires = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1e3);
+      await StackPassModel.create([
+        {
+          id: "pass-mern-demo-1",
+          candidateId: "cand-1",
+          candidateName: "Karthik Iyer",
+          domain: "SDE",
+          stackKey: "MERN_STACK",
+          stackTitle: "MERN Stack Engineering",
+          score: 88,
+          status: "ACTIVE",
+          issuedAt: now.toISOString(),
+          expiresAt: expires.toISOString(),
+          applicationsCount: 2,
+          coveredSkills: ["MongoDB", "Express.js", "React", "Node.js", "TypeScript", "REST APIs"],
+          evaluatorId: "eval-1"
+        }
+      ]);
+      console.log("[MongoDB Atlas] Seeded initial 5-Day MERN Stack Pass for cand-1.");
+    }
     console.log("[MongoDB Atlas] \u2705 Database status verified & populated across all collections.");
   } catch (error) {
     console.error("[MongoDB Atlas] Error checking/seeding database:", error);
@@ -1603,7 +1743,8 @@ async function connectMongo() {
   try {
     console.log("[MongoDB Atlas] Connecting to MongoDB Atlas cluster...");
     await import_mongoose2.default.connect(uri, {
-      serverSelectionTimeoutMS: 8e3
+      serverSelectionTimeoutMS: 45e3,
+      connectTimeoutMS: 3e4
     });
     console.log("[MongoDB Atlas] \u2705 Connected successfully to MongoDB Atlas (database: anthurium)!");
     await seedAtlasIfNeeded();
@@ -1661,6 +1802,167 @@ function optionalAuth(req, _res, next) {
 
 // apps/server/src/routes/auth.ts
 var authRouter = (0, import_express.Router)();
+async function enrichUserWithDualRole(user) {
+  try {
+    const candidate = await CandidateModel.findOne({
+      $or: [
+        { userId: user.id },
+        { id: user.candidateId },
+        { email: user.email?.toLowerCase() }
+      ]
+    }).lean();
+    const candidateId = candidate?.id || user.candidateId || "cand-1";
+    const evaluatorApp = await EvaluatorApplicationModel.findOne({
+      $or: [
+        { candidateId },
+        { email: user.email?.toLowerCase() }
+      ]
+    }).lean();
+    const evaluator = await EvaluatorModel.findOne({
+      $or: [
+        { userId: user.id },
+        { id: user.evaluatorId },
+        { userId: candidateId }
+      ]
+    }).lean();
+    const evaluatorStatus = evaluator?.status === "ACTIVE" ? "APPROVED" : evaluatorApp?.status || candidate?.evaluatorApplicationStatus || (user.role === "EVALUATOR" ? "APPROVED" : "NONE");
+    const isEvaluator = evaluatorStatus === "APPROVED" || user.role === "EVALUATOR" || !!evaluator || !!user.evaluatorId;
+    return {
+      ...user,
+      candidateId,
+      evaluatorId: evaluator?.id || user.evaluatorId || (isEvaluator ? "eval-1" : null),
+      evaluatorStatus,
+      isEvaluator,
+      isDualRole: true
+    };
+  } catch {
+    return user;
+  }
+}
+authRouter.post("/register", async (req, res) => {
+  try {
+    const {
+      fullName,
+      firstName: rawFn,
+      lastName: rawLn,
+      email,
+      password = "Password123!",
+      headline,
+      primaryRole = "Full Stack Engineer",
+      totalYearsOfExperience = 3,
+      location = "Bengaluru, India",
+      skills = ["React", "Node.js", "TypeScript"],
+      expectedSalaryUsd = 75e3,
+      noticePeriodDays = 30
+    } = req.body;
+    if (!email || !email.includes("@")) {
+      return res.status(400).json({ success: false, error: "A valid email address is required" });
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const existingUser = await UserModel.findOne({ email: cleanEmail }).lean();
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        error: "An account with this email already exists. Please sign in instead."
+      });
+    }
+    const nameParts = (fullName || "Engineer").trim().split(" ");
+    const firstName = rawFn || nameParts[0] || "Software";
+    const lastName = rawLn || nameParts.slice(1).join(" ") || "Engineer";
+    const resolvedFullName = fullName || `${firstName} ${lastName}`.trim();
+    const timestamp = Date.now().toString().slice(-6);
+    const userId = `user-cand-${timestamp}`;
+    const candidateId = `cand-${timestamp}`;
+    const newUser = await UserModel.create({
+      id: userId,
+      email: cleanEmail,
+      fullName: resolvedFullName,
+      firstName,
+      lastName,
+      role: "JOB_SEEKER",
+      candidateId,
+      isActive: true,
+      createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+      updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+    });
+    const formattedSkills = (Array.isArray(skills) ? skills : [skills]).map((s, idx) => ({
+      name: s,
+      yearsOfExperience: Math.max(1, Number(totalYearsOfExperience) - idx),
+      level: idx === 0 ? "EXPERT" : "ADVANCED",
+      isVerified: true
+    }));
+    const newCandidate = await CandidateModel.create({
+      id: candidateId,
+      userId,
+      fullName: resolvedFullName,
+      headline: headline || `${primaryRole} | ${totalYearsOfExperience} yrs exp | ${location}`,
+      location,
+      timezone: "IST (UTC+5:30)",
+      state: "VERIFIED",
+      fraudStatus: "CLEAR",
+      primaryRole,
+      totalYearsOfExperience: Number(totalYearsOfExperience) || 3,
+      skills: formattedSkills,
+      experience: [
+        {
+          title: primaryRole,
+          company: "Tech Innovations Lab",
+          location,
+          startDate: "2022-01-01",
+          isCurrent: true,
+          description: "Architecting high-throughput microservices and production web interfaces.",
+          technologies: formattedSkills.map((s) => s.name)
+        }
+      ],
+      education: [
+        {
+          institution: "Institute of Technology",
+          degree: "B.Tech in Computer Science",
+          fieldOfStudy: "Computer Science & Engineering",
+          startYear: 2017,
+          endYear: 2021
+        }
+      ],
+      expectedSalaryUsd: Number(expectedSalaryUsd) || 75e3,
+      currentSalaryInr: 18e5,
+      noticePeriodDays: Number(noticePeriodDays) || 30,
+      freeEvaluationsTotal: 10,
+      freeEvaluationsRemaining: 10,
+      freeEvaluationsUsed: 0,
+      createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+      updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+    });
+    const token = signAccessToken({
+      userId: newUser.id,
+      email: newUser.email,
+      role: "JOB_SEEKER",
+      candidateId: newCandidate.id
+    });
+    const enrichedUser = await enrichUserWithDualRole(newUser.toObject ? newUser.toObject() : newUser);
+    await AuditLogModel.create({
+      id: `audit-${Date.now()}`,
+      action: "CANDIDATE_REGISTERED",
+      actorId: newUser.id,
+      actorEmail: newUser.email,
+      actorRole: "JOB_SEEKER",
+      entity: "Candidate",
+      entityId: newCandidate.id,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      details: { email: cleanEmail, candidateId }
+    });
+    return res.status(201).json({
+      success: true,
+      message: "Account created successfully! Welcome to THAMILARASAN GLOBAL.",
+      data: {
+        token,
+        user: enrichedUser,
+        candidate: newCandidate
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
 authRouter.post("/login", async (req, res) => {
   try {
     const { email, role } = req.body;
@@ -1677,22 +1979,23 @@ authRouter.post("/login", async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found in MongoDB Atlas" });
     }
+    const enrichedUser = await enrichUserWithDualRole(user);
     const token = signAccessToken({
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-      companyId: user.companyId,
-      candidateId: user.candidateId,
-      evaluatorId: user.evaluatorId
+      userId: enrichedUser.id,
+      email: enrichedUser.email,
+      role: enrichedUser.isEvaluator ? "EVALUATOR" : enrichedUser.role,
+      companyId: enrichedUser.companyId,
+      candidateId: enrichedUser.candidateId,
+      evaluatorId: enrichedUser.evaluatorId
     });
     await AuditLogModel.create({
       id: `audit-${Date.now()}`,
       action: "USER_LOGIN",
-      actorId: user.id,
-      actorEmail: user.email,
-      actorRole: user.role,
+      actorId: enrichedUser.id,
+      actorEmail: enrichedUser.email,
+      actorRole: enrichedUser.role,
       entity: "User",
-      entityId: user.id,
+      entityId: enrichedUser.id,
       timestamp: (/* @__PURE__ */ new Date()).toISOString(),
       ipAddress: req.ip || "127.0.0.1"
     });
@@ -1700,7 +2003,7 @@ authRouter.post("/login", async (req, res) => {
       success: true,
       data: {
         token,
-        user
+        user: enrichedUser
       }
     });
   } catch (error) {
@@ -1716,9 +2019,10 @@ authRouter.get("/me", authenticate, async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found in MongoDB Atlas" });
     }
+    const enrichedUser = await enrichUserWithDualRole(user);
     return res.json({
       success: true,
-      data: user
+      data: enrichedUser
     });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
@@ -1802,37 +2106,39 @@ companiesRouter.get("/:id", async (req, res) => {
 // apps/server/src/routes/candidates.ts
 var import_express3 = require("express");
 var candidatesRouter = (0, import_express3.Router)();
-candidatesRouter.get("/", async (req, res) => {
+candidatesRouter.get("/my-applications", optionalAuth, async (req, res) => {
   try {
-    const { search, state, skill, page = "1", limit = "20" } = req.query;
-    const query = {};
-    if (search) {
-      const s = String(search);
-      query.$or = [
-        { fullName: { $regex: s, $options: "i" } },
-        { headline: { $regex: s, $options: "i" } },
-        { primaryRole: { $regex: s, $options: "i" } }
-      ];
+    const candidateId = req.user?.candidateId || req.query.candidateId;
+    if (!candidateId) {
+      return res.json({ success: true, data: [] });
     }
-    if (state) {
-      query.state = state;
-    }
-    if (skill) {
-      query["skills.name"] = { $regex: String(skill), $options: "i" };
-    }
-    const p = Math.max(1, parseInt(String(page), 10) || 1);
-    const l = Math.max(1, parseInt(String(limit), 10) || 20);
-    const [total, candidates] = await Promise.all([
-      CandidateModel.countDocuments(query),
-      CandidateModel.find(query).skip((p - 1) * l).limit(l).lean()
+    const cid = String(candidateId);
+    const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+    const applications = await CandidateApplicationModel.find({
+      candidateId: { $in: [cid, altCid] }
+    }).sort({ appliedAt: -1, createdAt: -1 }).lean();
+    const reqIds = applications.map((a) => a.requirementId).filter(Boolean);
+    const compIds = applications.map((a) => a.companyId).filter(Boolean);
+    const [requirements, companies] = await Promise.all([
+      RequirementModel.find({ id: { $in: reqIds } }).lean(),
+      CompanyModel.find({ id: { $in: compIds } }).lean()
     ]);
-    return res.json({
-      success: true,
-      data: candidates,
-      total,
-      page: p,
-      limit: l
+    const reqMap = new Map(requirements.map((r) => [r.id, r]));
+    const compMap = new Map(companies.map((c) => [c.id, c]));
+    const enriched = applications.map((app2) => {
+      const job = reqMap.get(app2.requirementId);
+      const company = compMap.get(app2.companyId);
+      return {
+        ...app2,
+        role: job?.title || "Engineering Role",
+        company: company?.name || job?.companyName || "Hiring Partner",
+        location: job?.location || "Remote",
+        salary: job?.salary || "$85,000 - $110,000",
+        stage: app2.status || "SUBMITTED",
+        stageDesc: app2.status === "OFFERED" ? "Formal offer extended! Review offer details in the Offers section." : app2.status === "INTERVIEW_SCHEDULED" ? "Company interview scheduled. Check the Interviews section for meeting details." : app2.status === "SHORTLISTED" ? "Profile shortlisted by hiring company. Final interview scheduling in progress." : "1-Click application submitted with verified Stack Pass. Company reviewing dossier."
+      };
     });
+    return res.json({ success: true, data: enriched });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
@@ -1843,17 +2149,67 @@ candidatesRouter.get("/:id", async (req, res) => {
     if (!candidate) {
       return res.status(404).json({ success: false, error: "Candidate not found in MongoDB Atlas" });
     }
-    const [evaluations, interviews] = await Promise.all([
+    const [evaluations, interviews, user] = await Promise.all([
       EvaluationModel.find({ candidateId: candidate.id }).lean(),
-      InterviewModel.find({ candidateId: candidate.id }).lean()
+      InterviewModel.find({ candidateId: candidate.id }).lean(),
+      candidate.userId ? UserModel.findOne({ id: candidate.userId }).lean() : null
     ]);
     return res.json({
       success: true,
       data: {
+        email: candidate.email || user?.email || "",
+        phone: candidate.phone || candidate.phoneNumber || user?.phoneNumber || "",
+        languages: candidate.languages || candidate.languagesKnown || ["English", "Tamil"],
         ...candidate,
         evaluations,
         interviews
       }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+candidatesRouter.put("/:id", optionalAuth, async (req, res) => {
+  try {
+    const cid = req.params.id;
+    const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+    const updateData = req.body;
+    const candidate = await CandidateModel.findOne({
+      $or: [{ id: cid }, { id: altCid }, { userId: cid }]
+    });
+    if (!candidate) {
+      return res.status(404).json({ success: false, error: "Candidate profile not found" });
+    }
+    if (updateData.fullName) candidate.fullName = updateData.fullName;
+    if (updateData.headline) candidate.headline = updateData.headline;
+    if (updateData.location) candidate.location = updateData.location;
+    if (updateData.summary) candidate.summary = updateData.summary;
+    if (updateData.email) candidate.email = updateData.email;
+    if (updateData.phone) {
+      candidate.phone = updateData.phone;
+      candidate.phoneNumber = updateData.phone;
+    }
+    if (updateData.languages) candidate.languages = updateData.languages;
+    if (updateData.expectedSalaryUsd !== void 0) candidate.expectedSalaryUsd = Number(updateData.expectedSalaryUsd);
+    if (updateData.noticePeriodDays !== void 0) candidate.noticePeriodDays = Number(updateData.noticePeriodDays);
+    if (updateData.totalYearsOfExperience !== void 0) candidate.totalYearsOfExperience = Number(updateData.totalYearsOfExperience);
+    if (updateData.skills) candidate.skills = updateData.skills;
+    if (updateData.engagementType) candidate.engagementType = updateData.engagementType;
+    candidate.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+    await candidate.save();
+    if (candidate.userId) {
+      const userUpdates = {};
+      if (updateData.fullName) userUpdates.fullName = updateData.fullName;
+      if (updateData.email) userUpdates.email = updateData.email;
+      if (updateData.phone) userUpdates.phoneNumber = updateData.phone;
+      if (Object.keys(userUpdates).length > 0) {
+        await UserModel.updateOne({ id: candidate.userId }, userUpdates);
+      }
+    }
+    return res.json({
+      success: true,
+      message: "Profile updated successfully!",
+      data: candidate
     });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
@@ -1916,7 +2272,7 @@ var import_express5 = require("express");
 var requirementsRouter = (0, import_express5.Router)();
 requirementsRouter.get("/", async (req, res) => {
   try {
-    const { companyId, state, search } = req.query;
+    const { companyId, state, search, page, limit, jobType } = req.query;
     const query = {};
     if (companyId) query.companyId = companyId;
     if (state) query.state = state;
@@ -1924,14 +2280,30 @@ requirementsRouter.get("/", async (req, res) => {
       const s = String(search);
       query.$or = [
         { title: { $regex: s, $options: "i" } },
-        { roleCategory: { $regex: s, $options: "i" } }
+        { roleCategory: { $regex: s, $options: "i" } },
+        { "requiredSkills.name": { $regex: s, $options: "i" } },
+        { requiredSkills: { $regex: s, $options: "i" } }
       ];
     }
-    const requirements = await RequirementModel.find(query).sort({ createdAt: -1 }).lean();
+    if (jobType) {
+      query.engagementType = String(jobType).toUpperCase() === "CONTRACT" ? "CONTRACT" : "FULL_TIME";
+    }
+    const total = await RequirementModel.countDocuments(query);
+    const pageNum = Math.max(1, parseInt(String(page || "1"), 10));
+    const limitNum = limit === "all" || limit === "0" ? 0 : Math.max(1, parseInt(String(limit || "10"), 10));
+    let queryBuilder = RequirementModel.find(query).sort({ createdAt: -1 });
+    if (limitNum > 0) {
+      const skip = (pageNum - 1) * limitNum;
+      queryBuilder = queryBuilder.skip(skip).limit(limitNum);
+    }
+    const requirements = await queryBuilder.lean();
     return res.json({
       success: true,
       data: requirements,
-      total: requirements.length
+      total,
+      page: pageNum,
+      limit: limitNum > 0 ? limitNum : total,
+      totalPages: limitNum > 0 ? Math.ceil(total / limitNum) : 1
     });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
@@ -2162,6 +2534,37 @@ evaluationsRouter.post("/:id/scorecard", optionalAuth, async (req, res) => {
       evaluation.overallScore = Math.round(avgScore * 10);
     }
     await evaluation.save();
+    const passCriteria = [];
+    if (evaluation.passId) {
+      passCriteria.push({ id: evaluation.passId });
+    }
+    if (evaluation.candidateId) {
+      passCriteria.push({
+        candidateId: evaluation.candidateId,
+        status: { $in: ["PENDING", "INTERVIEW_SCHEDULED", "APPLIED"] }
+      });
+    }
+    if (passCriteria.length > 0 && (evaluation.overallScore || 0) >= 70) {
+      const issuedAt = /* @__PURE__ */ new Date();
+      const expiresAt = new Date(issuedAt.getTime() + 5 * 24 * 60 * 60 * 1e3);
+      await StackPassModel.updateMany(
+        { $or: passCriteria },
+        {
+          $set: {
+            status: "ACTIVE",
+            score: evaluation.overallScore,
+            issuedAt: issuedAt.toISOString(),
+            expiresAt: expiresAt.toISOString()
+          }
+        }
+      );
+      if (evaluation.candidateId) {
+        await CandidateModel.updateOne(
+          { id: evaluation.candidateId },
+          { $set: { state: "QUALIFIED", evaluationScore: evaluation.overallScore } }
+        );
+      }
+    }
     await PayoutModel.findOneAndUpdate(
       { evaluationId: evaluation.id },
       {
@@ -2370,19 +2773,36 @@ interviewsRouter.get("/", optionalAuth, async (req, res) => {
     const query = {};
     const targetCompanyId = companyId || req.user?.companyId;
     if (targetCompanyId) query.companyId = targetCompanyId;
-    if (candidateId) query.candidateId = candidateId;
+    if (candidateId) {
+      const cid = String(candidateId);
+      const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+      query.candidateId = { $in: [cid, altCid] };
+    }
     if (requirementId) query.requirementId = requirementId;
     const interviews = await InterviewModel.find(query).sort({ scheduledAt: -1, createdAt: -1 }).lean();
     const candIds = interviews.map((i) => i.candidateId).filter(Boolean);
-    const candidates = candIds.length > 0 ? await CandidateModel.find({ id: { $in: candIds } }).lean() : [];
+    const reqIds = interviews.map((i) => i.requirementId).filter(Boolean);
+    const compIds = interviews.map((i) => i.companyId).filter(Boolean);
+    const [candidates, requirements, companies] = await Promise.all([
+      candIds.length > 0 ? CandidateModel.find({ id: { $in: candIds } }).lean() : [],
+      reqIds.length > 0 ? RequirementModel.find({ id: { $in: reqIds } }).lean() : [],
+      compIds.length > 0 ? CompanyModel.find({ id: { $in: compIds } }).lean() : []
+    ]);
     const candMap = new Map(candidates.map((c) => [c.id, c]));
+    const reqMap = new Map(requirements.map((r) => [r.id, r]));
+    const compMap = new Map(companies.map((c) => [c.id, c]));
     const enriched = interviews.map((inv) => {
       const cand = candMap.get(inv.candidateId);
+      const job = reqMap.get(inv.requirementId);
+      const comp = compMap.get(inv.companyId);
       return {
         ...inv,
         candidateName: cand?.fullName || inv.candidateName || "Candidate",
         candidateHeadline: cand?.headline || inv.candidateHeadline || "",
         candidateEmail: cand?.email || inv.candidateEmail || "",
+        companyName: comp?.name || inv.companyName || "Hiring Partner",
+        roleTitle: job?.title || inv.roleTitle || "Engineering Role",
+        meetingLink: inv.meetingLink || "https://meet.google.com/tg-interview-room",
         candidate: cand
       };
     });
@@ -2452,12 +2872,34 @@ offersRouter.get("/", async (req, res) => {
     const { companyId, candidateId } = req.query;
     const query = {};
     if (companyId) query.companyId = companyId;
-    if (candidateId) query.candidateId = candidateId;
+    if (candidateId) {
+      const cid = String(candidateId);
+      const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+      query.candidateId = { $in: [cid, altCid] };
+    }
     const offers = await OfferModel.find(query).sort({ createdAt: -1 }).lean();
+    const reqIds = offers.map((o) => o.requirementId).filter(Boolean);
+    const compIds = offers.map((o) => o.companyId).filter(Boolean);
+    const [requirements, companies] = await Promise.all([
+      reqIds.length > 0 ? RequirementModel.find({ id: { $in: reqIds } }).lean() : [],
+      compIds.length > 0 ? CompanyModel.find({ id: { $in: compIds } }).lean() : []
+    ]);
+    const reqMap = new Map(requirements.map((r) => [r.id, r]));
+    const compMap = new Map(companies.map((c) => [c.id, c]));
+    const enriched = offers.map((o) => {
+      const job = reqMap.get(o.requirementId);
+      const comp = compMap.get(o.companyId);
+      return {
+        ...o,
+        companyName: comp?.name || o.companyName || "Hiring Partner",
+        roleTitle: job?.title || o.roleTitle || "Senior Software Engineer",
+        location: job?.location || "Remote"
+      };
+    });
     return res.json({
       success: true,
-      data: offers,
-      total: offers.length
+      data: enriched,
+      total: enriched.length
     });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
@@ -3430,7 +3872,7 @@ companyPortalRouter.get("/applications", authenticate, async (req, res) => {
     const query = { companyId };
     if (requirementId) query.requirementId = requirementId;
     if (status) query.status = status;
-    const applications = await CandidateApplicationModel.find(query).sort({ appliedAt: -1 }).lean();
+    const applications = await CandidateApplicationModel.find(query).sort({ evaluationScore: -1, appliedAt: -1 }).lean();
     const candidateIds = applications.map((a) => a.candidateId);
     const candidates = await CandidateModel.find({ id: { $in: candidateIds } }).lean();
     const result = applications.map((app2) => {
@@ -4249,9 +4691,919 @@ companyPortalRouter.get("/invoices/:id/pdf", authenticate, async (req, res) => {
   }
 });
 
+// apps/server/src/routes/stackPasses.ts
+var import_express14 = require("express");
+var stackPassesRouter = (0, import_express14.Router)();
+var STACK_CATALOG = [
+  // --- DOMAIN 1: SDE / SOFTWARE DEVELOPMENT ---
+  {
+    stackKey: "MERN_STACK",
+    title: "MERN Stack Engineering",
+    domain: "SDE",
+    description: "MongoDB, Express.js, React, Node.js, TypeScript architecture & high-throughput REST APIs.",
+    coveredSkills: ["MongoDB", "Express.js", "React", "Node.js", "TypeScript", "REST APIs"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 70,
+    iconName: "Layers",
+    popularRoles: ["Full Stack Engineer", "MERN Developer", "Node.js Backend Lead"],
+    benchmarks: [
+      "Event loop optimization & async concurrency",
+      "Complex React state & memoization patterns",
+      "MongoDB indexing, aggregation pipelines & sharding"
+    ]
+  },
+  {
+    stackKey: "PYTHON_FASTAPI",
+    title: "Python & Modern Microservices",
+    domain: "SDE",
+    description: "FastAPI, async Python, relational database tuning, Redis caching & Dockerized deployment.",
+    coveredSkills: ["Python", "FastAPI", "PostgreSQL", "Redis", "Docker"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 70,
+    iconName: "Code",
+    popularRoles: ["Backend Engineer", "Python Architect", "API Platform Engineer"],
+    benchmarks: [
+      "Pydantic schema validation & SQLAlchemy ORM async queries",
+      "Pub/sub event workers with Celery & Redis",
+      "High-throughput ASGI server tuning"
+    ]
+  },
+  {
+    stackKey: "JAVA_SPRING",
+    title: "Java Enterprise & Distributed Systems",
+    domain: "SDE",
+    description: "Spring Boot 3, Spring Cloud, Kafka event streaming, JPA/Hibernate & microservices resilience.",
+    coveredSkills: ["Java", "Spring Boot", "Kafka", "Microservices", "PostgreSQL"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 75,
+    iconName: "Server",
+    popularRoles: ["Senior Java Engineer", "Enterprise Architect", "Microservices Specialist"],
+    benchmarks: [
+      "Spring transactional boundaries & circuit breakers (Resilience4j)",
+      "Distributed Kafka consumer lag and idempotency",
+      "JVM garbage collection tuning & multi-threading memory model"
+    ]
+  },
+  {
+    stackKey: "GO_DISTRIBUTED",
+    title: "Golang High-Concurrency Systems",
+    domain: "SDE",
+    description: "Low-latency backend services, goroutines/channels synchronization, gRPC, and Kubernetes.",
+    coveredSkills: ["Go", "gRPC", "Kubernetes", "Redis", "Distributed Systems"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 75,
+    iconName: "Cpu",
+    popularRoles: ["Systems Engineer", "Cloud Infrastructure Engineer", "Go Backend Lead"],
+    benchmarks: [
+      "Mutex locks, channel deadlocks, and goroutine leak prevention",
+      "Protobuf/gRPC bidirectional streaming",
+      "Graceful shutdown & Kubernetes liveness/readiness probes"
+    ]
+  },
+  {
+    stackKey: "FRONTEND_REACT_TS",
+    title: "Modern Frontend & Next.js Architecture",
+    domain: "SDE",
+    description: "Next.js 14 App Router, Server Components, TypeScript, TailwindCSS, Core Web Vitals optimization.",
+    coveredSkills: ["React", "Next.js", "TypeScript", "TailwindCSS", "State Management"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 70,
+    iconName: "Monitor",
+    popularRoles: ["Frontend Architect", "Lead UI Engineer", "Next.js Specialist"],
+    benchmarks: [
+      "Server vs Client component composition & hydration debugging",
+      "Core Web Vitals (LCP, INP, CLS) deep performance profiling",
+      "Accessible design systems & dynamic state trees"
+    ]
+  },
+  // --- DOMAIN 2: AI & MACHINE LEARNING ---
+  {
+    stackKey: "GENAI_LLM",
+    title: "Generative AI & LLM Systems",
+    domain: "AI_ML",
+    description: "Production RAG, Vector Databases (Pinecone/Milvus), LangChain, prompt orchestration & evaluation.",
+    coveredSkills: ["Python", "LangChain", "LlamaIndex", "OpenAI", "RAG", "Vector DBs"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 75,
+    iconName: "Sparkles",
+    popularRoles: ["GenAI Engineer", "AI Solutions Architect", "LLM Application Specialist"],
+    benchmarks: [
+      "Hybrid semantic search + BM25 re-ranking strategies",
+      "Context window token management & chunking strategies",
+      "Guardrails, hallucination detection & structured JSON outputs"
+    ]
+  },
+  {
+    stackKey: "COMPUTER_VISION",
+    title: "Computer Vision & Deep Learning",
+    domain: "AI_ML",
+    description: "Object detection, model quantization with TensorRT, image segmentation, and edge deployment.",
+    coveredSkills: ["PyTorch", "OpenCV", "YOLO", "TensorRT", "Image Segmentation"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 70,
+    iconName: "Eye",
+    popularRoles: ["Computer Vision Engineer", "Perception Engineer", "Deep Learning Scientist"],
+    benchmarks: [
+      "Custom dataset augmentation & transfer learning convergence",
+      "Inference latency reduction via FP16/INT8 quantization",
+      "Video stream batch processing pipelines"
+    ]
+  },
+  // --- DOMAIN 3: DATA ENGINEERING ---
+  {
+    stackKey: "SPARK_BIGDATA",
+    title: "Distributed Data Processing & Spark",
+    domain: "DATA_ENGINEERING",
+    description: "Apache Spark, PySpark, Delta Lake, partition optimization, and petabyte-scale transformations.",
+    coveredSkills: ["Apache Spark", "PySpark", "Hadoop", "Data Lakes", "Scala"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 75,
+    iconName: "Database",
+    popularRoles: ["Big Data Engineer", "Data Platform Architect", "Spark Specialist"],
+    benchmarks: [
+      "Spark shuffle partition tuning, skew joins, and broadcast hashing",
+      "Delta Lake ACID transactions & time travel querying",
+      "PySpark memory allocation and executor configuration"
+    ]
+  },
+  {
+    stackKey: "MODERN_DATA_STACK",
+    title: "Modern Data Stack & Analytics Engineering",
+    domain: "DATA_ENGINEERING",
+    description: "Snowflake, dbt core, BigQuery, Airflow DAG orchestration, and Kimball dimensional modeling.",
+    coveredSkills: ["Snowflake", "dbt", "SQL", "BigQuery", "Airflow"],
+    evaluationDurationMinutes: 60,
+    passThresholdScore: 70,
+    iconName: "BarChart2",
+    popularRoles: ["Analytics Engineer", "Data Pipeline Engineer", "Snowflake Architect"],
+    benchmarks: [
+      "dbt incremental models, snapshots, and schema testing",
+      "Airflow DAG idempotency, backfilling, and dynamic task mapping",
+      "Warehouse clustering keys and compute credit cost optimization"
+    ]
+  }
+];
+stackPassesRouter.get("/catalog", (req, res) => {
+  const domains = {
+    SDE: {
+      label: "Software Engineering (SDE)",
+      description: "Full-stack, backend, frontend & distributed systems engineering",
+      stacks: STACK_CATALOG.filter((s) => s.domain === "SDE")
+    },
+    AI_ML: {
+      label: "AI & Machine Learning",
+      description: "Generative AI, LLMs, computer vision & deep learning architectures",
+      stacks: STACK_CATALOG.filter((s) => s.domain === "AI_ML")
+    },
+    DATA_ENGINEERING: {
+      label: "Data Engineering",
+      description: "Big data pipelines, Spark, modern data stack (Snowflake/dbt), and real-time streaming",
+      stacks: STACK_CATALOG.filter((s) => s.domain === "DATA_ENGINEERING")
+    }
+  };
+  return res.json({
+    success: true,
+    data: {
+      catalog: STACK_CATALOG,
+      domains,
+      passValidityDays: 5,
+      passValidityHours: 120,
+      freeEvaluationsDefault: 10
+    }
+  });
+});
+stackPassesRouter.get("/my-passes", optionalAuth, async (req, res) => {
+  try {
+    const candidateId = req.user?.candidateId || req.user?.userId || req.query.candidateId;
+    if (!candidateId) {
+      return res.json({
+        success: true,
+        data: { passes: [], activePasses: [], pendingPasses: [], scheduledPasses: [], quota: { freeEvaluationsTotal: 10, freeEvaluationsUsed: 0, freeEvaluationsRemaining: 10 } }
+      });
+    }
+    const cid = String(candidateId);
+    const altCandidateId = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+    const passes = await StackPassModel.find({
+      candidateId: { $in: [cid, altCandidateId] }
+    }).sort({ createdAt: -1 }).lean();
+    const now = Date.now();
+    const updatedPasses = await Promise.all(
+      passes.map(async (pass) => {
+        let status = pass.status || "PENDING";
+        if (status === "PENDING") {
+          return {
+            ...pass,
+            status: "PENDING",
+            remainingHours: 120,
+            isExpired: false,
+            remainingFormatted: "Awaiting Evaluator"
+          };
+        }
+        if (status === "INTERVIEW_SCHEDULED" || status === "APPLIED") {
+          return {
+            ...pass,
+            status: "INTERVIEW_SCHEDULED",
+            remainingHours: 120,
+            isExpired: false,
+            remainingFormatted: pass.scheduledAt ? new Date(pass.scheduledAt).toLocaleString() : "Interview Scheduled"
+          };
+        }
+        const expiresAtMs = new Date(pass.expiresAt).getTime();
+        const diffMs = expiresAtMs - now;
+        const remainingHours = Math.max(0, Math.floor(diffMs / (1e3 * 60 * 60)));
+        const isExpired = diffMs <= 0;
+        if (isExpired && status === "ACTIVE") {
+          status = "EXPIRED";
+          await StackPassModel.updateOne({ id: pass.id }, { $set: { status: "EXPIRED" } });
+        }
+        return {
+          ...pass,
+          status,
+          remainingHours,
+          isExpired,
+          remainingFormatted: isExpired ? "Expired" : `${Math.floor(remainingHours / 24)}d ${remainingHours % 24}h remaining`
+        };
+      })
+    );
+    const candidate = await CandidateModel.findOne({
+      $or: [{ id: cid }, { id: altCandidateId }, { userId: cid }]
+    }).lean();
+    const quota = {
+      freeEvaluationsTotal: candidate?.freeEvaluationsTotal ?? 10,
+      freeEvaluationsUsed: candidate?.freeEvaluationsUsed ?? 0,
+      freeEvaluationsRemaining: candidate?.freeEvaluationsRemaining ?? 10
+    };
+    return res.json({
+      success: true,
+      data: {
+        passes: updatedPasses,
+        activePasses: updatedPasses.filter((p) => p.status === "ACTIVE" && !p.isExpired),
+        pendingPasses: updatedPasses.filter((p) => p.status === "PENDING"),
+        scheduledPasses: updatedPasses.filter((p) => p.status === "INTERVIEW_SCHEDULED"),
+        quota
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+stackPassesRouter.get("/pending-evaluations", optionalAuth, async (req, res) => {
+  try {
+    const pendingPasses = await StackPassModel.find({ status: "PENDING" }).sort({ createdAt: -1 }).lean();
+    return res.json({
+      success: true,
+      data: pendingPasses,
+      total: pendingPasses.length
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+stackPassesRouter.post("/book", optionalAuth, async (req, res) => {
+  try {
+    const { candidateId = "cand-1", stackKey } = req.body;
+    const stackDef = STACK_CATALOG.find((s) => s.stackKey === stackKey);
+    if (!stackDef) {
+      return res.status(404).json({ success: false, error: "Stack card definition not found" });
+    }
+    const cid = String(candidateId);
+    const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+    const candidate = await CandidateModel.findOne({
+      $or: [{ id: cid }, { id: altCid }, { userId: cid }]
+    });
+    if (!candidate) {
+      return res.status(404).json({ success: false, error: "Candidate profile not found" });
+    }
+    const remaining = candidate.freeEvaluationsRemaining ?? 10;
+    if (remaining <= 0) {
+      return res.status(400).json({
+        success: false,
+        requiresPayment: true,
+        error: "Free evaluation quota exhausted (10/10 used). Please purchase evaluation credits."
+      });
+    }
+    candidate.freeEvaluationsUsed = (candidate.freeEvaluationsUsed ?? 0) + 1;
+    candidate.freeEvaluationsRemaining = Math.max(0, remaining - 1);
+    await candidate.save();
+    const passId = `pass-${stackKey.toLowerCase().replace(/_/g, "-")}-${Date.now().toString().slice(-6)}`;
+    let pass = await StackPassModel.findOne({
+      candidateId: { $in: [cid, altCid] },
+      stackKey: stackDef.stackKey,
+      status: { $in: ["PENDING", "INTERVIEW_SCHEDULED", "ACTIVE"] }
+    });
+    if (pass && pass.status === "PENDING") {
+      pass.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+      await pass.save();
+    } else {
+      pass = await StackPassModel.create({
+        id: passId,
+        candidateId: candidate.id,
+        candidateName: candidate.fullName || "Candidate",
+        candidateHeadline: candidate.headline || `${stackDef.title} Specialist`,
+        candidateExperienceYears: candidate.totalYearsOfExperience || 3,
+        domain: stackDef.domain,
+        stackKey: stackDef.stackKey,
+        stackTitle: stackDef.title,
+        score: 0,
+        status: "PENDING",
+        issuedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1e3).toISOString(),
+        applicationsCount: 0,
+        coveredSkills: stackDef.coveredSkills,
+        evaluatorId: null,
+        evaluatorName: null,
+        meetingLink: null,
+        scheduledAt: null,
+        appliedAt: (/* @__PURE__ */ new Date()).toISOString()
+      });
+    }
+    return res.json({
+      success: true,
+      message: `\u{1F3AF} Application for ${stackDef.title} Pass submitted! Status: PENDING. Visible to expert evaluators to accept and schedule your interview.`,
+      pass,
+      quota: {
+        freeEvaluationsRemaining: candidate.freeEvaluationsRemaining,
+        freeEvaluationsUsed: candidate.freeEvaluationsUsed
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+stackPassesRouter.post("/:id/accept", optionalAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      evaluatorId = req.user?.evaluatorId || "evaluator-1",
+      evaluatorName = req.user?.fullName || "Arun Subramanian (Staff Evaluator)",
+      scheduledAt = new Date(Date.now() + 24 * 60 * 60 * 1e3).toISOString(),
+      meetingLink = "https://meet.google.com/abc-defg-hij",
+      evaluatorNotes = "Please be prepared with your code editor ready for live architecture and concurrency tasks."
+    } = req.body;
+    const pass = await StackPassModel.findOne(buildIdQuery(id));
+    if (!pass) {
+      return res.status(404).json({ success: false, error: "Stack Pass request not found" });
+    }
+    let cleanMeetLink = meetingLink.trim();
+    if (!cleanMeetLink.startsWith("http://") && !cleanMeetLink.startsWith("https://")) {
+      cleanMeetLink = `https://${cleanMeetLink}`;
+    }
+    pass.status = "INTERVIEW_SCHEDULED";
+    pass.evaluatorId = evaluatorId;
+    pass.evaluatorName = evaluatorName;
+    pass.scheduledAt = scheduledAt;
+    pass.meetingLink = cleanMeetLink;
+    pass.evaluatorNotes = evaluatorNotes;
+    await pass.save();
+    const evalId = `eval-${pass.id}`;
+    await EvaluationModel.findOneAndUpdate(
+      { passId: pass.id },
+      {
+        id: evalId,
+        passId: pass.id,
+        candidateId: pass.candidateId,
+        candidateName: pass.candidateName || "Candidate",
+        evaluatorId,
+        evaluatorName,
+        status: "SCHEDULED",
+        scheduledAt,
+        meetingLink: cleanMeetLink,
+        scope: "REUSABLE",
+        title: `${pass.stackTitle} Evaluation`,
+        payoutAmountInr: 5e3,
+        createdAt: (/* @__PURE__ */ new Date()).toISOString()
+      },
+      { upsert: true, new: true }
+    );
+    return res.json({
+      success: true,
+      message: `\u2705 Evaluation accepted! Google Meet interview scheduled for ${new Date(scheduledAt).toLocaleString()}. Candidate can now see the meeting link.`,
+      pass
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+stackPassesRouter.post("/:id/submit-score", optionalAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      score = 88,
+      verdict = "PASS",
+      evaluatorId = req.user?.evaluatorId || "evaluator-1",
+      notes = "Candidate demonstrated exceptional problem solving, production clean code, and solid distributed architecture."
+    } = req.body;
+    const pass = await StackPassModel.findOne(buildIdQuery(id));
+    if (!pass) {
+      return res.status(404).json({ success: false, error: "Stack Pass not found" });
+    }
+    const stackDef = STACK_CATALOG.find((s) => s.stackKey === pass.stackKey) || STACK_CATALOG[0];
+    const numericScore = Number(score);
+    if (numericScore < stackDef.passThresholdScore || verdict === "FAIL") {
+      pass.status = "FAILED";
+      pass.score = numericScore;
+      await pass.save();
+      return res.json({
+        success: true,
+        message: `Score of ${numericScore}/100 recorded. Candidate fell below threshold (${stackDef.passThresholdScore}). Pass not activated.`,
+        pass
+      });
+    }
+    const issuedAt = /* @__PURE__ */ new Date();
+    const expiresAt = new Date(issuedAt.getTime() + 5 * 24 * 60 * 60 * 1e3);
+    pass.status = "ACTIVE";
+    pass.score = numericScore;
+    pass.issuedAt = issuedAt.toISOString();
+    pass.expiresAt = expiresAt.toISOString();
+    if (evaluatorId) pass.evaluatorId = evaluatorId;
+    await pass.save();
+    await CandidateModel.updateOne(
+      { id: pass.candidateId },
+      { $set: { state: "QUALIFIED", evaluationScore: numericScore } }
+    );
+    await EvaluationModel.updateOne(
+      { passId: pass.id },
+      {
+        $set: {
+          status: "CALIBRATED",
+          overallScore: numericScore,
+          recommendation: "PASS",
+          completedAt: (/* @__PURE__ */ new Date()).toISOString()
+        }
+      }
+    );
+    return res.json({
+      success: true,
+      message: `\u{1F389} Score of ${numericScore}/100 saved! Pass ${pass.stackTitle} is now ACTIVE for 120 hours. Candidate can now 1-click apply to jobs.`,
+      pass
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+stackPassesRouter.post("/mint-pass", optionalAuth, async (req, res) => {
+  try {
+    const {
+      candidateId = "cand-1",
+      candidateName = "Karthik Iyer",
+      stackKey = "MERN_STACK",
+      score = 88,
+      evaluatorId = "eval-1"
+    } = req.body;
+    const stackDef = STACK_CATALOG.find((s) => s.stackKey === stackKey);
+    if (!stackDef) {
+      return res.status(404).json({ success: false, error: "Invalid stack key" });
+    }
+    const cid = String(candidateId);
+    const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+    if (score < stackDef.passThresholdScore) {
+      return res.status(400).json({
+        success: false,
+        error: `Score of ${score}/100 is below the passing benchmark of ${stackDef.passThresholdScore}/100. Stack Pass not issued.`
+      });
+    }
+    const issuedAt = /* @__PURE__ */ new Date();
+    const expiresAt = new Date(issuedAt.getTime() + 5 * 24 * 60 * 60 * 1e3);
+    let pass = await StackPassModel.findOne({
+      candidateId: { $in: [cid, altCid] },
+      stackKey,
+      status: { $in: ["PENDING", "INTERVIEW_SCHEDULED", "APPLIED", "ACTIVE"] }
+    });
+    if (pass) {
+      pass.score = score;
+      pass.status = "ACTIVE";
+      pass.issuedAt = issuedAt.toISOString();
+      pass.expiresAt = expiresAt.toISOString();
+      pass.evaluatorId = evaluatorId;
+      await pass.save();
+    } else {
+      const passId = `pass-${stackKey.toLowerCase().replace(/_/g, "-")}-${Date.now().toString().slice(-6)}`;
+      pass = await StackPassModel.create({
+        id: passId,
+        candidateId: cid,
+        candidateName,
+        domain: stackDef.domain,
+        stackKey: stackDef.stackKey,
+        stackTitle: stackDef.title,
+        score,
+        status: "ACTIVE",
+        issuedAt: issuedAt.toISOString(),
+        expiresAt: expiresAt.toISOString(),
+        applicationsCount: 0,
+        coveredSkills: stackDef.coveredSkills,
+        evaluatorId
+      });
+    }
+    return res.json({
+      success: true,
+      message: `\u{1F389} Evaluator submitted score: ${score}/100! Your 5-Day ${stackDef.title} Pass is now ACTIVE. You can now 1-click apply to matching roles.`,
+      data: pass
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+stackPassesRouter.get("/check-job/:jobId", optionalAuth, async (req, res) => {
+  try {
+    const candidateId = req.query.candidateId ? String(req.query.candidateId) : "cand-1";
+    const cid = String(candidateId);
+    const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+    const job = await RequirementModel.findOne(buildIdQuery(req.params.jobId)).lean();
+    if (!job) {
+      return res.status(404).json({ success: false, error: "Job requirement not found" });
+    }
+    const nowIso = (/* @__PURE__ */ new Date()).toISOString();
+    const activePasses = await StackPassModel.find({
+      candidateId: { $in: [cid, altCid] },
+      status: "ACTIVE",
+      expiresAt: { $gt: nowIso }
+    }).lean();
+    const jobSkills = (job.requiredSkills || []).map(
+      (s) => (typeof s === "string" ? s : s?.name || "").toLowerCase()
+    );
+    let matchingPass = null;
+    for (const pass of activePasses) {
+      const passSkills = (pass.coveredSkills || []).map((s) => s.toLowerCase());
+      const overlap = jobSkills.filter((js) => passSkills.some((ps) => ps.includes(js) || js.includes(ps)));
+      if (overlap.length >= 1 || activePasses.length > 0) {
+        matchingPass = pass;
+        break;
+      }
+    }
+    let recommendedStack = STACK_CATALOG[0];
+    for (const sc of STACK_CATALOG) {
+      const scSkills = sc.coveredSkills.map((s) => s.toLowerCase());
+      const hasSkill = jobSkills.some((js) => scSkills.some((ss) => ss.includes(js) || js.includes(ss)));
+      if (hasSkill) {
+        recommendedStack = sc;
+        break;
+      }
+    }
+    const existingApp = await CandidateApplicationModel.findOne({
+      requirementId: job.id,
+      candidateId: { $in: [cid, altCid] }
+    }).lean();
+    const hasValidPass = Boolean(matchingPass);
+    let remainingHours = 0;
+    if (matchingPass) {
+      const diffMs = new Date(matchingPass.expiresAt).getTime() - Date.now();
+      remainingHours = Math.max(0, Math.floor(diffMs / (1e3 * 60 * 60)));
+    }
+    return res.json({
+      success: true,
+      data: {
+        hasValidPass,
+        alreadyApplied: Boolean(existingApp),
+        application: existingApp || null,
+        matchingPass: matchingPass ? {
+          ...matchingPass,
+          remainingHours,
+          remainingFormatted: `${Math.floor(remainingHours / 24)}d ${remainingHours % 24}h remaining`
+        } : null,
+        recommendedStack
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+stackPassesRouter.post("/apply-job", optionalAuth, async (req, res) => {
+  try {
+    const { candidateId = "cand-1", jobId } = req.body;
+    const cid = String(candidateId);
+    const altCid = cid.startsWith("cand-") ? cid.replace("cand-", "candidate-") : cid.replace("candidate-", "cand-");
+    const job = await RequirementModel.findOne(buildIdQuery(jobId)).lean();
+    if (!job) {
+      return res.status(404).json({ success: false, error: "Job requirement not found" });
+    }
+    const nowIso = (/* @__PURE__ */ new Date()).toISOString();
+    const activePasses = await StackPassModel.find({
+      candidateId: { $in: [cid, altCid] },
+      status: "ACTIVE",
+      expiresAt: { $gt: nowIso }
+    }).lean();
+    if (activePasses.length === 0) {
+      return res.status(403).json({
+        success: false,
+        error: "Application gated: You must hold an active 5-Day Stack Pass to apply for this verified role."
+      });
+    }
+    const candidate = await CandidateModel.findOne({
+      $or: [{ id: cid }, { id: altCid }, { userId: cid }]
+    }).lean();
+    const existingApp = await CandidateApplicationModel.findOne({
+      requirementId: job.id,
+      candidateId: { $in: [cid, altCid] }
+    }).lean();
+    if (existingApp) {
+      return res.json({
+        success: true,
+        alreadyApplied: true,
+        message: `You have already applied for ${job.title}. Your application is currently in review.`,
+        applicationId: existingApp.id
+      });
+    }
+    await StackPassModel.updateOne({ id: activePasses[0].id }, { $inc: { applicationsCount: 1 } });
+    const appId = `app-${Date.now().toString().slice(-6)}`;
+    await CandidateApplicationModel.create({
+      id: appId,
+      requirementId: job.id,
+      candidateId: candidate?.id || cid,
+      companyId: job.companyId,
+      status: "SUBMITTED",
+      appliedAt: (/* @__PURE__ */ new Date()).toISOString(),
+      evaluationScore: activePasses[0].score,
+      stackPassId: activePasses[0].id,
+      stackKey: activePasses[0].stackKey
+    });
+    return res.json({
+      success: true,
+      message: `\u{1F3AF} 1-Click Application submitted successfully for ${job.title}! Employer will review your verified score of ${activePasses[0].score}/100.`,
+      applicationId: appId
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// apps/server/src/routes/evaluatorOnboarding.ts
+var import_express15 = require("express");
+var evaluatorOnboardingRouter = (0, import_express15.Router)();
+evaluatorOnboardingRouter.post("/apply", optionalAuth, async (req, res) => {
+  try {
+    const {
+      candidateId = "cand-1",
+      fullName = "Karthik Iyer",
+      email = "karthik@example.com",
+      currentCompany,
+      currentRole,
+      totalExperienceYears,
+      linkedinUrl,
+      githubUrl,
+      primaryDomain,
+      expertStacks = [],
+      professionalSummary
+    } = req.body;
+    if (!currentCompany || !currentRole || !linkedinUrl || !primaryDomain) {
+      return res.status(400).json({
+        success: false,
+        error: "Please provide current company, role, LinkedIn URL, and primary domain to verify professional credentials."
+      });
+    }
+    const appId = `eval-app-${Date.now().toString().slice(-6)}`;
+    const app2 = await EvaluatorApplicationModel.findOneAndUpdate(
+      { candidateId },
+      {
+        id: appId,
+        candidateId,
+        fullName,
+        email,
+        currentCompany,
+        currentRole,
+        totalExperienceYears: Number(totalExperienceYears) || 5,
+        linkedinUrl,
+        githubUrl,
+        primaryDomain,
+        expertStacks,
+        professionalSummary: professionalSummary || "Experienced software professional seeking evaluator role.",
+        status: "PENDING_ADMIN_VERIFICATION",
+        appliedAt: (/* @__PURE__ */ new Date()).toISOString()
+      },
+      { upsert: true, new: true }
+    );
+    await CandidateModel.updateOne(
+      buildIdQuery(candidateId),
+      {
+        $set: {
+          evaluatorApplicationStatus: "PENDING_ADMIN_VERIFICATION"
+        }
+      }
+    );
+    await AuditLogModel.create({
+      id: `audit-${Date.now()}`,
+      action: "EVALUATOR_APPLICATION_SUBMITTED",
+      actorId: candidateId,
+      actorEmail: email,
+      actorRole: "CANDIDATE",
+      entity: "EvaluatorApplication",
+      entityId: appId,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      details: { currentCompany, currentRole, primaryDomain }
+    });
+    return res.json({
+      success: true,
+      message: "\u2705 Your Evaluator Application has been submitted! Our technical vetting team will verify your credentials within 24-48 hours. The Evaluator Workstation will unlock upon approval.",
+      data: app2
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+evaluatorOnboardingRouter.get("/my-status", optionalAuth, async (req, res) => {
+  try {
+    const candidateId = req.query.candidateId ? String(req.query.candidateId) : "cand-1";
+    const app2 = await EvaluatorApplicationModel.findOne({ candidateId }).lean();
+    const candidate = await CandidateModel.findOne(buildIdQuery(candidateId)).lean();
+    const status = app2?.status || candidate?.evaluatorApplicationStatus || "NONE";
+    return res.json({
+      success: true,
+      data: {
+        status,
+        isApproved: status === "APPROVED",
+        isPending: status === "PENDING_ADMIN_VERIFICATION",
+        application: app2 || null,
+        evaluatorProfileId: candidate?.evaluatorProfileId || null
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+evaluatorOnboardingRouter.get("/admin/pending", optionalAuth, async (req, res) => {
+  try {
+    const applications = await EvaluatorApplicationModel.find().sort({ appliedAt: -1 }).lean();
+    return res.json({
+      success: true,
+      data: applications,
+      totalPending: applications.filter((a) => a.status === "PENDING_ADMIN_VERIFICATION").length
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+evaluatorOnboardingRouter.post("/admin/:id/approve", optionalAuth, async (req, res) => {
+  try {
+    const app2 = await EvaluatorApplicationModel.findOne(buildIdQuery(req.params.id));
+    if (!app2) {
+      return res.status(404).json({ success: false, error: "Application not found" });
+    }
+    const evaluatorId = `eval-${Date.now().toString().slice(-6)}`;
+    await EvaluatorModel.findOneAndUpdate(
+      { userId: app2.candidateId },
+      {
+        id: evaluatorId,
+        userId: app2.candidateId,
+        fullName: app2.fullName,
+        headline: `${app2.currentRole} at ${app2.currentCompany}`,
+        primaryDomains: [app2.primaryDomain],
+        skills: app2.expertStacks,
+        totalExperienceYears: app2.totalExperienceYears,
+        currentCompany: app2.currentCompany,
+        status: "ACTIVE",
+        hourlyRateInr: 5e3
+      },
+      { upsert: true }
+    );
+    app2.status = "APPROVED";
+    app2.reviewedAt = (/* @__PURE__ */ new Date()).toISOString();
+    app2.reviewedBy = req.user?.email || "admin@talent-hire.global";
+    await app2.save();
+    await CandidateModel.updateOne(
+      buildIdQuery(app2.candidateId),
+      {
+        $set: {
+          evaluatorApplicationStatus: "APPROVED",
+          evaluatorProfileId: evaluatorId
+        }
+      }
+    );
+    await UserModel.updateMany(
+      {
+        $or: [
+          { email: app2.email?.toLowerCase() },
+          { candidateId: app2.candidateId },
+          { id: app2.candidateId }
+        ]
+      },
+      {
+        $set: {
+          evaluatorId,
+          isDualRoleEvaluator: true
+        }
+      }
+    );
+    await AuditLogModel.create({
+      id: `audit-${Date.now()}`,
+      action: "EVALUATOR_APPLICATION_APPROVED",
+      actorId: req.user?.userId || "admin",
+      actorEmail: req.user?.email || "admin@talent-hire.global",
+      actorRole: "SUPER_ADMIN",
+      entity: "EvaluatorApplication",
+      entityId: app2.id,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      details: { candidateId: app2.candidateId, evaluatorId }
+    });
+    return res.json({
+      success: true,
+      message: `\u{1F389} Evaluator credentials approved! ${app2.fullName} can now switch to the Evaluator Workstation.`,
+      evaluatorId
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+evaluatorOnboardingRouter.post("/admin/:id/reject", optionalAuth, async (req, res) => {
+  try {
+    const { reason = "Insufficient experience or unverified company credentials." } = req.body;
+    const app2 = await EvaluatorApplicationModel.findOne(buildIdQuery(req.params.id));
+    if (!app2) {
+      return res.status(404).json({ success: false, error: "Application not found" });
+    }
+    app2.status = "REJECTED";
+    app2.reviewedAt = (/* @__PURE__ */ new Date()).toISOString();
+    app2.rejectionReason = reason;
+    await app2.save();
+    await CandidateModel.updateOne(
+      buildIdQuery(app2.candidateId),
+      {
+        $set: {
+          evaluatorApplicationStatus: "REJECTED"
+        }
+      }
+    );
+    return res.json({
+      success: true,
+      message: "Evaluator application rejected."
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// apps/server/src/routes/scratchCards.ts
+var import_express16 = require("express");
+var scratchCardsRouter = (0, import_express16.Router)();
+scratchCardsRouter.get("/my-cards", optionalAuth, async (req, res) => {
+  try {
+    const evaluatorId = req.query.evaluatorId ? String(req.query.evaluatorId) : "eval-1";
+    let cards = await ScratchCardModel.find({ evaluatorId }).sort({ createdAt: -1 }).lean();
+    if (cards.length === 0) {
+      const demoCard = await ScratchCardModel.create({
+        id: `sc-${Date.now().toString().slice(-6)}`,
+        evaluatorId,
+        evaluationId: "eval-sample-1",
+        candidateId: "cand-demo",
+        candidateName: "Candidate (Evaluation Completed)",
+        rewardAmountInr: Math.floor(Math.random() * 15) + 5,
+        // random ₹5 to ₹19
+        isScratched: false,
+        triggerReason: "CANDIDATE_NOT_PASSED_HONORARIUM"
+      });
+      cards = [demoCard.toObject()];
+    }
+    const unscratchedCount = cards.filter((c) => !c.isScratched).length;
+    const totalScratchedEarnings = cards.filter((c) => c.isScratched).reduce((sum, c) => sum + (c.rewardAmountInr || 0), 0);
+    return res.json({
+      success: true,
+      data: {
+        cards,
+        unscratchedCount,
+        totalScratchedEarnings
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+scratchCardsRouter.post("/:id/scratch", optionalAuth, async (req, res) => {
+  try {
+    const card = await ScratchCardModel.findOne(buildIdQuery(req.params.id));
+    if (!card) {
+      return res.status(404).json({ success: false, error: "Scratch card not found" });
+    }
+    if (card.isScratched) {
+      return res.json({
+        success: true,
+        alreadyScratched: true,
+        rewardAmountInr: card.rewardAmountInr,
+        message: `Card already scratched! Reward: \u20B9${card.rewardAmountInr}`
+      });
+    }
+    card.isScratched = true;
+    card.scratchedAt = (/* @__PURE__ */ new Date()).toISOString();
+    await card.save();
+    await PayoutModel.create({
+      id: `payout-sc-${Date.now().toString().slice(-6)}`,
+      evaluatorId: card.evaluatorId,
+      evaluationId: card.evaluationId,
+      amountInr: card.rewardAmountInr,
+      status: "DISBURSED",
+      disbursedAt: (/* @__PURE__ */ new Date()).toISOString(),
+      transactionRef: `IMPS-SCRATCH-${Date.now()}`
+    });
+    return res.json({
+      success: true,
+      rewardAmountInr: card.rewardAmountInr,
+      message: `\u{1F389} You scratched and won \u20B9${card.rewardAmountInr}! Deposited into your evaluator wallet.`
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // apps/server/src/index.ts
 import_dotenv2.default.config();
-var app = (0, import_express14.default)();
+var app = (0, import_express17.default)();
 var server = import_http.default.createServer(app);
 var io = null;
 if (!process.env.VERCEL) {
@@ -4295,7 +5647,7 @@ app.use((0, import_cors.default)({
   credentials: true,
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"]
 }));
-app.use(import_express14.default.json());
+app.use(import_express17.default.json());
 app.use(async (req, _res, next) => {
   if (req.method === "OPTIONS" || req.path === "/" || req.path === "/api") {
     return next();
@@ -4356,6 +5708,9 @@ app.use("/api/placements", placementsRouter);
 app.use("/api/finance", financeRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/company", companyPortalRouter);
+app.use("/api/stack-passes", stackPassesRouter);
+app.use("/api/evaluator-onboarding", evaluatorOnboardingRouter);
+app.use("/api/scratch-cards", scratchCardsRouter);
 app.get("/api/audit", async (req, res) => {
   try {
     const { limit = "50" } = req.query;
