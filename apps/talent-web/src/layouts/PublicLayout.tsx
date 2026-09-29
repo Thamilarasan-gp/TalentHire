@@ -24,6 +24,7 @@ import {
   Send
 } from 'lucide-react';
 import { BecomeEvaluatorModal } from '../components/BecomeEvaluatorModal';
+import { UserProfileDropdown } from '../components/UserProfileDropdown';
 import { api } from '@thamilarasan/api-client';
 
 export const PublicLayout: React.FC = () => {
@@ -711,195 +712,14 @@ export const PublicLayout: React.FC = () => {
                   </button>
 
                   {/* Profile & Features Dropdown */}
-                  {profileDropdownOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-84 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/90 z-50 animate-in fade-in slide-in-from-top-2 duration-150 overflow-hidden ring-1 ring-black/5 text-slate-900">
-                      <div className="p-4 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100">
-                        <div className="flex items-center gap-3">
-                          <div className="relative">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-900 via-slate-800 to-blue-600 text-white font-black text-sm flex items-center justify-center shadow-xs">
-                              {currentUser.fullName?.charAt(0) || 'K'}
-                            </div>
-                            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
-                          </div>
-                          <div className="overflow-hidden flex-1">
-                            <p className="font-bold text-slate-900 text-sm truncate leading-tight">
-                              {currentUser.fullName || 'Karthik Iyer'}
-                            </p>
-                            <p className="text-[11px] text-slate-500 truncate mt-0.5">
-                              {currentUser.email || 'candidate@example.com'}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="p-2 space-y-0.5">
-                        <Link
-                          to="/talent/profile"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors">
-                              <User className="w-3.5 h-3.5" />
-                            </div>
-                            <div>
-                              <span className="block font-bold text-slate-800">My Profile</span>
-                              <span className="text-[10px] text-slate-400 block font-normal">Skills, Experience & Verification</span>
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-
-                        <Link
-                          to="/talent/stack-passes"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="p-1.5 rounded-lg bg-amber-50 text-amber-600 group-hover:bg-amber-100 transition-colors">
-                              <Zap className="w-3.5 h-3.5" />
-                            </div>
-                            <div>
-                              <span className="block font-bold text-slate-800">Domain Stack Passes</span>
-                              <span className="text-[10px] text-slate-400 block font-normal">Active Tech Stacks & Verification</span>
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-
-                        <Link
-                          to="/talent/evaluations"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100 transition-colors">
-                              <FileCheck className="w-3.5 h-3.5" />
-                            </div>
-                            <div>
-                              <span className="block font-bold text-slate-800">Evaluations Dossier</span>
-                              <span className="text-[10px] text-slate-400 block font-normal">Scores, Rubrics & Reports</span>
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-
-                        <Link
-                          to="/talent/applications"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="p-1.5 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-slate-200 transition-colors">
-                              <Briefcase className="w-3.5 h-3.5" />
-                            </div>
-                            <div>
-                              <span className="block font-bold text-slate-800">Job Applications</span>
-                              <span className="text-[10px] text-slate-400 block font-normal">Submitted & Active Pipelines</span>
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-
-                        <Link
-                          to="/talent/interviews"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover:bg-emerald-100 transition-colors">
-                              <Calendar className="w-3.5 h-3.5" />
-                            </div>
-                            <div>
-                              <span className="block font-bold text-slate-800">Scheduled Interviews</span>
-                              <span className="text-[10px] text-slate-400 block font-normal">Video Rounds & Calendar</span>
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-
-                        <Link
-                          to="/talent/offers"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="p-1.5 rounded-lg bg-purple-50 text-purple-600 group-hover:bg-purple-100 transition-colors">
-                              <Gift className="w-3.5 h-3.5" />
-                            </div>
-                            <div>
-                              <span className="block font-bold text-slate-800">Job Offers</span>
-                              <span className="text-[10px] text-slate-400 block font-normal">Compensation & Contracts</span>
-                            </div>
-                          </div>
-                          <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-                      </div>
-
-                      {/* Dual Role Evaluator Access if approved */}
-                      {isApprovedEvaluator ? (
-                        <div className="p-2 pt-0">
-                          <Link
-                            to="/evaluator/dashboard"
-                            onClick={() => setProfileDropdownOpen(false)}
-                            className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200/60 transition-colors group"
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <ShieldCheck className="w-4 h-4 text-purple-600" />
-                              <div>
-                                <span className="block">Evaluator Workstation</span>
-                                <span className="text-[10px] text-purple-600/80 block font-normal">Dual-Role Peer Evaluations</span>
-                              </div>
-                            </div>
-                            <span className="text-[10px] bg-purple-200 text-purple-800 px-1.5 py-0.5 rounded font-mono font-bold">
-                              Active
-                            </span>
-                          </Link>
-                        </div>
-                      ) : (
-                        <div className="p-2 pt-0">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setProfileDropdownOpen(false);
-                              setEvalModalOpen(true);
-                            }}
-                            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-purple-700 bg-purple-50/70 hover:bg-purple-100 transition-colors cursor-pointer"
-                          >
-                            <div className="flex items-center gap-2">
-                              <Award className="w-3.5 h-3.5 text-purple-600" />
-                              <span>Become an Evaluator</span>
-                            </div>
-                            <ArrowRight className="w-3 h-3 text-purple-400" />
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Account Settings & Sign Out */}
-                      <div className="p-2 pt-1 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
-                        <Link
-                          to="/talent/settings"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
-                        >
-                          <Settings className="w-3.5 h-3.5" />
-                          <span>Settings</span>
-                        </Link>
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setProfileDropdownOpen(false);
-                            handleLogout();
-                          }}
-                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
-                        >
-                          <LogOut className="w-3.5 h-3.5" />
-                          <span>Sign Out</span>
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <UserProfileDropdown
+                    currentUser={currentUser}
+                    isApprovedEvaluator={isApprovedEvaluator}
+                    isOpen={profileDropdownOpen}
+                    onClose={() => setProfileDropdownOpen(false)}
+                    onOpenEvaluatorModal={() => setEvalModalOpen(true)}
+                    onLogout={handleLogout}
+                  />
                 </div>
               ) : (
                 /* Login and Get Started Buttons matching Design 3 */

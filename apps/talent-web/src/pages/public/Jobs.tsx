@@ -11,6 +11,8 @@ import {
   Filter,
   X,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Check,
   CheckCircle2,
   Zap,
@@ -263,6 +265,8 @@ export const Jobs: React.FC = () => {
   const [selectedExperienceLevels, setSelectedExperienceLevels] = useState<string[]>([]);
   const [minSalaryFilter, setMinSalaryFilter] = useState<number>(0);
   const [sortBy, setSortBy] = useState<string>('Most Relevant');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const ITEMS_PER_PAGE = 10;
 
   // UI Interactive States
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -317,16 +321,27 @@ export const Jobs: React.FC = () => {
     });
   };
 
+  const getCandidateId = () => {
+    try {
+      const stored = localStorage.getItem('tg_user');
+      const u = stored ? JSON.parse(stored) : null;
+      return u?.candidateId || u?.id || 'cand-1';
+    } catch {
+      return 'cand-1';
+    }
+  };
+
   // 1-Click Apply Handler with Pass
   const handleApply = async (job: JobItem, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setApplyingJobId(job.id);
     try {
-      const res = await api.applyJobWithStackPass(job.id, 'cand-1');
+      const cid = getCandidateId();
+      const res = await api.applyJobWithStackPass(job.id, cid);
       if (res.success) {
         setAppliedJobs((prev) => ({ ...prev, [job.id]: true }));
-        showToast(`Successfully applied to ${job.title} at ${job.companyName}!`);
+        showToast(res.alreadyApplied ? `Already applied to ${job.title}!` : `Successfully applied to ${job.title} at ${job.companyName}!`);
       } else {
         alert(res.error || 'Failed to apply with stack pass.');
       }
@@ -345,10 +360,12 @@ export const Jobs: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [reqsRes, passesRes, compsRes] = await Promise.all([
+        const cid = getCandidateId();
+        const [reqsRes, passesRes, compsRes, appsRes] = await Promise.all([
           api.getRequirements().catch(() => ({ success: false, data: [] })),
-          api.getMyStackPasses('cand-1').catch(() => ({ success: false, data: null })),
+          api.getMyStackPasses(cid).catch(() => ({ success: false, data: null })),
           api.getCompanies().catch(() => ({ success: false, data: [] })),
+          api.getMyApplications(cid).catch(() => ({ success: false, data: [] })),
         ]);
 
         if (isMounted) {
@@ -361,6 +378,16 @@ export const Jobs: React.FC = () => {
 
           if (passesRes.success && passesRes.data?.activePasses) {
             setActivePasses(passesRes.data.activePasses);
+          }
+
+          if (appsRes.success && Array.isArray(appsRes.data)) {
+            const appliedMap: Record<string, boolean> = {};
+            appsRes.data.forEach((app: any) => {
+              if (app.requirementId) {
+                appliedMap[app.requirementId] = true;
+              }
+            });
+            setAppliedJobs(appliedMap);
           }
 
           if (reqsRes.success && Array.isArray(reqsRes.data)) {
@@ -414,8 +441,22 @@ export const Jobs: React.FC = () => {
     setSelectedExperienceLevels([]);
     setMinSalaryFilter(0);
     setSortBy('Most Relevant');
+    setCurrentPage(1);
     setSearchParams({});
   };
+
+  // Reset to page 1 whenever any search or filter criteria changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [
+    searchTerm,
+    selectedRole,
+    selectedLocations,
+    selectedJobTypes,
+    selectedExperienceLevels,
+    minSalaryFilter,
+    sortBy,
+  ]);
 
   // Dynamic Sidebar Badge Counts (computed from current total jobs)
   const filterCounts = useMemo(() => {
@@ -551,6 +592,19 @@ export const Jobs: React.FC = () => {
     minSalaryFilter,
     sortBy,
   ]);
+
+  // Pagination computations (10 jobs per page)
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / ITEMS_PER_PAGE));
+  const paginatedJobs = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredJobs.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredJobs, currentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 220, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 text-slate-800">
@@ -912,10 +966,11 @@ export const Jobs: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         {/* ==========================================
-            LEFT SIDEBAR: FILTERS (Matching screenshot)
+            LEFT SIDEBAR: FILTERS (Sticky / Fixed Left)
            ========================================== */}
-        <div className="hidden lg:block lg:col-span-1 space-y-6">
-          <div className="bg-white rounded-2xl border border-slate-200/80 p-5 space-y-6 shadow-2xs">
+        <div className="hidden lg:block lg:col-span-1">
+          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pr-1">
+            <div className="bg-white rounded-2xl border border-slate-200/80 p-5 space-y-6 shadow-2xs">
             {/* Header: Filters + Reset */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <h2 className="text-sm font-bold text-slate-900 tracking-tight">Filters</h2>
@@ -1065,6 +1120,7 @@ export const Jobs: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
 
         {/* ==========================================
             RIGHT AREA: OPPORTUNITIES COUNTER + JOB CARDS
@@ -1146,7 +1202,7 @@ export const Jobs: React.FC = () => {
               </div>
             ) : (
               // Dynamic Job Cards (Exact Visual Match to Screenshot)
-              filteredJobs.map((job) => {
+              paginatedJobs.map((job) => {
                 const { hasPass, pass } = getJobPassStatus(job);
                 const isApplied = appliedJobs[job.id];
                 const isApplying = applyingJobId === job.id;
@@ -1283,6 +1339,87 @@ export const Jobs: React.FC = () => {
               })
             )}
           </div>
+
+          {/* Pagination Controls (10 jobs per page) */}
+          {!loading && filteredJobs.length > 0 && (
+            <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200/80 mt-6 bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs">
+              <span className="text-xs text-slate-500 font-medium">
+                Showing{' '}
+                <strong className="text-slate-900 font-bold">
+                  {(currentPage - 1) * ITEMS_PER_PAGE + 1}
+                </strong>{' '}
+                –{' '}
+                <strong className="text-slate-900 font-bold">
+                  {Math.min(currentPage * ITEMS_PER_PAGE, filteredJobs.length)}
+                </strong>{' '}
+                of{' '}
+                <strong className="text-slate-900 font-bold">
+                  {filteredJobs.length}
+                </strong>{' '}
+                jobs
+              </span>
+
+              {totalPages > 1 && (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:border-slate-300 disabled:opacity-40 disabled:pointer-events-none transition-all cursor-pointer bg-white flex items-center gap-1 shadow-2xs"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <span>Previous</span>
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }).map((_, idx) => {
+                      const pageNum = idx + 1;
+                      if (
+                        totalPages > 7 &&
+                        pageNum !== 1 &&
+                        pageNum !== totalPages &&
+                        Math.abs(pageNum - currentPage) > 1
+                      ) {
+                        if (pageNum === 2 || pageNum === totalPages - 1) {
+                          return (
+                            <span key={pageNum} className="text-slate-400 px-1 text-xs">
+                              ...
+                            </span>
+                          );
+                        }
+                        return null;
+                      }
+
+                      return (
+                        <button
+                          key={pageNum}
+                          type="button"
+                          onClick={() => handlePageChange(pageNum)}
+                          className={`w-8 h-8 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                            currentPage === pageNum
+                              ? 'bg-blue-600 text-white shadow-xs'
+                              : 'bg-white border border-slate-200 text-slate-700 hover:border-slate-300'
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:border-slate-300 disabled:opacity-40 disabled:pointer-events-none transition-all cursor-pointer bg-white flex items-center gap-1 shadow-2xs"
+                  >
+                    <span>Next</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
       </div>

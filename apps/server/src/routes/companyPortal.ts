@@ -726,7 +726,9 @@ companyPortalRouter.get('/applications', authenticate, async (req: Authenticated
     if (requirementId) query.requirementId = requirementId;
     if (status) query.status = status;
 
-    const applications = await CandidateApplicationModel.find(query).sort({ appliedAt: -1 }).lean();
+    const applications = await CandidateApplicationModel.find(query)
+      .sort({ evaluationScore: -1, appliedAt: -1 })
+      .lean();
     const candidateIds = applications.map((a: any) => a.candidateId);
     const candidates = await CandidateModel.find({ id: { $in: candidateIds } }).lean();
 

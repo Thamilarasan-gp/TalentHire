@@ -60,6 +60,147 @@ async function enrichUserWithDualRole(user: any) {
   }
 }
 
+// POST /api/auth/register - Candidate / Job Seeker Signup
+authRouter.post('/register', async (req, res) => {
+  try {
+    const {
+      fullName,
+      firstName: rawFn,
+      lastName: rawLn,
+      email,
+      password = 'Password123!',
+      headline,
+      primaryRole = 'Full Stack Engineer',
+      totalYearsOfExperience = 3,
+      location = 'Bengaluru, India',
+      skills = ['React', 'Node.js', 'TypeScript'],
+      expectedSalaryUsd = 75000,
+      noticePeriodDays = 30,
+    } = req.body;
+
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({ success: false, error: 'A valid email address is required' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const existingUser = await UserModel.findOne({ email: cleanEmail }).lean();
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        error: 'An account with this email already exists. Please sign in instead.',
+      });
+    }
+
+    const nameParts = (fullName || 'Engineer').trim().split(' ');
+    const firstName = rawFn || nameParts[0] || 'Software';
+    const lastName = rawLn || nameParts.slice(1).join(' ') || 'Engineer';
+    const resolvedFullName = fullName || `${firstName} ${lastName}`.trim();
+
+    const timestamp = Date.now().toString().slice(-6);
+    const userId = `user-cand-${timestamp}`;
+    const candidateId = `cand-${timestamp}`;
+
+    // 1. Create UserModel record
+    const newUser = await UserModel.create({
+      id: userId,
+      email: cleanEmail,
+      fullName: resolvedFullName,
+      firstName,
+      lastName,
+      role: 'JOB_SEEKER',
+      candidateId,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    // 2. Create CandidateModel record
+    const formattedSkills = (Array.isArray(skills) ? skills : [skills]).map((s: string, idx: number) => ({
+      name: s,
+      yearsOfExperience: Math.max(1, Number(totalYearsOfExperience) - idx),
+      level: idx === 0 ? 'EXPERT' : 'ADVANCED',
+      isVerified: true,
+    }));
+
+    const newCandidate = await CandidateModel.create({
+      id: candidateId,
+      userId,
+      fullName: resolvedFullName,
+      headline: headline || `${primaryRole} | ${totalYearsOfExperience} yrs exp | ${location}`,
+      location,
+      timezone: 'IST (UTC+5:30)',
+      state: 'VERIFIED',
+      fraudStatus: 'CLEAR',
+      primaryRole,
+      totalYearsOfExperience: Number(totalYearsOfExperience) || 3,
+      skills: formattedSkills,
+      experience: [
+        {
+          title: primaryRole,
+          company: 'Tech Innovations Lab',
+          location,
+          startDate: '2022-01-01',
+          isCurrent: true,
+          description: 'Architecting high-throughput microservices and production web interfaces.',
+          technologies: formattedSkills.map((s: any) => s.name),
+        },
+      ],
+      education: [
+        {
+          institution: 'Institute of Technology',
+          degree: 'B.Tech in Computer Science',
+          fieldOfStudy: 'Computer Science & Engineering',
+          startYear: 2017,
+          endYear: 2021,
+        },
+      ],
+      expectedSalaryUsd: Number(expectedSalaryUsd) || 75000,
+      currentSalaryInr: 1800000,
+      noticePeriodDays: Number(noticePeriodDays) || 30,
+      freeEvaluationsTotal: 10,
+      freeEvaluationsRemaining: 10,
+      freeEvaluationsUsed: 0,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    // 3. Issue JWT Token
+    const token = signAccessToken({
+      userId: newUser.id,
+      email: newUser.email,
+      role: 'JOB_SEEKER',
+      candidateId: newCandidate.id,
+    });
+
+    const enrichedUser = await enrichUserWithDualRole(newUser.toObject ? newUser.toObject() : newUser);
+
+    // 4. Record Audit Log
+    await AuditLogModel.create({
+      id: `audit-${Date.now()}`,
+      action: 'CANDIDATE_REGISTERED',
+      actorId: newUser.id,
+      actorEmail: newUser.email,
+      actorRole: 'JOB_SEEKER',
+      entity: 'Candidate',
+      entityId: newCandidate.id,
+      timestamp: new Date().toISOString(),
+      details: { email: cleanEmail, candidateId },
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Account created successfully! Welcome to THAMILARASAN GLOBAL.',
+      data: {
+        token,
+        user: enrichedUser,
+        candidate: newCandidate,
+      },
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Login (Supports single email login for unified Job Seeker + Evaluator)
 authRouter.post('/login', async (req, res) => {
   try {

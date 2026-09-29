@@ -188,8 +188,9 @@ const EvaluationSchema = new Schema<any>(
     lastReusedAt: { type: String },
     companiesUsingEvaluation: { type: [String], default: [] },
     isTopUpRequired: { type: Boolean, default: false },
-    uncoveredSkills: { type: [String], default: [] },
     rubricScores: { type: Schema.Types.Mixed, default: [] },
+    scores: { type: Schema.Types.Mixed, default: [] },
+    verdict: { type: String },
     overallScore: { type: Number, index: true },
     recommendation: { type: String },
     evidenceNotes: { type: String },
@@ -197,6 +198,12 @@ const EvaluationSchema = new Schema<any>(
     concerns: { type: [String], default: [] },
     qaCalibrated: { type: Boolean, default: false },
     payoutReleased: { type: Boolean, default: false },
+    passId: { type: String, index: true },
+    candidateName: { type: String },
+    evaluatorName: { type: String },
+    meetingLink: { type: String },
+    title: { type: String },
+    payoutAmountInr: { type: Number },
   },
   { strict: false, timestamps: true }
 );
@@ -452,6 +459,13 @@ const StackPassSchema = new Schema<any>(
     coveredSkills: { type: [String], default: [] },
     evaluationId: { type: String, index: true },
     evaluatorId: { type: String },
+    evaluatorName: { type: String },
+    meetingLink: { type: String },
+    scheduledAt: { type: String },
+    evaluatorNotes: { type: String },
+    appliedAt: { type: String },
+    candidateHeadline: { type: String },
+    candidateExperienceYears: { type: Number },
   },
   { strict: false, timestamps: true }
 );

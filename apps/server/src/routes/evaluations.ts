@@ -6,6 +6,7 @@ import {
   RequirementModel,
   PayoutModel,
   AuditLogModel,
+  StackPassModel,
   buildIdQuery,
 } from '../db/models';
 import { AuthenticatedRequest, optionalAuth } from '../middleware/auth';
@@ -111,6 +112,41 @@ evaluationsRouter.post('/:id/scorecard', optionalAuth, async (req: Authenticated
     }
 
     await evaluation.save();
+
+    // If associated with a Stack Pass, activate it for 5 days (120h)
+    const passCriteria: any[] = [];
+    if ((evaluation as any).passId) {
+      passCriteria.push({ id: (evaluation as any).passId });
+    }
+    if (evaluation.candidateId) {
+      passCriteria.push({
+        candidateId: evaluation.candidateId,
+        status: { $in: ['PENDING', 'INTERVIEW_SCHEDULED', 'APPLIED'] },
+      });
+    }
+
+    if (passCriteria.length > 0 && (evaluation.overallScore || 0) >= 70) {
+      const issuedAt = new Date();
+      const expiresAt = new Date(issuedAt.getTime() + 5 * 24 * 60 * 60 * 1000);
+      await StackPassModel.updateMany(
+        { $or: passCriteria },
+        {
+          $set: {
+            status: 'ACTIVE',
+            score: evaluation.overallScore,
+            issuedAt: issuedAt.toISOString(),
+            expiresAt: expiresAt.toISOString(),
+          },
+        }
+      );
+
+      if (evaluation.candidateId) {
+        await CandidateModel.updateOne(
+          { id: evaluation.candidateId },
+          { $set: { state: 'QUALIFIED', evaluationScore: evaluation.overallScore } }
+        );
+      }
+    }
 
     // Record Payout in Escrow for Evaluator (₹5,000)
     await PayoutModel.findOneAndUpdate(

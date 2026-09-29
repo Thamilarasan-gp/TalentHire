@@ -3,16 +3,38 @@ import { HiringRequirement } from '@thamilarasan/types';
 import { api } from '@thamilarasan/api-client';
 import { formatUSD } from '@thamilarasan/utils';
 import { Button, StatusBadge, ScoreBar } from '@thamilarasan/ui';
-import { Sparkles, ArrowRight, DollarSign, Clock } from 'lucide-react';
+import { Sparkles, ArrowRight, DollarSign, Clock, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const RecommendedJobs: React.FC = () => {
   const [jobs, setJobs] = useState<HiringRequirement[]>([]);
+  const [appliedJobs, setAppliedJobs] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
+  const getCandidateId = () => {
+    try {
+      const stored = localStorage.getItem('tg_user');
+      const u = stored ? JSON.parse(stored) : null;
+      return u?.candidateId || u?.id || 'cand-1';
+    } catch {
+      return 'cand-1';
+    }
+  };
+
   useEffect(() => {
-    api.getRequirements().then((res) => {
-      if (res.success && res.data) setJobs(res.data);
+    const cid = getCandidateId();
+    Promise.all([
+      api.getRequirements().catch(() => ({ success: false, data: [] })),
+      api.getMyApplications(cid).catch(() => ({ success: false, data: [] })),
+    ]).then(([reqRes, appRes]) => {
+      if (reqRes.success && reqRes.data) setJobs(reqRes.data);
+      if (appRes.success && Array.isArray(appRes.data)) {
+        const map: Record<string, boolean> = {};
+        appRes.data.forEach((a: any) => {
+          if (a.requirementId) map[a.requirementId] = true;
+        });
+        setAppliedJobs(map);
+      }
       setLoading(false);
     });
   }, []);
@@ -54,10 +76,10 @@ export const RecommendedJobs: React.FC = () => {
                 <span>{job.timezoneRequirement}</span>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-1">
-                {(job.requiredSkills || []).map((sk: any, idx: number) => {
+                {(job.requiredSkills || []).map((sk: any, sIdx: number) => {
                   const skillLabel = typeof sk === 'string' ? sk : sk?.name || JSON.stringify(sk);
                   return (
-                    <span key={idx} className="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-medium">
+                    <span key={sIdx} className="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-medium">
                       {skillLabel}
                     </span>
                   );
@@ -71,9 +93,18 @@ export const RecommendedJobs: React.FC = () => {
                   Specs
                 </Button>
               </Link>
-              <Button size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5 ml-1" />}>
-                Apply
-              </Button>
+              {appliedJobs[job.id] ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 font-bold text-xs border border-emerald-200 shadow-2xs">
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  Applied
+                </span>
+              ) : (
+                <Link to={`/jobs/${job.id}`}>
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-bold" rightIcon={<ArrowRight className="w-3.5 h-3.5 ml-1" />}>
+                    1-Click Apply
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         ))}

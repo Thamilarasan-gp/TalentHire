@@ -17,6 +17,7 @@ import { SuccessStories } from './pages/public/SuccessStories';
 import { Faq } from './pages/public/Faq';
 import { Contact } from './pages/public/Contact';
 import { Login } from './pages/public/Login';
+import { Register } from './pages/public/Register';
 
 // Candidate Pages
 import { TalentDashboard } from './pages/talent/TalentDashboard';
@@ -62,7 +63,7 @@ export const App: React.FC = () => {
           <Route path="/faq" element={<Faq />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
         </Route>
 
         {/* Candidate Experience */}

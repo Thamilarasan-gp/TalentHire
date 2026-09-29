@@ -4,6 +4,7 @@ import {
   CandidateModel,
   RequirementModel,
   CandidateApplicationModel,
+  EvaluationModel,
   buildIdQuery,
 } from '../db/models';
 import { AuthenticatedRequest, optionalAuth } from '../middleware/auth';
@@ -196,21 +197,56 @@ stackPassesRouter.get('/catalog', (req, res) => {
   });
 });
 
-// GET /api/stack-passes/my-passes - Candidate's passes with remaining hours & expiration
+// GET /api/stack-passes/my-passes - Candidate's passes with remaining hours & expiration (Strictly dynamic per candidate)
 stackPassesRouter.get('/my-passes', optionalAuth, async (req: AuthenticatedRequest, res) => {
   try {
-    const candidateId = req.query.candidateId ? String(req.query.candidateId) : 'cand-1';
-    const passes = await StackPassModel.find(buildIdQuery(candidateId)).sort({ createdAt: -1 }).lean();
+    const candidateId = req.user?.candidateId || req.user?.userId || req.query.candidateId;
+    if (!candidateId) {
+      return res.json({
+        success: true,
+        data: { passes: [], activePasses: [], pendingPasses: [], scheduledPasses: [], quota: { freeEvaluationsTotal: 10, freeEvaluationsUsed: 0, freeEvaluationsRemaining: 10 } },
+      });
+    }
+
+    const cid = String(candidateId);
+    const altCandidateId = cid.startsWith('cand-')
+      ? cid.replace('cand-', 'candidate-')
+      : cid.replace('candidate-', 'cand-');
+
+    const passes = await StackPassModel.find({
+      candidateId: { $in: [cid, altCandidateId] },
+    }).sort({ createdAt: -1 }).lean();
 
     const now = Date.now();
     const updatedPasses = await Promise.all(
       passes.map(async (pass: any) => {
+        let status = pass.status || 'PENDING';
+
+        if (status === 'PENDING') {
+          return {
+            ...pass,
+            status: 'PENDING',
+            remainingHours: 120,
+            isExpired: false,
+            remainingFormatted: 'Awaiting Evaluator',
+          };
+        }
+
+        if (status === 'INTERVIEW_SCHEDULED' || status === 'APPLIED') {
+          return {
+            ...pass,
+            status: 'INTERVIEW_SCHEDULED',
+            remainingHours: 120,
+            isExpired: false,
+            remainingFormatted: pass.scheduledAt ? new Date(pass.scheduledAt).toLocaleString() : 'Interview Scheduled',
+          };
+        }
+
         const expiresAtMs = new Date(pass.expiresAt).getTime();
         const diffMs = expiresAtMs - now;
         const remainingHours = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60)));
         const isExpired = diffMs <= 0;
 
-        let status = pass.status;
         if (isExpired && status === 'ACTIVE') {
           status = 'EXPIRED';
           await StackPassModel.updateOne({ id: pass.id }, { $set: { status: 'EXPIRED' } });
@@ -229,7 +265,10 @@ stackPassesRouter.get('/my-passes', optionalAuth, async (req: AuthenticatedReque
     );
 
     // Fetch candidate quota
-    const candidate: any = await CandidateModel.findOne(buildIdQuery(candidateId)).lean();
+    const candidate: any = await CandidateModel.findOne({
+      $or: [{ id: cid }, { id: altCandidateId }, { userId: cid }],
+    }).lean();
+
     const quota = {
       freeEvaluationsTotal: candidate?.freeEvaluationsTotal ?? 10,
       freeEvaluationsUsed: candidate?.freeEvaluationsUsed ?? 0,
@@ -240,7 +279,9 @@ stackPassesRouter.get('/my-passes', optionalAuth, async (req: AuthenticatedReque
       success: true,
       data: {
         passes: updatedPasses,
-        activePasses: updatedPasses.filter((p) => p.status === 'ACTIVE'),
+        activePasses: updatedPasses.filter((p) => p.status === 'ACTIVE' && !p.isExpired),
+        pendingPasses: updatedPasses.filter((p) => p.status === 'PENDING'),
+        scheduledPasses: updatedPasses.filter((p) => p.status === 'INTERVIEW_SCHEDULED'),
         quota,
       },
     });
@@ -249,7 +290,22 @@ stackPassesRouter.get('/my-passes', optionalAuth, async (req: AuthenticatedReque
   }
 });
 
-// POST /api/stack-passes/book - Book an evaluation for a stack card (consumes 1 free quota)
+// GET /api/stack-passes/pending-evaluations - Evaluators browse pending candidate pass requests
+stackPassesRouter.get('/pending-evaluations', optionalAuth, async (req: AuthenticatedRequest, res) => {
+  try {
+    const pendingPasses = await StackPassModel.find({ status: 'PENDING' }).sort({ createdAt: -1 }).lean();
+
+    return res.json({
+      success: true,
+      data: pendingPasses,
+      total: pendingPasses.length,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// POST /api/stack-passes/book - Candidate applies for a stack pass (Sets status: PENDING, consumes 1 quota)
 stackPassesRouter.post('/book', optionalAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const { candidateId = 'cand-1', stackKey } = req.body;
@@ -259,7 +315,13 @@ stackPassesRouter.post('/book', optionalAuth, async (req: AuthenticatedRequest, 
       return res.status(404).json({ success: false, error: 'Stack card definition not found' });
     }
 
-    const candidate = await CandidateModel.findOne(buildIdQuery(candidateId));
+    const cid = String(candidateId);
+    const altCid = cid.startsWith('cand-') ? cid.replace('cand-', 'candidate-') : cid.replace('candidate-', 'cand-');
+
+    const candidate = await CandidateModel.findOne({
+      $or: [{ id: cid }, { id: altCid }, { userId: cid }],
+    });
+
     if (!candidate) {
       return res.status(404).json({ success: false, error: 'Candidate profile not found' });
     }
@@ -278,20 +340,49 @@ stackPassesRouter.post('/book', optionalAuth, async (req: AuthenticatedRequest, 
     candidate.freeEvaluationsRemaining = Math.max(0, remaining - 1);
     await candidate.save();
 
+    const passId = `pass-${stackKey.toLowerCase().replace(/_/g, '-')}-${Date.now().toString().slice(-6)}`;
+
+    // Create persistent pass in PENDING status (waiting for an evaluator to accept)
+    let pass = await StackPassModel.findOne({
+      candidateId: { $in: [cid, altCid] },
+      stackKey: stackDef.stackKey,
+      status: { $in: ['PENDING', 'INTERVIEW_SCHEDULED', 'ACTIVE'] },
+    });
+
+    if (pass && pass.status === 'PENDING') {
+      pass.updatedAt = new Date().toISOString();
+      await pass.save();
+    } else {
+      pass = await StackPassModel.create({
+        id: passId,
+        candidateId: candidate.id,
+        candidateName: candidate.fullName || 'Candidate',
+        candidateHeadline: candidate.headline || `${stackDef.title} Specialist`,
+        candidateExperienceYears: candidate.totalYearsOfExperience || 3,
+        domain: stackDef.domain,
+        stackKey: stackDef.stackKey,
+        stackTitle: stackDef.title,
+        score: 0,
+        status: 'PENDING',
+        issuedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        applicationsCount: 0,
+        coveredSkills: stackDef.coveredSkills,
+        evaluatorId: null,
+        evaluatorName: null,
+        meetingLink: null,
+        scheduledAt: null,
+        appliedAt: new Date().toISOString(),
+      });
+    }
+
     return res.json({
       success: true,
-      message: `Evaluation booked for ${stackDef.title}! 1 Free evaluation used.`,
+      message: `🎯 Application for ${stackDef.title} Pass submitted! Status: PENDING. Visible to expert evaluators to accept and schedule your interview.`,
+      pass,
       quota: {
         freeEvaluationsRemaining: candidate.freeEvaluationsRemaining,
         freeEvaluationsUsed: candidate.freeEvaluationsUsed,
-      },
-      booking: {
-        bookingId: `bk-${Date.now()}`,
-        stackKey: stackDef.stackKey,
-        stackTitle: stackDef.title,
-        domain: stackDef.domain,
-        scheduledAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
-        durationMinutes: stackDef.evaluationDurationMinutes,
       },
     });
   } catch (error: any) {
@@ -299,7 +390,139 @@ stackPassesRouter.post('/book', optionalAuth, async (req: AuthenticatedRequest, 
   }
 });
 
-// POST /api/stack-passes/mint-pass - Mint an active 5-Day Stack Pass (upon passing evaluation)
+// POST /api/stack-passes/:id/accept - Evaluator accepts pass request & enters Google Meet link and interview time
+stackPassesRouter.post('/:id/accept', optionalAuth, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      evaluatorId = (req.user as any)?.evaluatorId || 'evaluator-1',
+      evaluatorName = (req.user as any)?.fullName || 'Arun Subramanian (Staff Evaluator)',
+      scheduledAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      meetingLink = 'https://meet.google.com/abc-defg-hij',
+      evaluatorNotes = 'Please be prepared with your code editor ready for live architecture and concurrency tasks.',
+    } = req.body;
+
+    const pass = await StackPassModel.findOne(buildIdQuery(id));
+    if (!pass) {
+      return res.status(404).json({ success: false, error: 'Stack Pass request not found' });
+    }
+
+    // Format meeting link if necessary
+    let cleanMeetLink = meetingLink.trim();
+    if (!cleanMeetLink.startsWith('http://') && !cleanMeetLink.startsWith('https://')) {
+      cleanMeetLink = `https://${cleanMeetLink}`;
+    }
+
+    pass.status = 'INTERVIEW_SCHEDULED';
+    pass.evaluatorId = evaluatorId;
+    pass.evaluatorName = evaluatorName;
+    pass.scheduledAt = scheduledAt;
+    pass.meetingLink = cleanMeetLink;
+    pass.evaluatorNotes = evaluatorNotes;
+    await pass.save();
+
+    // Create / link corresponding EvaluationModel record
+    const evalId = `eval-${pass.id}`;
+    await EvaluationModel.findOneAndUpdate(
+      { passId: pass.id },
+      {
+        id: evalId,
+        passId: pass.id,
+        candidateId: pass.candidateId,
+        candidateName: pass.candidateName || 'Candidate',
+        evaluatorId,
+        evaluatorName,
+        status: 'SCHEDULED',
+        scheduledAt,
+        meetingLink: cleanMeetLink,
+        scope: 'REUSABLE',
+        title: `${pass.stackTitle} Evaluation`,
+        payoutAmountInr: 5000,
+        createdAt: new Date().toISOString(),
+      },
+      { upsert: true, new: true }
+    );
+
+    return res.json({
+      success: true,
+      message: `✅ Evaluation accepted! Google Meet interview scheduled for ${new Date(scheduledAt).toLocaleString()}. Candidate can now see the meeting link.`,
+      pass,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// POST /api/stack-passes/:id/submit-score - Evaluator submits score -> transitions pass to ACTIVE (5-Day Window)
+stackPassesRouter.post('/:id/submit-score', optionalAuth, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      score = 88,
+      verdict = 'PASS',
+      evaluatorId = req.user?.evaluatorId || 'evaluator-1',
+      notes = 'Candidate demonstrated exceptional problem solving, production clean code, and solid distributed architecture.',
+    } = req.body;
+
+    const pass = await StackPassModel.findOne(buildIdQuery(id));
+    if (!pass) {
+      return res.status(404).json({ success: false, error: 'Stack Pass not found' });
+    }
+
+    const stackDef = STACK_CATALOG.find((s) => s.stackKey === pass.stackKey) || STACK_CATALOG[0];
+    const numericScore = Number(score);
+
+    if (numericScore < stackDef.passThresholdScore || verdict === 'FAIL') {
+      pass.status = 'FAILED';
+      pass.score = numericScore;
+      await pass.save();
+      return res.json({
+        success: true,
+        message: `Score of ${numericScore}/100 recorded. Candidate fell below threshold (${stackDef.passThresholdScore}). Pass not activated.`,
+        pass,
+      });
+    }
+
+    const issuedAt = new Date();
+    const expiresAt = new Date(issuedAt.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days
+
+    pass.status = 'ACTIVE';
+    pass.score = numericScore;
+    pass.issuedAt = issuedAt.toISOString();
+    pass.expiresAt = expiresAt.toISOString();
+    if (evaluatorId) pass.evaluatorId = evaluatorId;
+    await pass.save();
+
+    // Update candidate to QUALIFIED
+    await CandidateModel.updateOne(
+      { id: pass.candidateId },
+      { $set: { state: 'QUALIFIED', evaluationScore: numericScore } }
+    );
+
+    // Update EvaluationModel to CALIBRATED
+    await EvaluationModel.updateOne(
+      { passId: pass.id },
+      {
+        $set: {
+          status: 'CALIBRATED',
+          overallScore: numericScore,
+          recommendation: 'PASS',
+          completedAt: new Date().toISOString(),
+        },
+      }
+    );
+
+    return res.json({
+      success: true,
+      message: `🎉 Score of ${numericScore}/100 saved! Pass ${pass.stackTitle} is now ACTIVE for 120 hours. Candidate can now 1-click apply to jobs.`,
+      pass,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// POST /api/stack-passes/mint-pass - Legacy / Fast-test endpoint to mint active pass
 stackPassesRouter.post('/mint-pass', optionalAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const {
@@ -315,6 +538,9 @@ stackPassesRouter.post('/mint-pass', optionalAuth, async (req: AuthenticatedRequ
       return res.status(404).json({ success: false, error: 'Invalid stack key' });
     }
 
+    const cid = String(candidateId);
+    const altCid = cid.startsWith('cand-') ? cid.replace('cand-', 'candidate-') : cid.replace('candidate-', 'cand-');
+
     if (score < stackDef.passThresholdScore) {
       return res.status(400).json({
         success: false,
@@ -323,32 +549,45 @@ stackPassesRouter.post('/mint-pass', optionalAuth, async (req: AuthenticatedRequ
     }
 
     const issuedAt = new Date();
-    // Strictly 5 days from issuedAt (5 * 24 * 60 * 60 * 1000 ms)
     const expiresAt = new Date(issuedAt.getTime() + 5 * 24 * 60 * 60 * 1000);
 
-    const passId = `pass-${stackKey.toLowerCase().replace(/_/g, '-')}-${Date.now().toString().slice(-6)}`;
-
-    // Create or update pass for this stack
-    const newPass = await StackPassModel.create({
-      id: passId,
-      candidateId,
-      candidateName,
-      domain: stackDef.domain,
-      stackKey: stackDef.stackKey,
-      stackTitle: stackDef.title,
-      score,
-      status: 'ACTIVE',
-      issuedAt: issuedAt.toISOString(),
-      expiresAt: expiresAt.toISOString(),
-      applicationsCount: 0,
-      coveredSkills: stackDef.coveredSkills,
-      evaluatorId,
+    // Look for existing pass for this candidate and stackKey
+    let pass = await StackPassModel.findOne({
+      candidateId: { $in: [cid, altCid] },
+      stackKey,
+      status: { $in: ['PENDING', 'INTERVIEW_SCHEDULED', 'APPLIED', 'ACTIVE'] },
     });
+
+    if (pass) {
+      pass.score = score;
+      pass.status = 'ACTIVE';
+      pass.issuedAt = issuedAt.toISOString();
+      pass.expiresAt = expiresAt.toISOString();
+      pass.evaluatorId = evaluatorId;
+      await pass.save();
+    } else {
+      const passId = `pass-${stackKey.toLowerCase().replace(/_/g, '-')}-${Date.now().toString().slice(-6)}`;
+      pass = await StackPassModel.create({
+        id: passId,
+        candidateId: cid,
+        candidateName,
+        domain: stackDef.domain,
+        stackKey: stackDef.stackKey,
+        stackTitle: stackDef.title,
+        score,
+        status: 'ACTIVE',
+        issuedAt: issuedAt.toISOString(),
+        expiresAt: expiresAt.toISOString(),
+        applicationsCount: 0,
+        coveredSkills: stackDef.coveredSkills,
+        evaluatorId,
+      });
+    }
 
     return res.json({
       success: true,
-      message: `🎉 Congratulations! Your 5-Day ${stackDef.title} Pass is now active. You can now apply to all matching roles with 1 click.`,
-      data: newPass,
+      message: `🎉 Evaluator submitted score: ${score}/100! Your 5-Day ${stackDef.title} Pass is now ACTIVE. You can now 1-click apply to matching roles.`,
+      data: pass,
     });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error.message });
@@ -359,6 +598,9 @@ stackPassesRouter.post('/mint-pass', optionalAuth, async (req: AuthenticatedRequ
 stackPassesRouter.get('/check-job/:jobId', optionalAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const candidateId = req.query.candidateId ? String(req.query.candidateId) : 'cand-1';
+    const cid = String(candidateId);
+    const altCid = cid.startsWith('cand-') ? cid.replace('cand-', 'candidate-') : cid.replace('candidate-', 'cand-');
+
     const job: any = await RequirementModel.findOne(buildIdQuery(req.params.jobId)).lean();
 
     if (!job) {
@@ -368,20 +610,22 @@ stackPassesRouter.get('/check-job/:jobId', optionalAuth, async (req: Authenticat
     // Get active passes for candidate
     const nowIso = new Date().toISOString();
     const activePasses = await StackPassModel.find({
-      candidateId,
+      candidateId: { $in: [cid, altCid] },
       status: 'ACTIVE',
       expiresAt: { $gt: nowIso },
     }).lean();
 
-    const jobSkills: string[] = (job.requiredSkills || []).map((s: string) => s.toLowerCase());
+    const jobSkills: string[] = (job.requiredSkills || []).map((s: any) =>
+      (typeof s === 'string' ? s : s?.name || '').toLowerCase()
+    );
 
     // Check if any active pass covers the job skills
     let matchingPass: any = null;
     for (const pass of activePasses) {
       const passSkills = (pass.coveredSkills || []).map((s: string) => s.toLowerCase());
       const overlap = jobSkills.filter((js) => passSkills.some((ps) => ps.includes(js) || js.includes(ps)));
-      // If at least 1 primary stack match or 50% overlap
-      if (overlap.length >= 1) {
+      // If at least 1 primary stack match or active pass
+      if (overlap.length >= 1 || activePasses.length > 0) {
         matchingPass = pass;
         break;
       }
@@ -398,6 +642,12 @@ stackPassesRouter.get('/check-job/:jobId', optionalAuth, async (req: Authenticat
       }
     }
 
+    // Check if candidate already applied to this job
+    const existingApp = await CandidateApplicationModel.findOne({
+      requirementId: job.id,
+      candidateId: { $in: [cid, altCid] },
+    }).lean();
+
     const hasValidPass = Boolean(matchingPass);
     let remainingHours = 0;
     if (matchingPass) {
@@ -409,6 +659,8 @@ stackPassesRouter.get('/check-job/:jobId', optionalAuth, async (req: Authenticat
       success: true,
       data: {
         hasValidPass,
+        alreadyApplied: Boolean(existingApp),
+        application: existingApp || null,
         matchingPass: matchingPass
           ? {
               ...matchingPass,
@@ -428,6 +680,8 @@ stackPassesRouter.get('/check-job/:jobId', optionalAuth, async (req: Authenticat
 stackPassesRouter.post('/apply-job', optionalAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const { candidateId = 'cand-1', jobId } = req.body;
+    const cid = String(candidateId);
+    const altCid = cid.startsWith('cand-') ? cid.replace('cand-', 'candidate-') : cid.replace('candidate-', 'cand-');
 
     const job: any = await RequirementModel.findOne(buildIdQuery(jobId)).lean();
     if (!job) {
@@ -437,7 +691,7 @@ stackPassesRouter.post('/apply-job', optionalAuth, async (req: AuthenticatedRequ
     // Verify candidate has an active unexpired pass
     const nowIso = new Date().toISOString();
     const activePasses = await StackPassModel.find({
-      candidateId,
+      candidateId: { $in: [cid, altCid] },
       status: 'ACTIVE',
       expiresAt: { $gt: nowIso },
     }).lean();
@@ -449,7 +703,24 @@ stackPassesRouter.post('/apply-job', optionalAuth, async (req: AuthenticatedRequ
       });
     }
 
-    const candidate = await CandidateModel.findOne(buildIdQuery(candidateId)).lean();
+    const candidate = await CandidateModel.findOne({
+      $or: [{ id: cid }, { id: altCid }, { userId: cid }],
+    }).lean();
+
+    // Verify candidate has not already applied to this job
+    const existingApp = await CandidateApplicationModel.findOne({
+      requirementId: job.id,
+      candidateId: { $in: [cid, altCid] },
+    }).lean();
+
+    if (existingApp) {
+      return res.json({
+        success: true,
+        alreadyApplied: true,
+        message: `You have already applied for ${job.title}. Your application is currently in review.`,
+        applicationId: (existingApp as any).id,
+      });
+    }
 
     // Increment pass application count
     await StackPassModel.updateOne({ id: activePasses[0].id }, { $inc: { applicationsCount: 1 } });
@@ -459,7 +730,7 @@ stackPassesRouter.post('/apply-job', optionalAuth, async (req: AuthenticatedRequ
     await CandidateApplicationModel.create({
       id: appId,
       requirementId: job.id,
-      candidateId,
+      candidateId: (candidate as any)?.id || cid,
       companyId: job.companyId,
       status: 'SUBMITTED',
       appliedAt: new Date().toISOString(),

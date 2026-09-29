@@ -17,7 +17,7 @@ export const requirementsRouter = Router();
 
 requirementsRouter.get('/', async (req, res) => {
   try {
-    const { companyId, state, search } = req.query;
+    const { companyId, state, search, page, limit, jobType } = req.query;
     const query: any = {};
 
     if (companyId) query.companyId = companyId;
@@ -27,14 +27,36 @@ requirementsRouter.get('/', async (req, res) => {
       query.$or = [
         { title: { $regex: s, $options: 'i' } },
         { roleCategory: { $regex: s, $options: 'i' } },
+        { 'requiredSkills.name': { $regex: s, $options: 'i' } },
+        { requiredSkills: { $regex: s, $options: 'i' } },
       ];
     }
+    if (jobType) {
+      query.engagementType = String(jobType).toUpperCase() === 'CONTRACT' ? 'CONTRACT' : 'FULL_TIME';
+    }
 
-    const requirements = await RequirementModel.find(query).sort({ createdAt: -1 }).lean();
+    const total = await RequirementModel.countDocuments(query);
+    
+    // Pagination (defaults to 10 per page, supports limit=all)
+    const pageNum = Math.max(1, parseInt(String(page || '1'), 10));
+    const limitNum = limit === 'all' || limit === '0'
+      ? 0
+      : Math.max(1, parseInt(String(limit || '10'), 10));
+
+    let queryBuilder = RequirementModel.find(query).sort({ createdAt: -1 });
+    if (limitNum > 0) {
+      const skip = (pageNum - 1) * limitNum;
+      queryBuilder = queryBuilder.skip(skip).limit(limitNum);
+    }
+
+    const requirements = await queryBuilder.lean();
     return res.json({
       success: true,
       data: requirements,
-      total: requirements.length,
+      total,
+      page: pageNum,
+      limit: limitNum > 0 ? limitNum : total,
+      totalPages: limitNum > 0 ? Math.ceil(total / limitNum) : 1,
     });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error.message });

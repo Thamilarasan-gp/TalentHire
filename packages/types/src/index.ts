@@ -608,18 +608,25 @@ export interface StackPass {
   id: string;
   candidateId: string;
   candidateName: string;
+  candidateHeadline?: string;
+  candidateExperienceYears?: number;
   domain: TechDomain;
   stackKey: string;
   stackTitle: string;
   score: number;
-  status: 'ACTIVE' | 'EXPIRED' | 'REVOKED';
-  issuedAt: string;
-  expiresAt: string; // 5 days from issuedAt
+  status: 'PENDING' | 'APPLIED' | 'INTERVIEW_SCHEDULED' | 'ACTIVE' | 'EXPIRED' | 'FAILED' | 'REVOKED';
+  issuedAt?: string;
+  expiresAt?: string; // 5 days from issuedAt
   remainingHours?: number;
+  remainingFormatted?: string;
+  scheduledAt?: string;
+  meetingLink?: string;
+  evaluatorId?: string;
+  evaluatorName?: string;
+  evaluatorNotes?: string;
   applicationsCount: number;
   coveredSkills: string[];
   evaluationId?: string;
-  evaluatorId?: string;
   createdAt: string;
 }
 

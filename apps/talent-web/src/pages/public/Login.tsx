@@ -144,6 +144,13 @@ export const Login: React.FC = () => {
           <Button type="submit" size="md" isLoading={loading} className="w-full py-2.5 font-bold shadow-sm">
             Sign In with Email
           </Button>
+
+          <div className="text-center pt-2 text-xs text-slate-500">
+            Don't have an account yet?{' '}
+            <Link to="/signup" className="text-blue-600 font-bold hover:underline">
+              Create Candidate Account
+            </Link>
+          </div>
         </form>
 
         {/* Portal links footer */}

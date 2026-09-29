@@ -181,7 +181,7 @@ export async function seedAtlasIfNeeded(): Promise<void> {
     if (shortlistCount === 0) {
       console.log('[MongoDB Atlas] Seeding Decision Shortlists with Non-Fabrication Deficit demonstration...');
       const candidates = await CandidateModel.find().limit(20).lean();
-
+      
       // 1. Requirement 1 Shortlist (10 requested, 10 qualified)
       const req1Candidates = candidates.slice(0, 10).map((cand: any, idx: number) => ({
         candidateId: cand.id,
@@ -198,7 +198,6 @@ export async function seedAtlasIfNeeded(): Promise<void> {
         concerns: idx > 6 ? ['Secondary experience in Kafka'] : [],
         status: idx < 3 ? 'INTERVIEW_SCHEDULED' : 'PENDING_REVIEW',
       }));
-
       // 2. Requirement 2 Shortlist (10 requested, 7 qualified -> STRICT DEFICIT DEMO!)
       const req2Candidates = candidates.slice(0, 7).map((cand: any, idx: number) => ({
         candidateId: cand.id,
@@ -215,7 +214,6 @@ export async function seedAtlasIfNeeded(): Promise<void> {
         concerns: [],
         status: 'PENDING_REVIEW',
       }));
-
       await ShortlistModel.insertMany([
         {
           id: 'shortlist-req-1',

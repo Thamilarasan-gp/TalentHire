@@ -25,10 +25,12 @@ export interface ApiResponse<T> {
   data?: T;
   error?: string;
   message?: string;
+  alreadyApplied?: boolean;
   meta?: any;
   total?: number;
   page?: number;
   limit?: number;
+  totalPages?: number;
 }
 
 const getDefaultBaseUrl = () => {
@@ -174,6 +176,13 @@ export class ApiClient {
     return this.request<Candidate>(`/candidates/${id}`);
   }
 
+  async updateCandidate(id: string, data: Partial<Candidate> | any): Promise<ApiResponse<Candidate>> {
+    return this.request<Candidate>(`/candidates/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
   // Evaluators
   async getEvaluators(query?: string): Promise<ApiResponse<Evaluator[]>> {
     return this.request<Evaluator[]>(`/evaluators${query ? `?${query}` : ''}`);
@@ -271,6 +280,29 @@ export class ApiClient {
   // Admin Stats
   async getAdminStats(): Promise<ApiResponse<Record<string, unknown>>> {
     return this.request<Record<string, unknown>>('/admin/stats');
+  }
+
+  // ==========================================
+  // Candidate Registration API
+  // ==========================================
+  async registerCandidate(data: {
+    fullName: string;
+    email: string;
+    password?: string;
+    headline?: string;
+    primaryRole?: string;
+    totalYearsOfExperience?: number;
+    location?: string;
+    skills?: string[];
+  }): Promise<ApiResponse<{ token: string; user: any; candidate: any }>> {
+    const res = await this.request<{ token: string; user: any; candidate: any }>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    if (res.success && res.data?.token) {
+      this.setToken(res.data.token);
+    }
+    return res;
   }
 
   // ==========================================
@@ -530,6 +562,8 @@ export class ApiClient {
 
   async checkJobStackPass(jobId: string, candidateId = 'cand-1'): Promise<ApiResponse<{
     hasValidPass: boolean;
+    alreadyApplied?: boolean;
+    application?: any;
     matchingPass: any;
     recommendedStack: StackCardDefinition;
   }>> {
@@ -540,6 +574,42 @@ export class ApiClient {
     return this.request('/stack-passes/apply-job', {
       method: 'POST',
       body: JSON.stringify({ jobId, candidateId }),
+    });
+  }
+
+  async getMyApplications(candidateId = 'cand-1'): Promise<ApiResponse<any[]>> {
+    return this.request(`/candidates/my-applications?candidateId=${candidateId}`);
+  }
+
+  // Evaluator Workflow: Pending Pass Requests & Acceptance with Google Meet
+  async getPendingEvaluations(): Promise<ApiResponse<StackPass[]>> {
+    return this.request('/stack-passes/pending-evaluations');
+  }
+
+  async acceptStackPassEvaluation(passId: string, data: {
+    evaluatorId: string;
+    evaluatorName: string;
+    scheduledAt: string;
+    meetingLink: string;
+    evaluatorNotes?: string;
+  }): Promise<ApiResponse<StackPass>> {
+    return this.request(`/stack-passes/${passId}/accept`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async submitStackPassScore(passId: string, data: {
+    score: number;
+    evaluatorId?: string;
+    verdict?: string;
+    strengths?: string[];
+    concerns?: string[];
+    notes?: string;
+  }): Promise<ApiResponse<StackPass>> {
+    return this.request(`/stack-passes/${passId}/submit-score`, {
+      method: 'POST',
+      body: JSON.stringify(data),
     });
   }
 

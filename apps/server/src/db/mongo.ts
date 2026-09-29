@@ -32,7 +32,8 @@ export async function connectMongo(): Promise<boolean> {
   try {
     console.log('[MongoDB Atlas] Connecting to MongoDB Atlas cluster...');
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 8000,
+      serverSelectionTimeoutMS: 45000,
+      connectTimeoutMS: 30000,
     });
     console.log('[MongoDB Atlas] ✅ Connected successfully to MongoDB Atlas (database: anthurium)!');
 
