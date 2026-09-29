@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '@thamilarasan/api-client';
 import { Button } from '@thamilarasan/ui';
-import { ShieldCheck, Sparkles, Building2, CheckCircle2, Flame, ArrowRight, UserCheck } from 'lucide-react';
+import { Building2, Flame } from 'lucide-react';
 
 const COMMON_SKILLS = ['React', 'Node.js', 'TypeScript', 'Next.js', 'Python', 'FastAPI', 'Java', 'Spring Boot', 'Go', 'AWS', 'Docker', 'PostgreSQL', 'MongoDB'];
 
@@ -213,8 +213,8 @@ export const Register: React.FC = () => {
             isLoading={loading}
             className="w-full py-3 font-bold shadow-md bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center gap-1.5 mt-2"
           >
-            <span>Create Candidate Profile</span>
-            <ArrowRight className="w-4 h-4 ml-1" />
+            <span>Create Candidate Profile </span>
+           
           </Button>
         </form>
 

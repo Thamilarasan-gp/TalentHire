@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '@thamilarasan/api-client';
 import { Button } from '@thamilarasan/ui';
-import { ShieldCheck, UserCheck, Sparkles, Building2, CheckCircle2 } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -66,16 +66,7 @@ export const Login: React.FC = () => {
           </p>
         </div>
 
-        {/* Dual-Role Explanation Badge */}
-        <div className="p-3.5 bg-blue-50/80 border border-blue-200/80 rounded-2xl flex items-start gap-2.5 text-xs text-blue-900">
-          <Sparkles className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-          <div className="space-y-0.5 leading-relaxed">
-            <span className="font-bold block">Unified Account Architecture</span>
-            <span className="text-[11px] text-blue-800">
-              The same email accesses your candidate applications, 5-day stack passes, and your expert Evaluator Workstation once approved.
-            </span>
-          </div>
-        </div>
+       
 
         {error && (
           <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
@@ -107,7 +98,7 @@ export const Login: React.FC = () => {
             </div>
             <div className="text-right">
               <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 bg-purple-50 text-purple-700 border border-purple-200 rounded-full">
-                <CheckCircle2 className="w-3 h-3 text-purple-600" />
+              
                 Job Seeker + Evaluator
               </span>
             </div>
