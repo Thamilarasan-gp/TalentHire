@@ -5676,7 +5676,7 @@ app.get("/api", (_req, res) => {
   return res.json({
     status: "ONLINE",
     service: "TalentHire API Gateway",
-    version: "1.0.0",
+    version: "1.1.0",
     endpoints: [
       "/api/health",
       "/api/auth",
@@ -5691,7 +5691,10 @@ app.get("/api", (_req, res) => {
       "/api/offers",
       "/api/placements",
       "/api/finance",
-      "/api/admin"
+      "/api/admin",
+      "/api/stack-passes",
+      "/api/evaluator-onboarding",
+      "/api/scratch-cards"
     ]
   });
 });
